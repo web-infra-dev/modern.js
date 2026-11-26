@@ -349,7 +349,7 @@ export {};
     }
     const routeManifest = this.readRouteManifest(compilation);
     const snapshot = this.collect(compilation, prefix, routeManifest, report);
-    const routes = this.options.config?.routes;
+    const routes = this.options.config?.streamingRoutePreload;
     const routeRule =
       routes === true || (typeof routes === 'object' && routes !== null);
     const plan = planResourceStages(snapshot, this.stages, {
@@ -388,7 +388,6 @@ export {};
         );
       }
     }
-    this.compareBaseline(plan, report);
 
     const result = this.render(
       compilation,
@@ -889,45 +888,6 @@ export {};
     return result;
   }
 
-  private compareBaseline(plan: Plan, report: (message: string) => void) {
-    const baselinePath = this.options.config?.baseline;
-    if (!baselinePath) {
-      return;
-    }
-    const file = path.resolve(this.options.appDirectory, baselinePath);
-    let baseline: {
-      targets?: {
-        kind: string;
-        name: string;
-        stats: Record<string, { bytes: number }>;
-      }[];
-    };
-    try {
-      baseline = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    } catch {
-      report(`baseline ${baselinePath} could not be read, skipped.`);
-      return;
-    }
-    const threshold = this.options.config?.baselineThreshold ?? 10;
-    for (const target of plan.targets) {
-      const previous = baseline.targets?.find(
-        item => item.kind === target.kind && item.name === target.name,
-      );
-      for (const [stage, stats] of Object.entries(target.stats)) {
-        const before = previous?.stats?.[stage]?.bytes;
-        if (!before) {
-          continue;
-        }
-        const growth = ((stats.bytes - before) / before) * 100;
-        if (growth > threshold) {
-          report(
-            `${target.kind} "${target.name}": stage "${stage}" grew ${growth.toFixed(1)}% over the baseline (${formatBytes(before)} -> ${formatBytes(stats.bytes)}).`,
-          );
-        }
-      }
-    }
-  }
-
   private render(
     compilation: Compilation,
     snapshot: Snapshot,
@@ -955,12 +915,8 @@ export {};
       ...(options.bundleId ? { b: options.bundleId } : {}),
       ...(stages.manual.length ? { m: stages.manual } : {}),
       ...(Object.keys(stages.timeouts).length ? { t: stages.timeouts } : {}),
-      ...(stages.config.concurrency ? { n: stages.config.concurrency } : {}),
       ...(crossOriginLoading ? { x: crossOriginLoading } : {}),
       ...(integrity ? { z: 1 } : {}),
-      ...(stages.config.idleQuietTime !== undefined
-        ? { i: stages.config.idleQuietTime }
-        : {}),
     };
 
     const files = new Map<string, string>();

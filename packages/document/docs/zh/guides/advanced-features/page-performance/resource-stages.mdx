@@ -1,154 +1,170 @@
 # 按阶段加载
 
-`import()` 拆出的 chunk 默认在代码执行到 `import()` 时才开始下载。首屏需要的 chunk 因此要等入口 JS 下载并执行完才开始下载；空闲时批量加载的 chunk 又会和首屏 chunk 同时下载、互相分带宽。
-
-按阶段加载让你在 `import()` 处声明「这段代码在哪个阶段需要」，框架负责：
-
-- 构建时找出每个声明对应的 JS、CSS 文件，统计每个阶段的体积和请求数，超出预算时告警；
-- 运行时在阶段到来时提前下载，一个阶段下载完才开始下一个阶段，不和前面的阶段抢带宽；
-- 记录每个文件的预取和加载时间，供分析调整。
-
-声明只决定**什么时候开始下载**，不改变代码什么时候执行。声明设错只影响快慢和流量，不会让功能出错：代码真正调用时文件还没下完，会立即按正常优先级加载。
+按阶段加载用来控制 `import()` 拆出的代码**什么时候开始下载**：在 `import()` 处标明代码在页面的哪个阶段会用到，Modern.js 在这个阶段到来时提前下载它。完整配置见 [`performance.resourceStages`](/configure/app/performance/resource-stages)。
 
 :::warning 实验性
-按阶段加载目前是实验性功能，API 和清单格式在后续版本中可能调整。
+按阶段加载目前是实验性功能，API 和配置项在后续版本中可能调整。
 :::
 
-## 声明
+## 示例
+
+以一个商品详情页为例，下面三块代码都是用 `import()` 按需加载的：
+
+![按阶段加载前后的下载时间对比](./resource-stages-timeline.png)
+
+- **商品主图**：首屏就要显示。默认要等入口 JS 执行到 `import()` 才开始下载；标为 `critical` 后和入口 JS 同时下载，首屏更早显示。
+- **规格弹窗**：点「购买」时打开的弹窗。页面水合完成前，「购买」按钮点了没有反应，弹窗不会被用到；水合完成后随时可能被点。所以标为 `interactive`：水合完成后马上下载，用户点的时候已经下好。
+- **客服聊天窗口**：点「客服」才打开，很少用。标为 `idle`：页面空闲后再下载，不和前面的代码抢带宽，用户点的时候也已经下好。
+
+:::tip 阶段只能让下载提前，不会推迟
+代码真正调用 `import()` 时，文件如果还没下载，会立即开始下载。例如首屏就渲染的组件，渲染时就会加载，标成 `idle` 也不会推迟。阶段也不改变代码什么时候执行，标错只影响快慢，不会让功能出错。
+:::
+
+## 快速开始
+
+### 1. 标明阶段
+
+从 `@modern-js/runtime/resources` 引入 `stagedImport`，把原来的 `() => import()` 包起来：
 
 ```tsx
 import { lazy } from 'react';
 import { stagedImport } from '@modern-js/runtime/resources';
 
-// 返回值和 () => import() 用法相同，可以交给 React.lazy、loadable 或直接调用
-const InputCore = lazy(stagedImport.critical(() => import('./InputCore')));
-const Editor = lazy(stagedImport.interactive(() => import('./Editor')));
-const loadPlugins = stagedImport.idle(() => import('./plugins'));
+// 之前：const Gallery = lazy(() => import('./Gallery'));
+const Gallery = lazy(stagedImport.critical(() => import('./Gallery')));
+const SpecDialog = lazy(stagedImport.interactive(() => import('./SpecDialog')));
+const ChatWindow = lazy(stagedImport.idle(() => import('./ChatWindow')));
 ```
 
-参数是返回 `import('<静态路径>')` 的函数，可以带 `async`/`await`，也可以在 `import()` 后接 `.then()`，例如取具名导出：
+`stagedImport.<阶段>(fn)` 返回的函数和 `fn` 用法相同，可以交给 `React.lazy`、`loadable`，也可以直接调用。只用内置阶段时不需要任何配置。
+
+### 2. 构建
+
+构建后 `dist/resource-stages.json` 列出每个阶段有哪些文件、多大。某个阶段超出预算时构建会告警，不会失败。
+
+### 3. 在浏览器里检查
+
+打开页面，在控制台执行 `window.__MODERN_RS__.report()`，可以看到每个阶段什么时候到来、每个文件什么时候开始下载、什么时候被代码用到。调整方法见[检查和调整](#检查和调整)。
+
+## 选择阶段
+
+| 阶段          | 什么时候开始下载                             | 适合放什么                                                       |
+| ------------- | -------------------------------------------- | ---------------------------------------------------------------- |
+| `critical`    | 和入口 JS 同时下载                           | 首屏要渲染的代码，如商品主图                                     |
+| `visible`     | 首屏显示之后                                 | 首屏不渲染、稍后就会渲染的代码，如滚动到下方才渲染的推荐列表     |
+| `interactive` | 水合完成之后（客户端渲染为首次渲染完成之后） | 页面能操作后最可能马上用到的代码，如点「购买」打开的规格弹窗     |
+| `idle`        | 页面加载完成、网络空闲之后                   | 可能用到但不急的代码，如客服聊天窗口                             |
+| `viewport`    | 绑定的元素进入视口时                         | 靠近某个区域才会用到的代码                                       |
+| `interaction` | 绑定的元素被鼠标移入、获得焦点或被触摸时     | 用户有明显意图时才用到的代码，如鼠标移到「分享」上时下载分享面板 |
+
+`critical`、`visible`、`interactive`、`idle` 按顺序下载：前一个阶段的文件下载完，才开始下载下一个阶段，后面的阶段不和前面的阶段抢带宽。
+
+`viewport` 和 `interaction` 要把加载函数的 `trigger` 绑定到元素上：
 
 ```tsx
-const Panel = lazy(
-  stagedImport.visible(() =>
-    import('./Panel').then(m => ({ default: m.Panel })),
-  ),
-);
+const loadSharePanel = stagedImport.interaction(() => import('./SharePanel'));
+const SharePanel = lazy(loadSharePanel);
+
+<button ref={loadSharePanel.trigger}>分享</button>;
 ```
 
-阶段名不是内置阶段、也没有在配置里声明，或者参数不是上面的写法时，构建给出告警，这个声明不预取，代码仍在用到时正常加载，构建不会失败。路径由变量拼接的 `import()` 无法在构建时确定文件，同样只告警。
+### 按应用自己的时机加载
 
-### 配合 loadable 与字符串 SSR
+内置阶段不合适时，可以在 [`stages`](/configure/app/performance/resource-stages#stages) 中配置：
 
-字符串 SSR 下可以把声明直接交给 loadable，服务端照常渲染该组件：
-
-```tsx
-import loadable from '@modern-js/runtime/loadable';
-
-const Editor = loadable(stagedImport.interactive(() => import('./Editor')));
-```
-
-框架在构建时识别 `loadable(stagedImport.<阶段>(() => import()))` 的写法。声明需要直接写在 loadable 调用里；先赋值给变量再交给 loadable 时，服务端不渲染该组件。
-
-## 阶段
-
-| 阶段          | 什么时候                                  | 怎么下载                                                |
-| ------------- | ----------------------------------------- | ------------------------------------------------------- |
-| `critical`    | 首屏必需                                  | 以 `<link rel="preload">` 写进 HTML，和入口 JS 同时下载 |
-| `visible`     | 首次绘制（FCP）之后                       | 阶段到来时插入 `<link rel="prefetch">`                  |
-| `interactive` | 水合完成之后；客户端渲染为首次提交之后    | 同上                                                    |
-| `idle`        | `load` 之后，且一段时间内没有新的资源请求 | 同上                                                    |
-| `viewport`    | 元素进入视口                              | 同上，由元素触发                                        |
-| `interaction` | 元素被悬停、获得焦点或被触摸              | 同上，由元素触发                                        |
-
-后一个阶段到来，说明前面的阶段也已经到来。每个阶段内默认最多 4 个预取同时进行。`navigator.connection.saveData` 为真或网络为 2G 时，跳过 `idle` 和元素阶段。
-
-SSR 下 `critical` 只输出命中路由的文件；客户端渲染只输出入口级的文件，路由级的清单在路由匹配后由浏览器选取。
-
-### 元素阶段
-
-把加载函数的 `trigger` 绑定到触发预取的元素上：
-
-```tsx
-const loadMention = stagedImport.interaction(() => import('./MentionPanel'));
-const MentionPanel = lazy(loadMention);
-
-function ChatInput() {
-  return <textarea ref={loadMention.trigger} />;
-}
-```
-
-元素被悬停或获得焦点时，框架只下载 `MentionPanel` 的 JS 和 CSS 文件，不执行模块。构建时会把每个元素阶段的声明对应到它的文件，所以声明要写在应用代码里（或 [`include`](/configure/app/performance/resource-stages#include) 列出的包里），形式为 `stagedImport.<阶段>(() => import('<静态路径>'))`。
-
-同一个 `trigger` 可以绑定到多个元素，例如列表的每一项：第一个触发的元素开始预取，所有元素随即解除绑定。React 解除 ref 时，对应的元素也会解除绑定。
-
-### 自定义阶段和由应用通知的阶段
-
-在 [`performance.resourceStages.stages`](/configure/app/performance/resource-stages#stages) 里声明后：
-
-```ts
-const MessageTools = lazy(
-  stagedImport.firstReply(() => import('./MessageTools')),
-);
-
-chatStore.onFirstReply(() => stagedImport.firstReply.mark());
-```
-
-应用有自己的生命周期时，可以把内置阶段改为 `manual: true`，再在对应时机调用 `stagedImport.interactive.mark()` 等。
-
-### 等待阶段完成
-
-`stagedImport.<阶段>.ready()` 在该阶段到来、且它和之前各阶段的文件都下载完成后 resolve。`critical` 和元素阶段没有先后顺序，`ready()` 在当前没有该阶段的文件在下载时 resolve；未声明的阶段名直接 resolve。需要在某个阶段之后才执行的代码（例如空闲时预热模块）可以等它，执行时文件已经在缓存里，不会和前面的阶段抢带宽：
-
-```ts
-stagedImport.idle.ready().then(() => warmUpMessagePlugins());
-```
-
-服务端直接 resolve。
-
-## 路由 JS
-
-流式 SSR 下，设置 [`routes: true`](/configure/app/performance/resource-stages#routes) 后，命中路由的 JS 也按阶段输出，不需要声明：路由组件自身的文件为 `critical`，依赖的共享 chunk 按 `critical` 预算分到 `critical` 或 `visible`。`critical` 的路由 JS 以低优先级 preload 输出。这项默认关闭。
-
-客户端渲染的入口在每次路由跳转后，按新匹配的路由补上它们的声明清单。服务端渲染的入口只有首屏命中路由的清单，跳转到其他路由后，那些路由里的声明在用到时正常加载。
-
-## 浏览器支持与限制
-
-- **不使用就没有成本。** 没有 `stagedImport` 声明、也没有配置 `performance.resourceStages` 的应用，HTML 不会多出内容，产物里也不包含调度器。
-- **不支持 `<link rel="prefetch">` 的浏览器**（Safari）会跳过所有阶段的预取，被跳过的阶段记录在加载记录的 `skipped` 里。`critical` 的预加载照常生效，`ready()` 照常 resolve，代码在用到时再加载，和没有声明时一样。
-- **既没有成功也没有失败的预取**在 30 秒后不再占用并发名额，后面的文件和阶段不会被卡住。
-- **由应用通知的阶段**（`manual: true`）建议同时设置 `timeout`。不设置时，后面的阶段会一直等到应用通知该阶段或更晚的阶段。
-- **写在后加载代码里的声明**在这段代码执行时才生效：没有配置 `performance.resourceStages` 时，调度器在第一个声明被执行时启动。之前已经下载过的文件不会重复预取。
-- **`assetPrefix: 'auto'`** 时，HTML 无法写出 preload 地址，`critical` 改为在首次绘制后预取，构建给出告警。运行时修改 `__webpack_public_path__`（例如切换 CDN）后，预取使用修改后的地址。
-- **`node_modules` 里的声明**默认不扫描，不预取；需要时用 [`include`](/configure/app/performance/resource-stages#include) 加入。monorepo 里通过软链引用的工作区包会被扫描。
-- **服务端渲染的入口降级为客户端渲染时**只有入口级的清单；路由级的清单由服务端在渲染时写入。
-- **子资源完整性**（[`security.sri`](/configure/app/security/sri)）：`critical` 的 preload 带有和加载该文件的 `<script>`、`<link>` 相同的 `integrity` 与 `crossorigin`，浏览器会复用预加载的文件。后续阶段预取的文件通过 HTTP 缓存复用。输出成独立文件的阶段清单（见 [`inlineLimit`](/configure/app/performance/resource-stages#inlinelimit)）加载时不带 `integrity`。
-- **不支持微前端子应用和 Module Federation 的 remote。** 清单按页面所属应用的 chunk 表解析。请在主应用里声明阶段；子应用里的 `stagedImport` 会在用到时加载代码，元素阶段不预取。每个应用的构建带有自己的标识，子应用的声明、路由和阶段通知不会影响主应用的调度。
-
-## 构建产物
-
-- 阶段清单只写 chunk id，文件地址由运行时的 chunk 映射拼出；gzip 后超过 `inlineLimit`（默认 2 KB）时改为独立文件。
-- `dist/resource-stages.json`：每个声明对应的文件、体积、归属（入口级或某个路由），以及各阶段的统计，可作为下一次构建的 `baseline`。
-
-## 加载记录
-
-```ts
-import {
-  getResourceStageReport,
-  onResourceStageReport,
-} from '@modern-js/runtime/resources';
-
-// 页面关闭（pagehide）时上报
-onResourceStageReport(report => {
-  sendToMonitor(report);
+```ts title="modern.config.ts"
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      stages: {
+        // 新增阶段：加入购物车后下载结算页，interactive 之后 10 秒内没有通知也会自动开始
+        addedToCart: { after: 'interactive', timeout: 10000 },
+        // 内置阶段改为由应用通知：商品数据请求完成、按钮可用后才算可交互
+        interactive: { manual: true, timeout: 3000 },
+      },
+    },
+  },
 });
 ```
 
-记录包含每个阶段到来的时间，以及每个 chunk 的阶段、预取开始和结束时间、预取结果（`prefetchStatus`：`ok`、`error` 或 `timeout`）、被请求和加载完成的时间。`source` 区分是应用请求的（`app`）还是路由为 `<Link prefetch>` 预取的（`link`）。开发时也可以在控制台用 `window.__MODERN_RS__.report()` 查看。
+在代码中使用，并在对应时机调用 `mark()`：
 
-用记录判断声明是否合适：
+```ts
+const Checkout = lazy(stagedImport.addedToCart(() => import('./Checkout')));
+cart.onAdd(() => stagedImport.addedToCart.mark());
 
-- 预取了但一直没被请求的，降一个阶段或去掉声明；
-- 经常在预取完成前就被请求的，升一个阶段；
-- `prefetchStatus` 不是 `ok` 的记录不要计入，这些文件没有进缓存；
-- 没有声明、但在可交互之前就被请求的 chunk，考虑补声明。
+await fetchProduct();
+stagedImport.interactive.mark();
+```
+
+需要在某个阶段下载完成后再执行的代码，可以等 `stagedImport.<阶段>.ready()`，例如 `stagedImport.idle.ready().then(warmUp)`。
+
+## 写法要求
+
+构建时要从源码里找出每个声明对应的文件，写法需要能被静态识别：
+
+```tsx
+// ✅ 参数是返回 import('<固定路径>') 的函数
+stagedImport.idle(() => import('./ChatWindow'));
+
+// ✅ 可以用 async/await，或在 import() 后接 .then() 取具名导出
+stagedImport.idle(() =>
+  import('./ChatWindow').then(m => ({ default: m.ChatWindow })),
+);
+
+// ❌ 路径由变量拼接，构建时无法确定文件
+stagedImport.idle(() => import(`./windows/${name}`));
+
+// ✅ 字符串 SSR 下交给 loadable，声明直接写在 loadable 调用里，服务端照常渲染
+const SpecDialog = loadable(
+  stagedImport.interactive(() => import('./SpecDialog')),
+);
+
+// ❌ 先赋值给变量再交给 loadable，服务端不会渲染该组件
+const load = stagedImport.interactive(() => import('./SpecDialog'));
+const SpecDialog2 = loadable(load);
+```
+
+写法无法识别，或阶段名既不是内置阶段也没有配置时，构建告警，该声明不会提前下载，代码仍在用到时正常加载。
+
+## 流式 SSR 提前下载路由 JS
+
+流式 SSR 只在 HTML 中输出命中路由的 CSS，路由 JS 要等入口 JS 执行后才开始下载。开启 [`streamingRoutePreload`](/configure/app/performance/resource-stages#streamingroutepreload) 后，命中路由的 JS 和入口 JS 同时下载，不需要在代码中声明：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      streamingRoutePreload: true,
+    },
+  },
+});
+```
+
+## 检查和调整
+
+开发时在控制台执行 `window.__MODERN_RS__.report()`；线上可以在页面关闭时上报：
+
+```ts
+import { onResourceStageReport } from '@modern-js/runtime/resources';
+
+onResourceStageReport(report => sendToMonitor(report));
+```
+
+根据记录调整：
+
+| 现象                             | 调整                   |
+| -------------------------------- | ---------------------- |
+| 提前下载了，但一直没被用到       | 降一个阶段，或去掉声明 |
+| 经常在提前下载完成之前就被用到   | 升一个阶段             |
+| 没有声明，但在可交互之前就被用到 | 考虑补上声明           |
+
+`prefetchStatus` 不是 `ok` 的记录不要计入，这些文件没有下载成功。
+
+## 限制
+
+- 不支持 `<link rel="prefetch">` 的浏览器（如 Safari）会跳过 `critical` 以外的提前下载，代码在用到时正常加载。
+- 默认不扫描 `node_modules`，第三方包里的声明需要配置 [`include`](/configure/app/performance/resource-stages#include)。monorepo 中通过软链引用的工作区包会直接扫描。
+- 客户端渲染的页面、以及服务端渲染降级为客户端渲染时，HTML 中只输出入口级的 `critical`，路由里的声明在路由匹配后才开始下载。
+- `output.assetPrefix` 为 `'auto'` 时无法在 HTML 中写出 preload 地址，`critical` 改为首屏显示后下载。
+- 不支持微前端子应用和 Module Federation 的 remote，请在主应用中声明。

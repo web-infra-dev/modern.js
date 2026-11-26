@@ -1,154 +1,170 @@
 # Staged Resource Loading
 
-A chunk split out by `import()` starts downloading when the code reaches the `import()`. Chunks the first screen needs therefore wait for the entry JS to download and run, and chunks loaded in bulk when the page is idle compete for bandwidth with the first screen.
-
-Staged loading lets you declare, at the `import()`, the stage in which the code is needed. The framework then:
-
-- maps each declaration to its JS and CSS files at build time, measures the size and requests of each stage, and warns when a budget is exceeded;
-- downloads the files ahead of time when the stage arrives, one stage after another so a later stage does not take bandwidth from an earlier one;
-- records when each file was prefetched and loaded, for analysis.
-
-A declaration only decides **when the download starts**; it never changes when the code runs. A wrong declaration only affects speed and traffic: if the code is needed before its file is prefetched, the file is loaded right away at normal priority.
+Staged resource loading controls **when the code split out by `import()` starts downloading**: you mark at the `import()` which stage of the page needs the code, and Modern.js downloads it early when that stage arrives. For the full configuration, see [`performance.resourceStages`](/configure/app/performance/resource-stages).
 
 :::warning Experimental
-Staged resource loading is experimental. Its API and the manifest format may change in later versions.
+Staged resource loading is experimental. Its API and options may change in later versions.
 :::
 
-## Declaring
+## Example
+
+Take a product page. The three pieces of code below are all loaded on demand with `import()`:
+
+![Download timeline with and without staged loading](./resource-stages-timeline.png)
+
+- **Gallery**: shown on the first screen. By default it waits until the entry JS runs to the `import()`; marked `critical`, it downloads together with the entry JS, so the first screen shows earlier.
+- **Spec dialog**: the dialog opened by "Buy". Before hydration finishes, clicking "Buy" does nothing, so the dialog cannot be needed yet; after hydration the user may click at any time. So it is marked `interactive`: it downloads right after hydration and is ready when the user clicks.
+- **Chat window**: opened by "Chat", rarely used. Marked `idle`: it downloads once the page is idle, without competing with the code above, and is also ready when the user clicks.
+
+:::tip A stage only makes a download earlier, never later
+When the code calls `import()` and the file has not been downloaded, it starts downloading right away. A component rendered on the first screen, for example, loads when it renders, even if it is marked `idle`. A stage does not change when code runs either; a wrong stage only affects speed, never functionality.
+:::
+
+## Quick start
+
+### 1. Mark the stage
+
+Import `stagedImport` from `@modern-js/runtime/resources` and wrap your existing `() => import()`:
 
 ```tsx
 import { lazy } from 'react';
 import { stagedImport } from '@modern-js/runtime/resources';
 
-// Used like () => import(): pass it to React.lazy or loadable, or call it
-const InputCore = lazy(stagedImport.critical(() => import('./InputCore')));
-const Editor = lazy(stagedImport.interactive(() => import('./Editor')));
-const loadPlugins = stagedImport.idle(() => import('./plugins'));
+// Before: const Gallery = lazy(() => import('./Gallery'));
+const Gallery = lazy(stagedImport.critical(() => import('./Gallery')));
+const SpecDialog = lazy(stagedImport.interactive(() => import('./SpecDialog')));
+const ChatWindow = lazy(stagedImport.idle(() => import('./ChatWindow')));
 ```
 
-The argument is a function that returns `import('<static path>')`. It may use `async`/`await`, and `.then()` may follow the `import()`, for example to pick a named export:
+`stagedImport.<stage>(fn)` returns a function used exactly like `fn`: pass it to `React.lazy` or `loadable`, or call it directly. No configuration is needed for built-in stages.
+
+### 2. Build
+
+After a build, `dist/resource-stages.json` lists the files of each stage and their sizes. When a stage exceeds its budget the build prints a warning; it does not fail.
+
+### 3. Check in the browser
+
+Open the page and run `window.__MODERN_RS__.report()` in the console. It shows when each stage arrived, and when each file started downloading and was needed by the code. See [Check and adjust](#check-and-adjust).
+
+## Choose a stage
+
+| Stage         | When the download starts                                      | Good for                                                                           |
+| ------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `critical`    | Together with the entry JS                                    | Code the first screen renders, such as the gallery                                 |
+| `visible`     | After the first screen shows                                  | Code rendered soon but not on the first screen, such as a list rendered on scroll  |
+| `interactive` | After hydration (after the first render for client rendering) | Code most likely needed once the page responds, such as the dialog opened by "Buy" |
+| `idle`        | After the page has loaded and the network is quiet            | Code that may be needed but is not urgent, such as a chat window                   |
+| `viewport`    | When the bound element enters the viewport                    | Code needed near a certain area                                                    |
+| `interaction` | When the bound element is hovered, focused or touched         | Code needed on clear intent, such as the share panel when hovering "Share"         |
+
+`critical`, `visible`, `interactive` and `idle` download in order: a stage starts after the files of the previous one have downloaded, so later stages never compete with earlier ones for bandwidth.
+
+For `viewport` and `interaction`, attach the loader's `trigger` to the element:
 
 ```tsx
-const Panel = lazy(
-  stagedImport.visible(() =>
-    import('./Panel').then(m => ({ default: m.Panel })),
-  ),
-);
+const loadSharePanel = stagedImport.interaction(() => import('./SharePanel'));
+const SharePanel = lazy(loadSharePanel);
+
+<button ref={loadSharePanel.trigger}>Share</button>;
 ```
 
-When the stage is neither built in nor declared in the config, or the argument has another form, the build shows a warning and the declaration is not prefetched; the code still loads when it is used, and the build does not fail. An `import()` whose path is built from variables cannot be mapped to files at build time and only warns as well.
+### Load on your application's own timeline
 
-### With loadable and string SSR
+When the built-in stages do not fit, configure [`stages`](/configure/app/performance/resource-stages#stages):
 
-With string SSR, pass the declaration straight to loadable and the server still renders the component:
-
-```tsx
-import loadable from '@modern-js/runtime/loadable';
-
-const Editor = loadable(stagedImport.interactive(() => import('./Editor')));
-```
-
-The build recognizes `loadable(stagedImport.<stage>(() => import()))`. Write the declaration inside the loadable call; if it is first assigned to a variable, the server does not render the component.
-
-## Stages
-
-| Stage         | When                                                         | How                                                              |
-| ------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
-| `critical`    | Needed for the first screen                                  | `<link rel="preload">` in the HTML, downloaded with the entry JS |
-| `visible`     | After first contentful paint                                 | `<link rel="prefetch">` inserted when the stage arrives          |
-| `interactive` | After hydration; after the first commit for client rendering | Same                                                             |
-| `idle`        | After `load`, once no new request starts for a while         | Same                                                             |
-| `viewport`    | The element enters the viewport                              | Same, triggered by the element                                   |
-| `interaction` | The element is hovered, focused or touched                   | Same, triggered by the element                                   |
-
-A later stage arriving means the earlier ones have arrived. At most 4 prefetches run at the same time in a stage by default. When `navigator.connection.saveData` is true or the network is 2G, `idle` and element stages are skipped.
-
-With SSR, `critical` only outputs the files of the matched routes. Client rendered pages only output entry level files in the HTML, and pick the route lists in the browser after routing.
-
-### Element stages
-
-Bind the loader's `trigger` to the element that starts the prefetch:
-
-```tsx
-const loadMention = stagedImport.interaction(() => import('./MentionPanel'));
-const MentionPanel = lazy(loadMention);
-
-function ChatInput() {
-  return <textarea ref={loadMention.trigger} />;
-}
-```
-
-When the element is hovered or focused, only the JS and CSS files of `MentionPanel` are downloaded; the module does not run. The build maps each element declaration to its files, so the declaration must be written in the application code (or in a package listed in [`include`](/configure/app/performance/resource-stages#include)) as `stagedImport.<stage>(() => import('<static path>'))`.
-
-One `trigger` can be bound to many elements, e.g. every item of a list: the first element that triggers starts the prefetch and all elements are released. An element is also released when React detaches the ref.
-
-### Custom stages and stages marked by the application
-
-After declaring them in [`performance.resourceStages.stages`](/configure/app/performance/resource-stages#stages):
-
-```ts
-const MessageTools = lazy(
-  stagedImport.firstReply(() => import('./MessageTools')),
-);
-
-chatStore.onFirstReply(() => stagedImport.firstReply.mark());
-```
-
-An application with its own lifecycle can set built-in stages to `manual: true` and call `stagedImport.interactive.mark()` and so on at the right time.
-
-### Waiting for a stage
-
-`stagedImport.<stage>.ready()` resolves when the stage arrived and the files of it and every earlier stage are downloaded. `critical` and the element stages have no order: their `ready()` resolves when none of their files is downloading. An undeclared stage name resolves at once. Code that should run after a stage, such as warming up modules when idle, can wait for it; its files are then in the cache and it does not take bandwidth from earlier stages:
-
-```ts
-stagedImport.idle.ready().then(() => warmUpMessagePlugins());
-```
-
-It resolves at once on the server.
-
-## Route JS
-
-With streaming SSR and [`routes: true`](/configure/app/performance/resource-stages#routes), the JS of the matched routes is staged without declarations: the route component's own file is `critical`, and the shared chunks it depends on go to `critical` or `visible` by the `critical` budget. `critical` route JS is preloaded at low priority. This is off by default.
-
-Client rendered entries add the declaration lists of the newly matched routes after each navigation. Server rendered entries only have the lists of the routes matched on the first screen; after navigating to another route, its declarations load on use.
-
-## Browser support and limits
-
-- **No cost when unused.** An application without `stagedImport` declarations and without `performance.resourceStages` gets no extra HTML and does not bundle the scheduler.
-- **Browsers without `<link rel="prefetch">`** (Safari) skip the prefetch of every stage; the stages are listed in `skipped` of the loading records. `critical` preloads still apply, `ready()` still resolves, and code is loaded when it is used, as without a declaration.
-- **A prefetch that reports neither load nor error** stops holding its place after 30 seconds, so later files and stages are not blocked.
-- **Stages marked by the application** (`manual: true`) should set a `timeout`. Without one, later stages wait until the application marks the stage or a later one.
-- **Declarations in code that is loaded later** take effect when that code runs: without `performance.resourceStages`, the scheduler starts with the first declaration that is evaluated. Files downloaded before that are not prefetched again.
-- **With `assetPrefix: 'auto'`** the HTML cannot carry preload URLs, so `critical` is prefetched after first paint instead, with a build warning. When `__webpack_public_path__` changes at runtime (a CDN switch, for example), prefetches use the new path.
-- **Declarations in `node_modules`** are not scanned or prefetched by default; add packages with [`include`](/configure/app/performance/resource-stages#include). Workspace packages linked in a monorepo are scanned.
-- **Server rendered entries that fall back to client rendering** only get the entry level lists; the route level lists are added by the server when it renders.
-- **Subresource Integrity** ([`security.sri`](/configure/app/security/sri)): `critical` preloads carry the same `integrity` and `crossorigin` as the `<script>` or `<link>` that loads the file, so the browser reuses the preloaded file. Files prefetched by later stages are reused from the HTTP cache. A stage list written to a separate file (see [`inlineLimit`](/configure/app/performance/resource-stages#inlinelimit)) is loaded without `integrity`.
-- **Micro-frontend sub-applications and Module Federation remotes are not supported.** The lists are resolved with the chunk map of the application that owns the page. Declare stages in the host application; in a sub-application `stagedImport` loads the code on use, and element stages do not prefetch. Each application's build carries its own id, so the declarations, routes and stage notifications of a sub-application do not affect the host's scheduling.
-
-## Build output
-
-- Stage lists only contain chunk ids; the runtime builds the URLs from its chunk map. A list over `inlineLimit` (2 KB gzip by default) is written to a separate file.
-- `dist/resource-stages.json`: the files, size and owner (entry or route) of every declaration, and the statistics of each stage. Use it as the `baseline` of a later build.
-
-## Loading records
-
-```ts
-import {
-  getResourceStageReport,
-  onResourceStageReport,
-} from '@modern-js/runtime/resources';
-
-// Called on pagehide
-onResourceStageReport(report => {
-  sendToMonitor(report);
+```ts title="modern.config.ts"
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      stages: {
+        // New stage: download the checkout page after adding to cart; starts anyway 10 s after interactive without a notice
+        addedToCart: { after: 'interactive', timeout: 10000 },
+        // Built-in stage marked by the app: interactive once the product data has loaded and the buttons work
+        interactive: { manual: true, timeout: 3000 },
+      },
+    },
+  },
 });
 ```
 
-A record has the time each stage arrived and, for each chunk, its stage, when its prefetch started and ended and whether it succeeded (`prefetchStatus`: `ok`, `error` or `timeout`), and when the chunk was requested and loaded. `source` tells whether the application requested it (`app`) or the router prefetched it for `<Link prefetch>` (`link`). During development, `window.__MODERN_RS__.report()` in the console shows the same data.
+Use it in code and call `mark()` at the right moment:
 
-Use the records to tune declarations:
+```ts
+const Checkout = lazy(stagedImport.addedToCart(() => import('./Checkout')));
+cart.onAdd(() => stagedImport.addedToCart.mark());
 
-- prefetched but never requested: move it to a later stage or drop it;
-- often requested before its prefetch finishes: move it to an earlier stage;
-- leave out records whose `prefetchStatus` is not `ok`: nothing was cached for them;
-- requested before the page is interactive without a declaration: consider declaring it.
+await fetchProduct();
+stagedImport.interactive.mark();
+```
+
+Code that should run after a stage has downloaded can wait for `stagedImport.<stage>.ready()`, for example `stagedImport.idle.ready().then(warmUp)`.
+
+## How to write declarations
+
+The build finds the files behind each declaration in the source, so declarations must be statically recognizable:
+
+```tsx
+// ✅ A function returning import('<fixed path>')
+stagedImport.idle(() => import('./ChatWindow'));
+
+// ✅ async/await, or .then() after import() to pick a named export
+stagedImport.idle(() =>
+  import('./ChatWindow').then(m => ({ default: m.ChatWindow })),
+);
+
+// ❌ The path is built from a variable, so the build cannot tell which file it is
+stagedImport.idle(() => import(`./windows/${name}`));
+
+// ✅ With string SSR, write the declaration inside the loadable call; the server renders it as usual
+const SpecDialog = loadable(
+  stagedImport.interactive(() => import('./SpecDialog')),
+);
+
+// ❌ Assigned to a variable first: the server does not render the component
+const load = stagedImport.interactive(() => import('./SpecDialog'));
+const SpecDialog2 = loadable(load);
+```
+
+When a declaration cannot be recognized, or its stage is neither built in nor configured, the build prints a warning. The declaration is not downloaded early; the code still loads normally when used.
+
+## Download route JS early with streaming SSR
+
+Streaming SSR only outputs the CSS of the matched routes in the HTML; their JS starts downloading after the entry JS has run. With [`streamingRoutePreload`](/configure/app/performance/resource-stages#streamingroutepreload), the JS of the matched routes downloads together with the entry JS, with no declarations in code:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      streamingRoutePreload: true,
+    },
+  },
+});
+```
+
+## Check and adjust
+
+During development, run `window.__MODERN_RS__.report()` in the console. In production, send the report when the page is closed:
+
+```ts
+import { onResourceStageReport } from '@modern-js/runtime/resources';
+
+onResourceStageReport(report => sendToMonitor(report));
+```
+
+Adjust from the report:
+
+| What you see                                          | What to do                            |
+| ----------------------------------------------------- | ------------------------------------- |
+| Downloaded early but never used                       | Move it one stage later, or remove it |
+| Often used before its early download finished         | Move it one stage earlier             |
+| Not declared, but used before the page is interactive | Consider declaring it                 |
+
+Leave out records whose `prefetchStatus` is not `ok`; those files were not downloaded.
+
+## Limitations
+
+- Browsers without `<link rel="prefetch">`, such as Safari, skip early downloads other than `critical`; the code loads normally when used.
+- `node_modules` is not scanned by default; declarations in third-party packages need [`include`](/configure/app/performance/resource-stages#include). Workspace packages linked in a monorepo are scanned directly.
+- Client-rendered pages, and server-rendered pages that fall back to client rendering, only output entry-level `critical` files in the HTML; declarations in routes start downloading after the route matches.
+- With `output.assetPrefix` set to `'auto'`, preload URLs cannot be written into the HTML, so `critical` downloads after the first screen shows instead.
+- Micro-frontend sub-apps and Module Federation remotes are not supported; declare stages in the host app.

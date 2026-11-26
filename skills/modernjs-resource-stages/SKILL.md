@@ -34,7 +34,7 @@ ls dist/resource-stages.json
 const report = await page.evaluate(() => window.__MODERN_RS__.report());
 ```
 
-把多次结果存成 JSON 数组（`records.json`）。网络条件和目标用户一致时数据才有意义，建议按 `performance.resourceStages.targetNetwork` 限速。
+把多次结果存成 JSON 数组（`records.json`）。网络条件和目标用户一致时数据才有意义，建议按目标用户的网络限速（例如 Chrome DevTools 的 Fast 4G）。
 
 **线上**：业务用 `onResourceStageReport` 上报到监控平台后，导出成同样格式的 JSON 数组。
 
@@ -65,4 +65,4 @@ node scripts/analyze.mjs dist/resource-stages.json records.json
 
 ### 5. 修改
 
-把建议列给研发确认后，再改 `stagedImport.<阶段>(...)` 的阶段名。改完重新构建，对比 `dist/resource-stages.json` 的各阶段统计（可以把旧文件配置为 `performance.resourceStages.baseline`）。
+把建议列给研发确认后，再改 `stagedImport.<阶段>(...)` 的阶段名。改完重新构建，对比改动前后 `dist/resource-stages.json` 的各阶段统计。

@@ -61,8 +61,7 @@ export default applyBaseConfig({
   performance: {
     resourceStages: {
       stages: { firstReply: { after: 'interactive', timeout: 500 } },
-      routes: true,
-      idleQuietTime: 300,
+      streamingRoutePreload: true,
     },
   },
 });`,
@@ -573,7 +572,7 @@ export default function Page() {
       path.join(appDir, 'modern.config.ts'),
       `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 export default applyBaseConfig({
-  performance: { resourceStages: { idleQuietTime: 300 } },
+  performance: { resourceStages: {} },
   tools: {
     rspack(config) {
       const splitChunks = config.optimization?.splitChunks;
@@ -763,7 +762,7 @@ export default function Page() {
       `import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 export default applyBaseConfig({
   server: { ssr: true },
-  performance: { resourceStages: { idleQuietTime: 300 } },
+  performance: { resourceStages: {} },
 });`,
     );
     const dir = path.join(appDir, 'src/routes/stages');
@@ -809,7 +808,7 @@ export default applyBaseConfig({
     ).toBeUndefined();
   });
 
-  test('does not preload route JS unless routes is set', () => {
+  test('does not preload route JS unless streamingRoutePreload is set', () => {
     expect(html).not.toMatch(/<link\b[^>]*\bfetchpriority="low"/);
     expect(html).toContain('__MODERN_RS__');
   });

@@ -23,52 +23,25 @@ export interface CustomStageConfig {
   manual?: boolean;
 }
 
-export type TargetNetwork =
-  | 'slow-4g'
-  | 'fast-4g'
-  | 'wifi'
-  | {
-      /** Download bandwidth in Mbps. */
-      downlink: number;
-      /** Round trip time in milliseconds. */
-      rtt?: number;
-    };
-
 export interface ResourceStagesUserConfig {
-  /** Network used to estimate the download time of each stage. */
-  targetNetwork?: TargetNetwork;
-  /**
-   * Upper limits per stage. Exceeding one is a build warning. `critical`
-   * defaults to what the target network downloads before `firstPaintTarget`.
-   */
-  budget?: Record<string, StageBudget>;
   /**
    * Custom stages, and built-in stages the application marks itself
    * (`{ interactive: { manual: true } }`).
    */
   stages?: Record<string, CustomStageConfig>;
   /**
+   * Upper limits per stage. Exceeding one is a build warning. `critical`
+   * defaults to what Fast 4G downloads in a third of the 1.8 s first paint
+   * target.
+   */
+  budget?: Record<string, StageBudget>;
+  /**
    * Route JS of streaming SSR pages. `true` preloads the JS of the matched
    * routes with a low priority within the `critical` budget, the rest at
    * `visible`; an object does the same and sets the stage of some routes by
    * route id (`false` leaves a route out). Off by default.
    */
-  routes?: boolean | Record<string, BuiltinPageStage | false>;
-  /** Prefetches in flight at the same time. @default 4 */
-  concurrency?: number;
-  /**
-   * Compressed size above which the stage list of a route is written to a
-   * separate file instead of the HTML. @default '2kB'
-   */
-  inlineLimit?: string | number;
-  /** Milliseconds of first paint the `critical` budget is checked against. @default 1800 */
-  firstPaintTarget?: number;
-  /** Milliseconds without new requests after `load` before `idle`. @default 2000 */
-  idleQuietTime?: number;
-  /** Path of a previous `resource-stages.json` to compare against. */
-  baseline?: string;
-  /** Percentage of growth over the baseline that is a warning. @default 10 */
-  baselineThreshold?: number;
+  streamingRoutePreload?: boolean | Record<string, BuiltinPageStage | false>;
   /**
    * Source files in `node_modules` are not scanned for declarations, except
    * the packages matched here.
@@ -85,13 +58,12 @@ export const PAGE_STAGES: BuiltinPageStage[] = [
 
 export const ELEMENT_STAGES: ElementStage[] = ['viewport', 'interaction'];
 
-export const NETWORKS: Record<string, { downlink: number; rtt: number }> = {
-  // Lighthouse throttling presets
-  'slow-4g': { downlink: 1.6, rtt: 150 },
-  // Chrome DevTools "Fast 4G"
-  'fast-4g': { downlink: 9, rtt: 60 },
-  wifi: { downlink: 30, rtt: 20 },
-};
+/** Network the download times are estimated on: Chrome DevTools "Fast 4G". */
+const NETWORK = { downlink: 9, rtt: 60 };
+/** Milliseconds of first paint the `critical` budget is checked against. */
+const FIRST_PAINT_TARGET = 1800;
+/** Compressed bytes above which a stage list is written to a separate file. */
+const INLINE_LIMIT = 2 * 1024;
 
 export const parseSize = (value: string | number | undefined) => {
   if (value === undefined) {
@@ -199,25 +171,14 @@ export const normalizeResourceStages = (
     }
   }
 
-  const target = config.targetNetwork ?? 'fast-4g';
-  const network =
-    typeof target === 'string'
-      ? NETWORKS[target]
-      : { downlink: target.downlink, rtt: target.rtt ?? 0 };
-  if (!network) {
-    throw new Error(
-      `performance.resourceStages.targetNetwork: unknown network "${String(target)}".`,
-    );
-  }
-
   return {
     order,
     known: new Set([...PAGE_STAGES, ...ELEMENT_STAGES, ...order]),
     manual,
     timeouts,
-    network,
-    firstPaintTarget: config.firstPaintTarget ?? 1800,
-    inlineLimit: parseSize(config.inlineLimit ?? '2kB')!,
+    network: NETWORK,
+    firstPaintTarget: FIRST_PAINT_TARGET,
+    inlineLimit: INLINE_LIMIT,
     config,
   };
 };

@@ -4,121 +4,127 @@ title: resourceStages
 
 # performance.resourceStages
 
-- **类型：**
-
-```ts
-type Stage = 'critical' | 'visible' | 'interactive' | 'idle' | string;
-
-interface ResourceStagesConfig {
-  targetNetwork?:
-    'slow-4g' | 'fast-4g' | 'wifi' | { downlink: number; rtt?: number };
-  budget?: Record<
-    string,
-    { size?: string | number; requests?: number; depth?: number }
-  >;
-  stages?: Record<
-    string,
-    { after?: string; timeout?: number; manual?: boolean }
-  >;
-  routes?:
-    | boolean
-    | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>;
-  concurrency?: number;
-  inlineLimit?: string | number;
-  firstPaintTarget?: number;
-  idleQuietTime?: number;
-  baseline?: string;
-  baselineThreshold?: number;
-  include?: Array<string | RegExp>;
-}
-```
-
+- **类型：** `ResourceStagesConfig`
 - **默认值：** `undefined`
 
-配置[按阶段加载](/guides/advanced-features/page-performance/resource-stages)。代码里用内置阶段的 `stagedImport` 声明不需要这个配置也会生效；自定义阶段、预算、流式 SSR 的路由 JS 预加载等需要在这里配置。
+[按阶段加载](/guides/advanced-features/page-performance/resource-stages)的配置。按阶段加载让 `import()` 拆出的代码在页面的某个阶段（首屏、可交互后、空闲时等）提前下载。
 
-:::warning 实验性
-按阶段加载目前是实验性功能，配置项和清单格式在后续版本中可能调整。
+:::tip 不配置也能用
+只用内置阶段（`critical`、`visible`、`interactive`、`idle`、`viewport`、`interaction`）时，在代码里写 `stagedImport` 声明即可，不需要这个配置。
 :::
 
-## targetNetwork
+:::warning 实验性
+按阶段加载目前是实验性功能，配置项在后续版本中可能调整。
+:::
 
-推算各阶段下载时间用的网络，默认 `'fast-4g'`（9 Mbps，60 ms）。`'slow-4g'` 为 1.6 Mbps、150 ms，`'wifi'` 为 30 Mbps、20 ms，也可以传入 `{ downlink: Mbps, rtt: ms }`。
+| 需求                                          | 配置项                                            |
+| --------------------------------------------- | ------------------------------------------------- |
+| 按应用自己的时机加载，如「加入购物车后」      | [`stages`](#stages)                               |
+| 限制每个阶段的体积，超出时告警                | [`budget`](#budget)                               |
+| 流式 SSR 下让命中路由的 JS 和入口 JS 同时下载 | [`streamingRoutePreload`](#streamingroutepreload) |
+| 让 `node_modules` 中的声明也提前下载          | [`include`](#include)                             |
 
-## budget
+## 示例
 
-各阶段的上限，超出时构建告警，不中断构建。`size` 按 gzip 后的字节数计算，`requests` 是文件数，`depth` 是从入口到声明的 chunk 经过几层异步加载。
-
-同一页面的分阶段 preload 共用首屏预算。按 URL 去重后计算入口和命中路由的文件体积与请求数。显式声明的 critical 优先，自动路由 JS 用剩余预算。超出的 chunk 改在 visible 阶段预取。构建时按入口和单条路由估算，并对 SSR 入口的每个页面按「入口 + 各级 layout + page」合并后再算一遍：声明为 critical 的 chunk 因合并超出而被改到 visible 时告警。
-
-`critical` 默认上限：`size` 为目标网络在 `firstPaintTarget` 的三分之一时间内能下载的字节数，`requests` 为 8。路由 JS 的共享 chunk 也按这个上限分档。
-
-另外两项检查不需要配置：`critical` 加上入口文件的预计下载时间超过 `firstPaintTarget` 时告警；同一模块被打进不同阶段的 chunk 时告警。
-
-## stages
-
-新增自定义阶段，或把内置阶段改为由应用通知：
-
-```ts
+```ts title="modern.config.ts"
 export default defineConfig({
   performance: {
     resourceStages: {
       stages: {
-        // 自定义阶段：排在 interactive 之后；应用一直没调用 mark() 时，interactive 到来 5 秒后自动触发
-        firstReply: { after: 'interactive', timeout: 5000 },
-        // 内置阶段改为由应用调用 stagedImport.interactive.mark() 通知
-        interactive: { manual: true },
+        addedToCart: { after: 'interactive', timeout: 10000 },
       },
+      budget: {
+        critical: { size: '200kB', requests: 6 },
+      },
+      streamingRoutePreload: true,
     },
   },
 });
 ```
 
-自定义阶段的 `after` 和 `timeout` 必填。配置了自定义阶段时，构建会在源码目录生成 `modern-resource-stages.d.ts`，`stagedImport.firstReply` 因此有类型提示。
+## 选项
 
-## routes
+### stages
 
-流式 SSR 页面的路由 JS 预加载，默认关闭。设为 `true` 后，命中路由的 JS 在首屏预算内以 `<link rel="preload" as="script" fetchpriority="low">` 输出，路由组件自身的文件优先于共享 chunk，超出预算的放到 visible 阶段。路由 CSS 已由流式 SSR 作为样式表输出，不再预加载。
+- **类型：** `Record<string, { after?: string; timeout?: number; manual?: boolean }>`
+- **默认值：** `undefined`
+
+新增自定义阶段，或把内置阶段改为由应用通知。
+
+**新增自定义阶段**：键名是阶段名，`after` 和 `timeout` 必填。
+
+| 字段      | 说明                                                                                      |
+| --------- | ----------------------------------------------------------------------------------------- |
+| `after`   | 排在哪个阶段之后，可以是内置阶段或另一个自定义阶段                                        |
+| `timeout` | 兜底时间（毫秒）。前一个阶段到来后，应用超过这个时间还没有调用 `mark()`，这个阶段自动到来 |
 
 ```ts
-resourceStages: {
-  routes: true,
+stages: {
+  addedToCart: { after: 'interactive', timeout: 10000 },
 }
 ```
 
-也可以按路由 id 指定阶段，或设为 `false` 排除某个路由。传入对象时同样开启这项预加载：
+应用在对应时机调用 `stagedImport.addedToCart.mark()`。配置后构建会在源码目录生成 `modern-resource-stages.d.ts`，为 `stagedImport.addedToCart` 提供类型提示。
+
+**由应用通知内置阶段**：只能配置 `visible`、`interactive`、`idle`，设置 `manual: true`。建议同时设置 `timeout`，否则应用一直不调用 `mark()` 时，后面的阶段会一直等待。
 
 ```ts
-resourceStages: {
-  routes: {
-    'files/[id]/page': 'visible',
-    'settings/page': false,
-  },
+stages: {
+  interactive: { manual: true, timeout: 3000 },
 }
 ```
 
-这项预加载只对流式 SSR 入口生效。客户端渲染和字符串 SSR 的入口不受影响：字符串 SSR 已经输出命中路由的脚本。
+### budget
 
-## concurrency
+- **类型：** `Record<string, { size?: string | number; requests?: number; depth?: number }>`
+- **默认值：** `critical` 约 675 KB、8 个文件，其他阶段不限制
 
-每个阶段同时进行的预取数量，默认 `4`。
+每个阶段的上限，键名是阶段名。超出时构建告警，不会让构建失败。
 
-## inlineLimit
+| 字段       | 说明                                                                |
+| ---------- | ------------------------------------------------------------------- |
+| `size`     | gzip 后的总体积，可以写字节数或 `'200kB'` 这样的字符串              |
+| `requests` | 文件数                                                              |
+| `depth`    | 从入口到声明的代码之间隔了几层 `import()`，层数越多越晚才能开始下载 |
 
-写进 HTML 的阶段清单 gzip 后超过这个大小时，改为输出成带内容 hash 的独立文件，首次绘制之后低优先级加载，并在构建时告警。相关阶段等待清单加载完成，加载失败或超时后继续调度。默认 `'2kB'`。
+```ts
+budget: {
+  critical: { size: '200kB', requests: 6 },
+  interactive: { size: '600kB' },
+}
+```
 
-## firstPaintTarget
+一个页面的 `critical` 按「入口 + 各级 layout + page」合在一起计算，超出上限的文件改到 `visible` 阶段下载，并给出告警。
 
-首次绘制的目标时间（毫秒），用于检查 `critical` 的预计下载时间，默认 `1800`。
+### streamingRoutePreload
 
-## idleQuietTime
+- **类型：** `boolean | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>`
+- **默认值：** `false`
 
-`load` 之后多少毫秒内没有新的资源请求，视为 `idle` 阶段到来，默认 `2000`。`load` 之后最多等 10 秒。
+只对流式 SSR 生效。开启后，命中路由的 JS 以低优先级 preload 写进 HTML，和入口 JS 同时下载；超出 `critical` 上限的部分放到 `visible` 阶段。字符串 SSR 已经会输出命中路由的 JS，客户端渲染不受影响。
 
-## baseline
+```ts
+streamingRoutePreload: true,
+```
 
-上一次构建输出的 `resource-stages.json` 的路径。某个阶段的字节数比基线增长超过 `baselineThreshold`（默认 `10`，单位 %）时告警。
+也可以按路由 id 指定阶段，或用 `false` 排除某个路由：
 
-## include
+```ts
+streamingRoutePreload: {
+  'product/[id]/page': 'visible',
+  'settings/page': false,
+}
+```
 
-默认不扫描 `node_modules` 里的源码文件，其中的 `stagedImport` 声明不预取。需要扫描的包在这里用字符串（路径包含）或正则匹配。monorepo 里通过软链引用的工作区包解析到源码目录，默认就会扫描。
+### include
+
+- **类型：** `Array<string | RegExp>`
+- **默认值：** `undefined`
+
+默认不扫描 `node_modules`，其中的 `stagedImport` 声明不会提前下载。需要扫描的包在这里列出：字符串表示路径包含该字符串，也可以用正则。
+
+```ts
+include: ['@my-org/product-widgets'],
+```
+
+monorepo 中通过软链引用的工作区包会直接扫描，不需要配置。

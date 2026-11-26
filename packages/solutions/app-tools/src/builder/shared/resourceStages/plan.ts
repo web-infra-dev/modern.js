@@ -317,7 +317,9 @@ export const planResourceStages = (
     : getCriticalBudget(stages);
   if (options.routeRule) {
     const routeConfig =
-      typeof stages.config.routes === 'object' ? stages.config.routes : {};
+      typeof stages.config.streamingRoutePreload === 'object'
+        ? stages.config.streamingRoutePreload
+        : {};
     for (const [routeName, route] of snapshot.routes) {
       const override = routeConfig[routeName];
       if (override === false) {
@@ -456,12 +458,7 @@ export const planResourceStages = (
         bytes,
         requests,
         depth: target.depth.get(stage) ?? 0,
-        time: estimateDownloadTime(
-          bytes,
-          requests,
-          stages.network,
-          stages.config.concurrency ?? 4,
-        ),
+        time: estimateDownloadTime(bytes, requests, stages.network, 4),
       };
     }
   }
