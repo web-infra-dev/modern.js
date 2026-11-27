@@ -297,7 +297,31 @@ import { SERVICE_INGRESS_PREFIX, serviceIngressPath } from '../servicePath';
 import type { ServiceRemote } from '../serviceRemotes';
 import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 
-/** Resolve only configured remotes through the ordinary Snapshot-first runtime. */
+const DYNAMIC_SERVICE_REMOTES_SYMBOL = Symbol.for(
+  'modern-js.mf.applications.service-remotes',
+);
+
+function getDynamicServiceRemotes(): ServiceRemote[] {
+  const map = (globalThis as Record<symbol, unknown>)[
+    DYNAMIC_SERVICE_REMOTES_SYMBOL
+  ] as
+    Map<string, { name: string; entry?: string; version?: string }> | undefined;
+  if (!map) return [];
+  const result: ServiceRemote[] = [];
+  for (const record of map.values()) {
+    if (record.entry) {
+      result.push({ name: record.name, entry: record.entry });
+    } else if (record.version) {
+      result.push({
+        name: record.name,
+        version: record.version,
+      } as ServiceRemote);
+    }
+  }
+  return result;
+}
+
+/** Resolve only configured remotes (plus committed discovered remotes when applications is enabled). */
 export function createBridgeServiceIngressMiddleware(
   services: BridgeServices,
   options: {
@@ -305,6 +329,7 @@ export function createBridgeServiceIngressMiddleware(
     name?: string;
     ownerId?: string;
     remotes?: ServiceRemote[];
+    allowDynamicRemotes?: boolean;
     plugins?:
       | ModuleFederationRuntimePlugin[]
       | (() => Promise<ModuleFederationRuntimePlugin[]>);
@@ -360,6 +385,18 @@ export function createBridgeServiceIngressMiddleware(
       system.registerPlugins = {};
     }
   };
+  const effectiveRemotes = (): ServiceRemote[] => {
+    const staticRemotes = options.remotes || [];
+    if (!options.allowDynamicRemotes) return staticRemotes;
+    const dynamicRemotes = getDynamicServiceRemotes();
+    if (!dynamicRemotes.length) return staticRemotes;
+    const merged = new Map<string, ServiceRemote>();
+    for (const remote of staticRemotes) merged.set(remote.name, remote);
+    for (const remote of dynamicRemotes) {
+      if (!merged.has(remote.name)) merged.set(remote.name, remote);
+    }
+    return [...merged.values()];
+  };
   const acquireScope = () => {
     const selected = selections.then(async () => {
       const plugins =
@@ -376,7 +413,7 @@ export function createBridgeServiceIngressMiddleware(
           runtime: new ModuleFederation({
             id: `${consumerId}:${randomUUID()}`,
             name: `${options.name || 'modern'}_service_ingress_${consumerId}`,
-            remotes: options.remotes || [],
+            remotes: effectiveRemotes(),
             plugins: [
               ...(plugins || []),
               createSSRUpdateSnapshotPlugin(
@@ -390,6 +427,16 @@ export function createBridgeServiceIngressMiddleware(
           pending: new Set(),
           closing: false,
         };
+      } else if (options.allowDynamicRemotes) {
+        const currentNames = new Set(
+          scope.runtime.options.remotes.map(item => item.name),
+        );
+        const missing = effectiveRemotes().filter(
+          item => !currentNames.has(item.name),
+        );
+        if (missing.length) {
+          scope.runtime.registerRemotes(missing);
+        }
       }
       const current = scope;
       let finish!: () => void;
@@ -464,7 +511,7 @@ export function createBridgeServiceIngressMiddleware(
       request.headers.get('sec-fetch-site') === 'cross-site'
     )
       return new Response('Invalid Service request origin', { status: 403 });
-    const remote = options.remotes?.find(
+    const remote = effectiveRemotes().find(
       remote =>
         id === remote.name ||
         id.startsWith(`${remote.name}/`) ||

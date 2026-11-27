@@ -27,3 +27,40 @@ export type {
   RemoteUpdateReceipt,
   RemoteUpdateResult,
 } from './mf/update';
+
+export { useApplications } from './mf/applications/context';
+export {
+  createSnapshotExpiredError,
+  isSnapshotExpiredError,
+  SnapshotExpiredError,
+  ApplicationsDiscoveryError,
+  SNAPSHOT_EXPIRED_CODE,
+} from './mf/applications/errors';
+export {
+  createApplicationsStore,
+  getDynamicServiceRemotes,
+  type ApplicationsStore,
+  type DynamicServiceRemoteRecord,
+} from './mf/applications/store';
+export {
+  mfApplicationsPlugin,
+  type ApplicationsRuntimePluginConfig,
+} from './mf/applications/plugin.node';
+export type {
+  RemoteRoute,
+  ApplicationRef,
+  DiscoveryContext,
+  ApplicationsLoadResult,
+  LoadApplications,
+  SnapshotExpiredEvent,
+  OnSnapshotExpired,
+  ApplicationsLifecycle,
+  ApplicationsHooksModule,
+  DiscoverApplicationsOptions,
+  DiscoveredContext,
+  DiscoverApplicationsResult,
+  ApplicationsService,
+  SerializedApplicationsState,
+  DiscoveryDiagnostic,
+  ApplicationsStoreOptions,
+} from './mf/applications/types';

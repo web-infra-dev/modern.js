@@ -22,12 +22,26 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
+      resolve: {
+        extensions: [
+          '.node.ts',
+          '.node.tsx',
+          '.ts',
+          '.tsx',
+          '.js',
+          '.jsx',
+          '.mjs',
+          '.cjs',
+          '.json',
+        ],
+      },
       output: {
         bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
       },
       exclude: [
         'tests/application/browser.test.tsx',
         'tests/mf/browser.test.tsx',
+        'tests/mf/applications.browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',
@@ -70,6 +84,7 @@ export default {
       include: [
         'tests/application/browser.test.tsx',
         'tests/mf/browser.test.tsx',
+        'tests/mf/applications.browser.test.tsx',
         'tests/ssr/browserHydration.test.tsx',
         'tests/router/prefetch.test.tsx',
         'tests/router/routeScopeBrowser.test.tsx',

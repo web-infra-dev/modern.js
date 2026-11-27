@@ -1,6 +1,11 @@
 import type React from 'react';
 import { renderApplication } from '../application/server';
-import { applicationDefinition, applicationURL } from './shared';
+import {
+  applicationDefinition,
+  applicationURL,
+  extractMountMetadata,
+} from './shared';
+import { createChildApplicationsPlugin } from './applications/plugin.node';
 import type {
   BridgeHydrateInfo,
   BridgeRenderInfo,
@@ -26,6 +31,7 @@ export async function renderStream(
     headers: info.headers,
     signal: info.signal,
   });
+  const { mountId, consumer, props } = extractMountMetadata(info.props);
   const result = await renderApplication(request, {
     element,
     definition: applicationDefinition(info),
@@ -34,7 +40,14 @@ export async function renderStream(
     signal: info.signal,
     work: info.work,
     nonce: info.nonce,
-    props: info.props,
+    props,
+    ...(mountId
+      ? {
+          mountId,
+          consumer,
+          plugins: [createChildApplicationsPlugin(mountId)],
+        }
+      : {}),
     memoryRoute: info.memoryRoute,
   });
   return {

@@ -37,6 +37,13 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
     basename?: string;
     getWindow?: () => Window;
     onRouterCreated?: (router: DataRouter) => void;
+    patchRoutesOnNavigation?: import('@modern-js/runtime-utils/router').PatchRoutesOnNavigationFunction;
+    mountId?: string;
+    consumer?: {
+      moduleName: string;
+      expose: string;
+      versionOrUrl: string;
+    };
     router?: DataRouter;
     releaseRouter?: () => void;
     routes?: RouteObject[];

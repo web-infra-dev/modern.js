@@ -51,6 +51,7 @@ export type FederationAPI = Pick<
   getAppContext(): {
     appDirectory: string;
     distDirectory: string;
+    internalDirectory?: string;
     port?: number;
     metaName: string;
   };

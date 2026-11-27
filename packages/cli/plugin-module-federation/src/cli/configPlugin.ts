@@ -21,6 +21,10 @@ import { configureServiceProvider } from './serviceProvider';
 import { serviceProviderBasePaths } from '../serviceProvider';
 import { configureServiceRuntimePlugins } from './serviceRuntimePlugins';
 import { createDevManifestPublication } from './devManifest';
+import {
+  resolveApplicationsOptions,
+  writeApplicationsRuntimePlugin,
+} from './applications';
 
 import type { InternalModernPluginOptions } from '../types';
 import type { Rspack, RspackChain } from '@rsbuild/core';
@@ -123,6 +127,9 @@ export const getMFConfig = async (
       : configModule
   ) as moduleFederationPlugin.ModuleFederationPluginOptions;
 
+  if (!resolvedConfig.name && userConfig.name) {
+    return { ...resolvedConfig, name: userConfig.name };
+  }
   return resolvedConfig;
 };
 
@@ -458,6 +465,39 @@ export const moduleFederationConfigPlugin = (
     }
     const services = userConfig.originPluginOptions.services || {};
     const remotes = serviceRemotes(mfConfig.remotes);
+    const appContext = api.getAppContext();
+    const applications = resolveApplicationsOptions(
+      userConfig.originPluginOptions.applications,
+      appContext.appDirectory,
+    );
+    if (applications.enabled) {
+      if (applications.hooksPath) {
+        const watched = applications.hooksPath;
+        api.addWatchFiles(() => [watched]);
+      }
+      const pluginPath = writeApplicationsRuntimePlugin({
+        appDirectory: appContext.appDirectory,
+        internalDirectory: appContext.internalDirectory,
+        metaName: appContext.metaName,
+        hooksPath: applications.hooksPath,
+      });
+      api._internalRuntimePlugins(({ entrypoint, plugins }) => {
+        plugins.push({
+          name: 'mfApplications',
+          path: pluginPath,
+          config: {
+            autoGenerateRoute: applications.autoGenerateRoute,
+            ...(applications.maxDepth !== undefined
+              ? { maxDepth: applications.maxDepth }
+              : {}),
+            ...(applications.timeoutMs !== undefined
+              ? { timeoutMs: applications.timeoutMs }
+              : {}),
+          },
+        });
+        return { entrypoint, plugins };
+      });
+    }
     if (
       typeof userConfig.originPluginOptions.ssr === 'object' &&
       userConfig.originPluginOptions.ssr.cacheUpdates
@@ -502,7 +542,11 @@ export const moduleFederationConfigPlugin = (
         return { plugins };
       });
     }
-    if (remotes.length || Object.keys(services).length) {
+    if (
+      remotes.length ||
+      Object.keys(services).length ||
+      applications.enabled
+    ) {
       const runtimePlugins = configureServiceRuntimePlugins(
         api,
         mfConfig.runtimePlugins,
@@ -533,6 +577,7 @@ export const moduleFederationConfigPlugin = (
             name: ssrConfig.name,
             remotes,
             services,
+            allowDynamicRemotes: applications.enabled,
             runtimePluginsFile: runtimePlugins?.filename,
             waitForRuntimePlugins: runtimePlugins?.waitForBuild,
             origin: userConfig.originPluginOptions.serviceOrigin,

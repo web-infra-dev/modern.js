@@ -13,6 +13,12 @@ export interface ApplicationSnapshot {
   basename: string;
   memoryRoute?: { entryPath: string };
   props: Record<string, unknown>;
+  mountId?: string;
+  consumer?: {
+    moduleName: string;
+    expose: string;
+    versionOrUrl: string;
+  };
   initialData?: Record<string, unknown>;
   /** Initial language for this application, independent of the outer document. */
   i18nData?: { lng: string };
@@ -47,4 +53,11 @@ export interface ApplicationOptions {
   memoryRoute?: { entryPath: string };
   navigation?: BridgeNavigation;
   onRecoverableError?: (error: unknown) => void;
+  mountId?: string;
+  consumer?: {
+    moduleName: string;
+    expose: string;
+    versionOrUrl: string;
+  };
+  plugins?: import('../core/plugin').RuntimePlugin<any>[];
 }
