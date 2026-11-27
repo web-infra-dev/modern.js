@@ -1,5 +1,12 @@
 # dev-server
 
+## 2.66.9
+
+### Patch Changes
+
+- Updated dependencies [6644a30]
+  - @modern-js/runtime@3.13.0
+
 ## 2.66.8
 
 ### Patch Changes

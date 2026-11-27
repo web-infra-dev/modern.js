@@ -1,5 +1,17 @@
 # @modern-js/mcp-apps
 
+## 3.13.0
+
+### Minor Changes
+
+- 5db5d67: Add an `inline` option to `mcpAppsPlugin` for building self-contained local cards. Set `inline: 'dev'` to rebuild cards on edits and use the printed `modern-mcp-stdio` connector to debug them through the running HTTP dev server. The connector discovers the current port and forwards MCP routing headers so requests reach the application's middleware. Enable this workflow in the Todo example and document it in the project template.
+
+### Patch Changes
+
+- e950060: Upgrade @rsbuild/core to 2.3.3.
+
+  将 @rsbuild/core 升级至 2.3.3。
+
 ## 3.12.0
 
 ## 3.11.3

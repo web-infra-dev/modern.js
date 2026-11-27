@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "r20261127083833-47db4e3baa329c1284bf2c4d305d86e8",
+  "baseSha": "6b88c3f57a4301e894a4936017e5479e957b2450",
+  "packages": [
+    {
+      "name": "@modern-js/adapter-rstest",
+      "path": "packages/cli/adapter-rstest",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/app-tools",
+      "path": "packages/solutions/app-tools",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/bff-core",
+      "path": "packages/server/bff-core",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/bff-runtime",
+      "path": "packages/server/bff-runtime",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/builder",
+      "path": "packages/cli/builder",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/create",
+      "path": "packages/toolkit/create",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/create-request",
+      "path": "packages/server/create-request",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/i18n-utils",
+      "path": "packages/toolkit/i18n-utils",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/image",
+      "path": "packages/runtime/plugin-image",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/main-doc",
+      "path": "packages/document",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/mcp-apps",
+      "path": "packages/toolkit/mcp-apps",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin",
+      "path": "packages/toolkit/plugin",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin-bff",
+      "path": "packages/cli/plugin-bff",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin-data-loader",
+      "path": "packages/cli/plugin-data-loader",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin-i18n",
+      "path": "packages/runtime/plugin-i18n",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin-polyfill",
+      "path": "packages/server/plugin-polyfill",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin-ssg",
+      "path": "packages/cli/plugin-ssg",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/plugin-styled-components",
+      "path": "packages/cli/plugin-styled-components",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/prod-server",
+      "path": "packages/server/prod-server",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/render",
+      "path": "packages/runtime/render",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/runtime",
+      "path": "packages/runtime/plugin-runtime",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/runtime-utils",
+      "path": "packages/toolkit/runtime-utils",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/sandpack-react",
+      "path": "packages/toolkit/sandpack-react",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/server",
+      "path": "packages/server/server",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/server-core",
+      "path": "packages/server/core",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/server-runtime",
+      "path": "packages/server/server-runtime",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/server-utils",
+      "path": "packages/server/utils",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/storybook-addon",
+      "path": "packages/cli/storybook-addon",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/tsconfig",
+      "path": "packages/tsconfig",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/types",
+      "path": "packages/toolkit/types",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    },
+    {
+      "name": "@modern-js/utils",
+      "path": "packages/toolkit/utils",
+      "previousVersion": "3.12.0",
+      "version": "3.13.0"
+    }
+  ]
+}
