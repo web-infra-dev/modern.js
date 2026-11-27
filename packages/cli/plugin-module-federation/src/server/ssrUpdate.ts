@@ -43,9 +43,6 @@ import {
   createMFSSRLogger,
   debugMFSSR,
   extractTargetVersion,
-  formatErrorMessage,
-  formatRemoteTransitions,
-  formatTimings,
   isMFSSRDebugEnabled,
   type MFSSRLogger,
 } from './ssrLogger';
@@ -136,95 +133,6 @@ export function createSSRUpdateAdapter(options: {
     mode: logMode,
     logger: options.logger,
   });
-  const globalLog = ssrLog.child({ mode: 'global' });
-  const loggerFor = (mode: 'dev' | 'prod' | 'global') =>
-    mode === 'global' ? globalLog : ssrLog;
-  const logUpdateStart = (info: {
-    mode?: 'dev' | 'prod' | 'global';
-    trigger?: string;
-    operationId: string;
-    remotes: Array<{
-      name: string;
-      fromVersion?: string;
-      toVersion?: string;
-      note?: string;
-    }>;
-  }) => {
-    const mode = info.mode ?? logMode;
-    loggerFor(mode).info(
-      'Updating',
-      {
-        mode,
-        trigger: info.trigger || 'api',
-        op: info.operationId,
-      },
-      formatRemoteTransitions(info.remotes) || undefined,
-    );
-  };
-  const logUpdateReady = (info: {
-    mode?: 'dev' | 'prod' | 'global';
-    remotes: string[];
-    planMode: 'snapshot' | 'entries' | 'application';
-    entries?: string[];
-    reasons?: string[];
-    generation?: number;
-    timingsMs?: Record<string, number>;
-    operationId: string;
-  }) => {
-    const mode = info.mode ?? logMode;
-    const scope =
-      info.planMode === 'entries'
-        ? 'partial'
-        : info.planMode === 'snapshot'
-          ? 'snapshot'
-          : 'full';
-    const headline = info.remotes.length ? info.remotes.join(', ') : undefined;
-    loggerFor(mode).info(
-      'Ready',
-      {
-        mode,
-        scope,
-        entries: scope === 'partial' ? info.entries : undefined,
-        reason: scope === 'full' ? info.reasons : undefined,
-        gen: info.generation,
-        durationMs:
-          info.timingsMs?.total !== undefined
-            ? Math.round(info.timingsMs.total)
-            : undefined,
-        timings: formatTimings(info.timingsMs),
-        op: info.operationId,
-      },
-      headline,
-    );
-  };
-  const logUpdateFailed = (info: {
-    mode?: 'dev' | 'prod' | 'global';
-    remotes: string[];
-    stage: string;
-    mutationStarted: boolean;
-    phase?: string;
-    timingsMs?: Record<string, number>;
-    operationId: string;
-    error: unknown;
-  }) => {
-    const mode = info.mode ?? logMode;
-    loggerFor(mode).error(
-      'Failed',
-      {
-        remotes: info.remotes,
-        mode,
-        stage: info.stage,
-        mutationStarted: info.mutationStarted,
-        phase: info.phase,
-        durationMs:
-          info.timingsMs?.total !== undefined
-            ? Math.round(info.timingsMs.total)
-            : undefined,
-        op: info.operationId,
-      },
-      info.error,
-    );
-  };
   const owner =
     options.owner || createSSRUpdateOwner(options.name, options.entries);
   for (const entry of options.entries) {
@@ -781,11 +689,10 @@ export function createSSRUpdateAdapter(options: {
         // Modern keeps a failed scope closed and widens its next update to the
         // whole application. Retry once using the same intended remote targets.
         onStage('fallback');
-        ssrLog.warn('Fallback', {
-          scope: 'partial->full',
+        ssrLog.updateFallback({
           remotes: changes.map(({ name }) => canonicalName(name)),
-          reason: formatErrorMessage(error),
-          op: operationId,
+          error,
+          operationId,
         });
         try {
           generation = await authorized();
@@ -979,7 +886,7 @@ export function createSSRUpdateAdapter(options: {
         return Promise.reject(new Error('Stale SSR update revision'));
       state.phase = 'pending';
       onStage('queue');
-      logUpdateStart({
+      ssrLog.updateStart({
         trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
         operationId: state.operationId,
         remotes: captured.map(({ name, replacement }) => {
@@ -1065,7 +972,7 @@ export function createSSRUpdateAdapter(options: {
           latest.appliedRevision ?? 0,
           revision,
         );
-        logUpdateReady({
+        ssrLog.updateReady({
           remotes: remoteNames,
           planMode: result.mode,
           entries: result.entries,
@@ -1104,13 +1011,13 @@ export function createSSRUpdateAdapter(options: {
         );
         state.error = failure;
         if (input?.signal?.aborted) {
-          debugMFSSR('update-aborted', () => ({
+          ssrLog.updateAborted({
             remotes: remoteNames,
             stage: failedStage,
-            op: state.operationId,
-          }));
+            operationId: state.operationId,
+          });
         } else {
-          logUpdateFailed({
+          ssrLog.updateFailed({
             remotes: remoteNames,
             stage: failedStage,
             mutationStarted: state.mutationStarted,
@@ -1166,7 +1073,7 @@ export function createSSRUpdateAdapter(options: {
       return undefined;
     },
     apply(application, targets, onMutation, onStage, meta) {
-      logUpdateStart({
+      ssrLog.updateStart({
         trigger: meta.trigger,
         operationId: meta.operationId,
         remotes: targets.map(target => {
@@ -1216,7 +1123,7 @@ export function createSSRUpdateAdapter(options: {
       );
     },
     onApplied({ targets, result, operationId, timingsMs }) {
-      logUpdateReady({
+      ssrLog.updateReady({
         remotes: targets.map(target => target.name),
         planMode: result.mode,
         entries: result.entries,
@@ -1235,7 +1142,7 @@ export function createSSRUpdateAdapter(options: {
       timingsMs,
       error,
     }) {
-      logUpdateFailed({
+      ssrLog.updateFailed({
         remotes: targets.map(target => target.name),
         stage: failedStage,
         mutationStarted,
@@ -1468,7 +1375,7 @@ export function createSSRUpdateAdapter(options: {
               onStage('applied');
               timingsMs.total = performance.now() - started;
               if (diff.changed) {
-                logUpdateReady({
+                ssrLog.updateReady({
                   mode: 'global',
                   remotes: diff.unloadedRemotes.map(item => item.name),
                   planMode: 'snapshot',
@@ -1489,7 +1396,7 @@ export function createSSRUpdateAdapter(options: {
             }
 
             activeRemoteNames = activeLoaded.map(item => item.name);
-            logUpdateStart({
+            ssrLog.updateStart({
               mode: 'global',
               trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
               operationId,
@@ -1580,7 +1487,7 @@ export function createSSRUpdateAdapter(options: {
             );
             onStage('applied');
             timingsMs.total = performance.now() - started;
-            logUpdateReady({
+            ssrLog.updateReady({
               mode: 'global',
               remotes: activeRemoteNames,
               planMode: result.mode,
@@ -1603,13 +1510,13 @@ export function createSSRUpdateAdapter(options: {
             onStage('failed');
             timingsMs.total = performance.now() - started;
             if (input?.signal?.aborted) {
-              debugMFSSR('update-aborted', () => ({
+              ssrLog.updateAborted({
                 remotes: activeRemoteNames,
                 stage: failedStage,
-                op: operationId,
-              }));
+                operationId,
+              });
             } else {
-              logUpdateFailed({
+              ssrLog.updateFailed({
                 mode: 'global',
                 remotes: activeRemoteNames,
                 stage: failedStage,

@@ -17,11 +17,7 @@ import {
 import type { RemoteCheckOptions } from './remoteUpdate';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { anyAbortSignal } from '../ssr-runtime/devManifestWait';
-import {
-  createMFSSRLogger,
-  createWindowedThrottle,
-  debugMFSSRVerbose,
-} from './ssrLogger';
+import { createMFSSRLogger } from './ssrLogger';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
 type Registry = {
@@ -129,51 +125,8 @@ export function createSSRUpdateServerPlugin(
           adapter.run(() =>
             manager ? registry().context.run(manager, operation) : operation(),
           );
-        const admissionThrottle = createWindowedThrottle<
-          Extract<SSRCoordinatorEvent, { type: 'admission' }>
-        >({
-          windowMs: 5_000,
-          autoFlush: true,
-          onEmit: (event, suppressed) => {
-            ssrLog.warn('Admission', {
-              decision: event.decision,
-              reason: event.reason,
-              phase: event.phase,
-              gen: event.generation,
-              entry: event.entryName,
-              waitedMs: Math.round(event.waitedMs),
-              active: event.activeRequests,
-              pending: event.pendingRequests,
-              suppressed: suppressed > 0 ? suppressed : undefined,
-            });
-          },
-        });
         const onCoordinatorEvent = (event: SSRCoordinatorEvent) => {
-          if (event.type === 'admission') {
-            if (event.decision === 'csr' && event.reason === 'updating') {
-              debugMFSSRVerbose('admission', () => ({
-                app: options.name,
-                decision: event.decision,
-                reason: event.reason,
-                phase: event.phase,
-                gen: event.generation,
-                entry: event.entryName,
-                waitedMs: Math.round(event.waitedMs),
-                active: event.activeRequests,
-                pending: event.pendingRequests,
-              }));
-            } else {
-              const key = `${event.phase}|${event.decision}|${event.reason}`;
-              admissionThrottle.record(key, event);
-            }
-          } else if (event.type === 'drain-timeout') {
-            ssrLog.warn('Drain timeout', {
-              drainTimeoutMs: event.drainTimeoutMs,
-              active: event.activeRequests,
-              scope: event.closedScope ?? 'all',
-              gen: event.generation,
-            });
-          }
+          ssrLog.coordinatorEvent(event);
           if (options.application?.onEvent) {
             try {
               options.application.onEvent(event);
@@ -192,15 +145,12 @@ export function createSSRUpdateServerPlugin(
           onEvent: onCoordinatorEvent,
           onInitialError: context.dev
             ? error =>
-                ssrLog.error(
-                  'Failed',
-                  {
-                    mode: 'dev',
-                    stage: 'init',
-                    phase: 'unavailable',
-                  },
+                ssrLog.updateFailed({
+                  mode: 'dev',
+                  stage: 'init',
+                  phase: 'unavailable',
                   error,
-                )
+                })
             : undefined,
           onAvailabilityChange: options.onAvailabilityChange,
           beforeRequest: options.beforeRequest,
@@ -259,7 +209,7 @@ export function createSSRUpdateServerPlugin(
               close() {
                 if (closing) return closing;
                 closed = true;
-                admissionThrottle.flush();
+                ssrLog.dispose();
                 lifetime.abort(new Error('SSR update manager is closed'));
                 closing = (async () => {
                   const errors: unknown[] = [];

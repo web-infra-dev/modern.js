@@ -139,7 +139,11 @@ export default function updatePlugin(
           manager.updateRemotes(remotes, input),
         onError: (error, phase) => {
           if (phase === 'update') return;
-          ssrLog.error('Failed', { mode: 'dev', stage: 'check' }, error);
+          ssrLog.updateFailed({
+            mode: 'dev',
+            stage: 'check',
+            error,
+          });
         },
       });
       options.devBuild?.registerRecover?.(async () => {

@@ -1,3 +1,4 @@
+import type { SSRCoordinatorEvent } from '@modern-js/server-core/node';
 import { createDebugger, logger as defaultLogger } from '@modern-js/utils';
 
 export type MFSSRLogLevel = 'info' | 'warn' | 'error';
@@ -192,89 +193,79 @@ export function logMFSSRError(
   target.error(line, error);
 }
 
-export interface MFSSRScopedLoggerOptions extends MFSSRLogOptions {
+export interface MFSSRScopedLoggerOptions {
   app?: string;
+  mode?: 'dev' | 'prod';
+  logger?: MFSSRLogger | false;
+}
+
+export interface MFSSRRemoteTransition {
+  name: string;
+  fromVersion?: string;
+  toVersion?: string;
+  note?: string;
+}
+
+export interface MFSSRManifest503Info {
+  path: string;
+  reason: 'wait-timeout' | 'ssr-not-ready' | 'not-ready';
+  waitedMs?: number;
+  buildReady: boolean;
+  ssrReady?: boolean;
+  waitHeader: boolean;
 }
 
 export interface MFSSRScopedLogger {
-  info(
-    event: string,
-    fields?: Record<string, unknown>,
-    headline?: string,
-  ): void;
-  warn(
-    event: string,
-    fields?: Record<string, unknown>,
-    headline?: string,
-  ): void;
-  error(
-    event: string,
-    fields: Record<string, unknown> | undefined,
-    error: unknown,
-  ): void;
-  child(overrides: Partial<MFSSRScopedLoggerOptions>): MFSSRScopedLogger;
+  updateStart(info: {
+    mode?: 'dev' | 'prod' | 'global';
+    trigger?: string;
+    operationId: string;
+    remotes: MFSSRRemoteTransition[];
+  }): void;
+  updateReady(info: {
+    mode?: 'dev' | 'prod' | 'global';
+    remotes: string[];
+    planMode: 'snapshot' | 'entries' | 'application';
+    entries?: string[];
+    reasons?: string[];
+    generation?: number;
+    timingsMs?: Record<string, number>;
+    operationId: string;
+  }): void;
+  updateFallback(info: {
+    remotes: string[];
+    error: unknown;
+    operationId?: string;
+  }): void;
+  updateFailed(info: {
+    mode?: 'dev' | 'prod' | 'global';
+    remotes?: string[];
+    stage: string;
+    mutationStarted?: boolean;
+    phase?: string;
+    timingsMs?: Record<string, number>;
+    operationId?: string;
+    error: unknown;
+  }): void;
+  updateAborted(info: {
+    remotes: string[];
+    stage: string;
+    operationId?: string;
+  }): void;
+  coordinatorEvent(event: SSRCoordinatorEvent): void;
+  manifest503(info: MFSSRManifest503Info): void;
+  clearManifest503(): void;
+  flush(): void;
+  dispose(): void;
 }
 
-export function createMFSSRLogger(
-  options: MFSSRScopedLoggerOptions = {},
-): MFSSRScopedLogger {
-  const { app, mode, logger } = options;
-  const logOptions: MFSSRLogOptions = { mode, logger };
-  const withApp = (
-    fields?: Record<string, unknown>,
-  ): Record<string, unknown> | undefined => {
-    if (!app) return fields;
-    if (!fields) return { app };
-    return 'app' in fields ? fields : { app, ...fields };
-  };
-  return {
-    info(event, fields, headline) {
-      logMFSSR('info', event, withApp(fields), headline, logOptions);
-    },
-    warn(event, fields, headline) {
-      logMFSSR('warn', event, withApp(fields), headline, logOptions);
-    },
-    error(event, fields, error) {
-      logMFSSRError(event, withApp(fields), error, logOptions);
-    },
-    child(overrides) {
-      return createMFSSRLogger({
-        app: 'app' in overrides ? overrides.app : app,
-        mode: 'mode' in overrides ? overrides.mode : mode,
-        logger: 'logger' in overrides ? overrides.logger : logger,
-      });
-    },
-  };
-}
-
-export function debugMFSSR(
-  event: string,
-  fields?: Record<string, unknown> | (() => Record<string, unknown>),
-): void {
-  if (!mfSSRDebug.enabled) return;
-  const resolved = typeof fields === 'function' ? fields() : fields;
-  const formattedFields = formatLogFields(resolved);
-  mfSSRDebug(formattedFields ? `${event} ${formattedFields}` : event);
-}
-
-export function debugMFSSRVerbose(
-  event: string,
-  fields?: Record<string, unknown> | (() => Record<string, unknown>),
-): void {
-  if (!mfSSRVerboseDebug.enabled) return;
-  const resolved = typeof fields === 'function' ? fields() : fields;
-  const formattedFields = formatLogFields(resolved);
-  mfSSRVerboseDebug(formattedFields ? `${event} ${formattedFields}` : event);
-}
-
-export interface WindowedThrottle<T> {
+interface WindowedThrottle<T> {
   record(key: string, payload: T): void;
   flush(): void;
   clear(): void;
-  size(): number;
 }
 
-export function createWindowedThrottle<T>(options: {
+function createWindowedThrottle<T>(options: {
   windowMs: number;
   onEmit: (payload: T, suppressed: number) => void;
   autoFlush?: boolean;
@@ -347,8 +338,237 @@ export function createWindowedThrottle<T>(options: {
       clearTimer();
       windows.clear();
     },
-    size() {
-      return windows.size;
+  };
+}
+
+export function createMFSSRLogger(
+  options: MFSSRScopedLoggerOptions = {},
+): MFSSRScopedLogger {
+  const { app, mode: defaultMode = 'prod', logger } = options;
+  let admissionThrottle:
+    | WindowedThrottle<Extract<SSRCoordinatorEvent, { type: 'admission' }>>
+    | undefined;
+  let manifest503Throttle: WindowedThrottle<MFSSRManifest503Info> | undefined;
+
+  const withApp = (
+    fields?: Record<string, unknown>,
+  ): Record<string, unknown> | undefined => {
+    if (!app) return fields;
+    if (!fields) return { app };
+    return 'app' in fields ? fields : { app, ...fields };
+  };
+
+  return {
+    updateStart(info) {
+      const mode = info.mode ?? defaultMode;
+      logMFSSR(
+        'info',
+        'Updating',
+        withApp({
+          mode,
+          trigger: info.trigger || 'api',
+          op: info.operationId,
+        }),
+        formatRemoteTransitions(info.remotes) || undefined,
+        { mode, logger },
+      );
+    },
+    updateReady(info) {
+      const mode = info.mode ?? defaultMode;
+      const scope =
+        info.planMode === 'entries'
+          ? 'partial'
+          : info.planMode === 'snapshot'
+            ? 'snapshot'
+            : 'full';
+      const headline = info.remotes.length
+        ? info.remotes.join(', ')
+        : undefined;
+      logMFSSR(
+        'info',
+        'Ready',
+        withApp({
+          mode,
+          scope,
+          entries: scope === 'partial' ? info.entries : undefined,
+          reason: scope === 'full' ? info.reasons : undefined,
+          gen: info.generation,
+          durationMs:
+            info.timingsMs?.total !== undefined
+              ? Math.round(info.timingsMs.total)
+              : undefined,
+          timings: formatTimings(info.timingsMs),
+          op: info.operationId,
+        }),
+        headline,
+        { mode, logger },
+      );
+    },
+    updateFallback(info) {
+      logMFSSR(
+        'warn',
+        'Fallback',
+        withApp({
+          scope: 'partial->full',
+          remotes: info.remotes,
+          reason: formatErrorMessage(info.error),
+          op: info.operationId,
+        }),
+        undefined,
+        { mode: defaultMode, logger },
+      );
+    },
+    updateFailed(info) {
+      const mode = info.mode ?? defaultMode;
+      logMFSSRError(
+        'Failed',
+        withApp({
+          remotes: info.remotes,
+          mode,
+          stage: info.stage,
+          mutationStarted: info.mutationStarted,
+          phase: info.phase,
+          durationMs:
+            info.timingsMs?.total !== undefined
+              ? Math.round(info.timingsMs.total)
+              : undefined,
+          op: info.operationId,
+        }),
+        info.error,
+        { mode, logger },
+      );
+    },
+    updateAborted(info) {
+      debugMFSSR('update-aborted', () => ({
+        remotes: info.remotes,
+        stage: info.stage,
+        op: info.operationId,
+      }));
+    },
+    coordinatorEvent(event) {
+      if (event.type === 'admission') {
+        if (event.decision === 'csr' && event.reason === 'updating') {
+          debugMFSSRVerbose('admission', () => ({
+            app,
+            decision: event.decision,
+            reason: event.reason,
+            phase: event.phase,
+            gen: event.generation,
+            entry: event.entryName,
+            waitedMs: Math.round(event.waitedMs),
+            active: event.activeRequests,
+            pending: event.pendingRequests,
+          }));
+          return;
+        }
+        admissionThrottle ||= createWindowedThrottle({
+          windowMs: 5_000,
+          autoFlush: true,
+          onEmit: (e, suppressed) => {
+            logMFSSR(
+              'warn',
+              'Admission',
+              withApp({
+                decision: e.decision,
+                reason: e.reason,
+                phase: e.phase,
+                gen: e.generation,
+                entry: e.entryName,
+                waitedMs: Math.round(e.waitedMs),
+                active: e.activeRequests,
+                pending: e.pendingRequests,
+                suppressed: suppressed > 0 ? suppressed : undefined,
+              }),
+              undefined,
+              { mode: defaultMode, logger },
+            );
+          },
+        });
+        admissionThrottle.record(
+          `${event.phase}|${event.decision}|${event.reason}`,
+          event,
+        );
+      } else if (event.type === 'drain-timeout') {
+        logMFSSR(
+          'warn',
+          'Drain timeout',
+          withApp({
+            drainTimeoutMs: event.drainTimeoutMs,
+            active: event.activeRequests,
+            scope: event.closedScope ?? 'all',
+            gen: event.generation,
+          }),
+          undefined,
+          { mode: defaultMode, logger },
+        );
+      }
+    },
+    manifest503(info) {
+      if (!info.waitHeader && info.reason === 'not-ready') {
+        debugMFSSR('manifest-503', () => ({
+          path: info.path,
+          reason: info.reason,
+          buildReady: info.buildReady,
+          ssrReady: info.ssrReady,
+          waitHeader: 0,
+        }));
+        return;
+      }
+      manifest503Throttle ||= createWindowedThrottle({
+        windowMs: 5_000,
+        onEmit: (item, suppressed) => {
+          logMFSSR(
+            'warn',
+            'Manifest 503',
+            withApp({
+              path: item.path,
+              reason: item.reason,
+              waitedMs:
+                item.waitedMs !== undefined
+                  ? Math.round(item.waitedMs)
+                  : undefined,
+              buildReady: item.buildReady,
+              ssrReady: item.ssrReady,
+              waitHeader: item.waitHeader ? 1 : 0,
+              suppressed: suppressed > 0 ? suppressed : undefined,
+            }),
+            undefined,
+            { mode: defaultMode, logger },
+          );
+        },
+      });
+      manifest503Throttle.record(`${info.path}|${info.reason}`, info);
+    },
+    clearManifest503() {
+      manifest503Throttle?.clear();
+    },
+    flush() {
+      admissionThrottle?.flush();
+    },
+    dispose() {
+      admissionThrottle?.flush();
+      admissionThrottle?.clear();
+      manifest503Throttle?.clear();
     },
   };
+}
+
+export function debugMFSSR(
+  event: string,
+  fields?: Record<string, unknown> | (() => Record<string, unknown>),
+): void {
+  if (!mfSSRDebug.enabled) return;
+  const resolved = typeof fields === 'function' ? fields() : fields;
+  const formattedFields = formatLogFields(resolved);
+  mfSSRDebug(formattedFields ? `${event} ${formattedFields}` : event);
+}
+
+export function debugMFSSRVerbose(
+  event: string,
+  fields?: Record<string, unknown> | (() => Record<string, unknown>),
+): void {
+  if (!mfSSRVerboseDebug.enabled) return;
+  const resolved = typeof fields === 'function' ? fields() : fields;
+  const formattedFields = formatLogFields(resolved);
+  mfSSRVerboseDebug(formattedFields ? `${event} ${formattedFields}` : event);
 }
