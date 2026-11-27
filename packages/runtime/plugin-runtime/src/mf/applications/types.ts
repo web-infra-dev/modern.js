@@ -13,6 +13,7 @@ export const APPLICATIONS_DATA_SCRIPT_ID = '__MODERN_APPLICATIONS_DATA__';
 
 export const INTERNAL_MOUNT_ID_KEY = '__modern_mf_mount_id__';
 export const INTERNAL_CONSUMER_KEY = '__modern_mf_consumer__';
+export const INTERNAL_STORE_KEY = '__modern_mf_applications_store__';
 
 export interface RemoteRoute {
   route: string;

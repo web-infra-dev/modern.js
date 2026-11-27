@@ -10,6 +10,7 @@ import { LabLayout } from './LabLayout';
 import { LabPanel } from './LabPanel';
 import { LabIcon } from './LabIcon';
 import { SSRWorkbench } from './SSRWorkbench';
+import { ApplicationsWorkbench } from './ApplicationsWorkbench';
 import '../weather-base.css';
 import '../../../provider/src/weather-scene.css';
 import '../weather.css';
@@ -38,6 +39,7 @@ function paletteSeed() {
 export default function Comparison({ data = false }: { data?: boolean }) {
   const [params] = useSearchParams();
   if (params.get('lab') === 'ssr') return <SSRWorkbench />;
+  if (params.get('lab') === 'apps') return <ApplicationsWorkbench />;
   return <RenderingComparison data={data} />;
 }
 function RenderingComparison({ data }: { data: boolean }) {

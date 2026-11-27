@@ -3,8 +3,10 @@ import { getScopedRootDefinition } from '../core/react/scopeDefinition';
 import {
   INTERNAL_CONSUMER_KEY,
   INTERNAL_MOUNT_ID_KEY,
+  INTERNAL_STORE_KEY,
   type ApplicationRef,
 } from './applications/types';
+import type { ApplicationsStore } from './applications/store';
 
 export function applicationDefinition(
   info: Pick<BridgeRenderInfo, 'rootComponent'>,
@@ -44,6 +46,7 @@ const infrastructure = new Set([
   'url',
   INTERNAL_MOUNT_ID_KEY,
   INTERNAL_CONSUMER_KEY,
+  INTERNAL_STORE_KEY,
 ]);
 
 export function applicationProps(info: BridgeRenderInfo) {
@@ -57,6 +60,7 @@ export function extractMountMetadata(
 ): {
   mountId?: string;
   consumer?: ApplicationRef;
+  applicationsStore?: ApplicationsStore;
   props: Record<string, unknown>;
 } {
   if (!source) return { props: {} };
@@ -69,10 +73,17 @@ export function extractMountMetadata(
     typeof source[INTERNAL_CONSUMER_KEY] === 'object'
       ? (source[INTERNAL_CONSUMER_KEY] as ApplicationRef)
       : undefined;
+  const applicationsStore =
+    source[INTERNAL_STORE_KEY] && typeof source[INTERNAL_STORE_KEY] === 'object'
+      ? (source[INTERNAL_STORE_KEY] as ApplicationsStore)
+      : undefined;
   const props = Object.fromEntries(
     Object.entries(source).filter(
-      ([key]) => key !== INTERNAL_MOUNT_ID_KEY && key !== INTERNAL_CONSUMER_KEY,
+      ([key]) =>
+        key !== INTERNAL_MOUNT_ID_KEY &&
+        key !== INTERNAL_CONSUMER_KEY &&
+        key !== INTERNAL_STORE_KEY,
     ),
   );
-  return { mountId, consumer, props };
+  return { mountId, consumer, applicationsStore, props };
 }

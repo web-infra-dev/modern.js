@@ -7,17 +7,22 @@ import { tagDynamicRoute } from './routes.shared';
 import {
   INTERNAL_CONSUMER_KEY,
   INTERNAL_MOUNT_ID_KEY,
+  INTERNAL_STORE_KEY,
   type RemoteRoute,
 } from './types';
+import type { ApplicationsStore } from './store';
 
 function createDynamicRouteComponent(
   route: RemoteRoute,
   parentMountId: string,
+  store?: ApplicationsStore,
 ): React.ComponentType {
   const requestId = composeRemoteId(route.moduleName, route.expose);
+  const resolvedInstance = store?.getFederationInstance?.() ?? undefined;
   const Remote = createModernReactRemote({
+    ...(resolvedInstance ? { instance: resolvedInstance } : {}),
     remote: () => {
-      const instance = getInstance();
+      const instance = store?.getFederationInstance?.() ?? getInstance();
       if (!instance) {
         throw new Error(
           `[Modern.js Module Federation] An initialized MF runtime instance is required to load "${requestId}".`,
@@ -43,12 +48,13 @@ function createDynamicRouteComponent(
         expose: route.expose,
         versionOrUrl: route.versionOrUrl,
       },
+      ...(store ? { [INTERNAL_STORE_KEY]: store } : {}),
     };
     return <Remote {...mergedProps} />;
   };
 }
 
-export function createBrowserDynamicRoutesBuilder() {
+export function createBrowserDynamicRoutesBuilder(store?: ApplicationsStore) {
   const componentCache = new Map<string, React.ComponentType>();
 
   return (
@@ -60,7 +66,7 @@ export function createBrowserDynamicRoutesBuilder() {
       const cacheKey = `${parentMountId}::${normalizedPath}::${route.moduleName}::${route.expose}::${route.versionOrUrl}::${JSON.stringify(route.props || null)}`;
       let Component = componentCache.get(cacheKey);
       if (!Component) {
-        Component = createDynamicRouteComponent(route, parentMountId);
+        Component = createDynamicRouteComponent(route, parentMountId, store);
         componentCache.set(cacheKey, Component);
       }
       return tagDynamicRoute({

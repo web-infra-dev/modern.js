@@ -322,6 +322,7 @@ function registerMFModules(
 export interface ApplicationsStore {
   readonly autoGenerateRoute: boolean;
   readonly service: ApplicationsService;
+  getFederationInstance(): ModuleFederation | null | undefined;
   discoverApplications(
     options?: DiscoverApplicationsOptions,
   ): Promise<DiscoverApplicationsResult>;
@@ -1148,6 +1149,7 @@ export function createApplicationsStore(
   return {
     autoGenerateRoute,
     service,
+    getFederationInstance: () => resolveInstance(),
     discoverApplications,
     getRoutesForMount,
     getMountContext,

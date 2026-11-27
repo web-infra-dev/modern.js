@@ -38,6 +38,7 @@ function cloneStaticTree(routes: RouteObject[]): RouteObject[] {
 }
 
 function findRootLayout(routes: RouteObject[]): RouteObject | undefined {
+  let candidate: RouteObject | undefined;
   for (const route of routes) {
     if (isDynamicRoute(route) || isCatchAllRoute(route) || route.index) {
       continue;
@@ -49,10 +50,32 @@ function findRootLayout(routes: RouteObject[]): RouteObject | undefined {
       route.id?.endsWith('_layout') ||
       route.id?.endsWith('layout')
     ) {
-      return route;
+      candidate = route;
+      break;
     }
   }
-  return undefined;
+  // For scoped apps (e.g. createRoot({ route: '/weather-application' })), the
+  // outer root layout may simply wrap a single root-level layout child.
+  // Descend so dynamic child routes render inside the scoped app's layout Outlet.
+  while (
+    candidate &&
+    Array.isArray(candidate.children) &&
+    candidate.children.length === 1
+  ) {
+    const onlyChild = candidate.children[0];
+    if (
+      !onlyChild ||
+      onlyChild.index ||
+      isDynamicRoute(onlyChild) ||
+      isCatchAllRoute(onlyChild) ||
+      !Array.isArray(onlyChild.children) ||
+      (onlyChild.path && onlyChild.path !== '/')
+    ) {
+      break;
+    }
+    candidate = onlyChild;
+  }
+  return candidate;
 }
 
 /**
@@ -132,9 +155,13 @@ export function injectApplicationsIntoLoaders(
 }
 
 export function tagDynamicRoute(route: RouteObject): RouteObject {
+  // Keep enumerable so downstream modifyRoutes hooks using `{ ...route }`
+  // preserve the symbol tag across shallow clones (Symbols remain omitted from
+  // Object.keys and JSON.stringify).
   Object.defineProperty(route, DYNAMIC_ROUTE_SYMBOL, {
     value: true,
-    enumerable: false,
+    enumerable: true,
+    configurable: true,
   });
   return route;
 }

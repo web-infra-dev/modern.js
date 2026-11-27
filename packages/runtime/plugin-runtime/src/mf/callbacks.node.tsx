@@ -31,7 +31,9 @@ export async function renderStream(
     headers: info.headers,
     signal: info.signal,
   });
-  const { mountId, consumer, props } = extractMountMetadata(info.props);
+  const { mountId, consumer, applicationsStore, props } = extractMountMetadata(
+    info.props,
+  );
   const result = await renderApplication(request, {
     element,
     definition: applicationDefinition(info),
@@ -45,7 +47,7 @@ export async function renderStream(
       ? {
           mountId,
           consumer,
-          plugins: [createChildApplicationsPlugin(mountId)],
+          plugins: [createChildApplicationsPlugin(mountId, applicationsStore)],
         }
       : {}),
     memoryRoute: info.memoryRoute,

@@ -54,6 +54,16 @@ export async function createWorkspace(options = {}) {
         path.join(workspace, name, 'node_modules'),
       );
     }
+    if (!['bridge', 'service'].includes(options.updates)) {
+      await cp(
+        path.join(source, 'consumer'),
+        path.join(workspace, 'consumer'),
+        {
+          recursive: true,
+          filter: filename => !excluded.has(path.basename(filename)),
+        },
+      ).catch(() => {});
+    }
     if (options.service) {
       for (const name of ['service-ssr', 'service-csr']) {
         await cp(

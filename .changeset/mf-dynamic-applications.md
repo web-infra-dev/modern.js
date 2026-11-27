@@ -1,6 +1,7 @@
 ---
 '@modern-js/runtime': minor
 '@modern-js/plugin-module-federation': minor
+'@modern-js/plugin-data-loader': patch
 ---
 
 feat(mf): support native micro-frontend dynamic application discovery via `moduleFederation.applications` hooks, multi-layer dynamic routing, `mountId` Bridge isolation, `useApplications` / loader context APIs, SSR/Hydration state restoration, and dynamic Service App ingress.

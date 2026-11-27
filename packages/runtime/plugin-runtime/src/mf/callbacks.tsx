@@ -51,7 +51,7 @@ function containerElement(container?: HTMLElement | string): HTMLElement {
 }
 
 function options(info: BridgeRenderInfo) {
-  const { mountId, consumer } = extractMountMetadata(info);
+  const { mountId, consumer, applicationsStore } = extractMountMetadata(info);
   return {
     url: applicationURL(info, window.location.href),
     basename: info.memoryRoute ? '/' : info.basename,
@@ -63,7 +63,7 @@ function options(info: BridgeRenderInfo) {
       ? {
           mountId,
           consumer,
-          plugins: [createChildApplicationsPlugin(mountId)],
+          plugins: [createChildApplicationsPlugin(mountId, applicationsStore)],
         }
       : {}),
     signal: info.signal,

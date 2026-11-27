@@ -45,7 +45,8 @@ export const mfApplicationsPlugin = (
   post: ['@modern-js/plugin-router'],
   setup: api => {
     const autoGenerateRoute = config.autoGenerateRoute ?? true;
-    const buildDynamicRoutes = createServerDynamicRoutesBuilder();
+    let buildDynamicRoutes:
+      ReturnType<typeof createServerDynamicRoutesBuilder> | undefined;
     let store: ApplicationsStore | undefined;
     let ownsStore = false;
     let boundMountId = 'root';
@@ -140,6 +141,7 @@ export const mfApplicationsPlugin = (
 
     api.modifyRoutes((routes: RouteObject[]) => {
       if (!store) return routes;
+      buildDynamicRoutes ||= createServerDynamicRoutesBuilder(store);
       const dynamicRoutes = autoGenerateRoute
         ? buildDynamicRoutes(
             store.getRoutesForMount(boundMountId),
@@ -181,14 +183,15 @@ export const mfApplicationsPlugin = (
  */
 export function createChildApplicationsPlugin(
   mountId: string,
+  explicitStore?: ApplicationsStore,
 ): RuntimePlugin<{ extendHooks: RouterExtendsHooks }> {
   return {
     name: '@modern-js/plugin-mf-applications-child',
     post: ['@modern-js/plugin-router'],
     setup: api => {
-      const store = getActiveApplicationsStore();
+      const store = explicitStore ?? getActiveApplicationsStore();
       if (!store) return;
-      const buildDynamicRoutes = createServerDynamicRoutesBuilder();
+      const buildDynamicRoutes = createServerDynamicRoutesBuilder(store);
 
       api.onBeforeRender(context => {
         context.applications = store.service;

@@ -15,6 +15,7 @@ export default createModuleFederationConfig({
   exposes: {
     './WeatherDays': './src/WeatherDays.tsx',
     './WeatherWind': './src/WeatherWind.tsx',
+    './WindApplication': './src/exports/WindApplication.tsx',
   },
   shared,
 });

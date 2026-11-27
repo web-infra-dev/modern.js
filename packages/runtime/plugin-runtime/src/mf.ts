@@ -47,6 +47,7 @@ export {
   type ApplicationsRuntimePluginConfig,
 } from './mf/applications/plugin';
 export type {
+  GlobalModuleInfo,
   RemoteRoute,
   ApplicationRef,
   DiscoveryContext,

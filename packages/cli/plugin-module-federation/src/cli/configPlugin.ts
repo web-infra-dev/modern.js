@@ -475,13 +475,14 @@ export const moduleFederationConfigPlugin = (
         const watched = applications.hooksPath;
         api.addWatchFiles(() => [watched]);
       }
-      const pluginPath = writeApplicationsRuntimePlugin({
-        appDirectory: appContext.appDirectory,
-        internalDirectory: appContext.internalDirectory,
-        metaName: appContext.metaName,
-        hooksPath: applications.hooksPath,
-      });
       api._internalRuntimePlugins(({ entrypoint, plugins }) => {
+        const currentAppContext = api.getAppContext();
+        const pluginPath = writeApplicationsRuntimePlugin({
+          appDirectory: currentAppContext.appDirectory,
+          internalDirectory: currentAppContext.internalDirectory,
+          metaName: currentAppContext.metaName,
+          hooksPath: applications.hooksPath,
+        });
         plugins.push({
           name: 'mfApplications',
           path: pluginPath,

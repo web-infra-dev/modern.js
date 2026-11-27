@@ -5,7 +5,7 @@ import { useLocation } from '@modern-js/runtime/router';
 import '../weather-base.css';
 import './LabLayout.css';
 
-export type LabSection = 'render' | 'ssr' | 'service';
+export type LabSection = 'render' | 'ssr' | 'service' | 'apps';
 export type LabTab = { label: string; href: string; active: boolean };
 
 export function LabSidebar({ section }: { section: LabSection }) {
@@ -36,6 +36,7 @@ export function LabSidebar({ section }: { section: LabSection }) {
                 ? '/service/forecast/today?lab=service&tab=cache'
                 : '/service/forecast/today?lab=service&tab=load',
             ],
+            ['apps', 'App discovery', '/?lab=apps'],
           ] as const
         ).map(([id, label, href]) => (
           <a
@@ -58,6 +59,13 @@ export function LabSidebar({ section }: { section: LabSection }) {
               ) : id === 'ssr' ? (
                 <>
                   <path d="M16 8a6.2 6.2 0 1 0 .1 4M16 3v5h-5" />
+                </>
+              ) : id === 'apps' ? (
+                <>
+                  <circle cx="10" cy="4.5" r="2" />
+                  <circle cx="4.5" cy="15" r="2" />
+                  <circle cx="15.5" cy="15" r="2" />
+                  <path d="M9 6.3 5.5 13.2M11 6.3l3.5 6.9M6.5 15h7" />
                 </>
               ) : (
                 <>

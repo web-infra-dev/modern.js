@@ -59,6 +59,7 @@ export default defineConfig({
       'process.env.MF_LAB_PARTIAL_ORIGIN':
         process.env.MF_LAB_PARTIAL_ORIGIN || '',
       'process.env.MF_LAB_ORIGIN': origin('host', 4300),
+      'process.env.MF_LAB_CONSUMER': origin('consumer', 4308),
       'process.env.MF_LAB_API': origin('api', 4306),
       'process.env.MF_LAB_LIBRARY': origin('library', 4303),
       'process.env.MF_LAB_LIBRARY_V2': origin('libraryV2', 4305),

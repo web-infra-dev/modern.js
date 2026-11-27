@@ -1,0 +1,249 @@
+.apps-workbench {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.apps-platform-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1120px) {
+  .apps-platform-grid,
+  .apps-runtime-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.apps-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.apps-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.apps-card-header h2,
+.apps-card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.apps-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.apps-meta-pill.full {
+  background: #e0f2fe;
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+.apps-meta-pill.layered {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.apps-meta-pill.ok {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.apps-meta-pill.err {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.apps-app-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  margin-bottom: 8px;
+}
+
+.apps-app-row.disabled {
+  opacity: 0.62;
+  border-style: dashed;
+}
+
+.apps-app-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.apps-app-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.apps-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.apps-field input,
+.apps-field select {
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  background: #fff;
+  color: #0f172a;
+}
+
+.apps-runtime-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.apps-viewport-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.apps-url-input {
+  flex: 1 1 200px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  background: #fff;
+  color: #0f172a;
+}
+
+.apps-quick-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.apps-iframe {
+  width: 100%;
+  height: 540px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.apps-inspector-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.apps-inspector-tab {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+}
+
+.apps-inspector-tab.active {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+
+.apps-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 460px;
+  overflow: auto;
+}
+
+.apps-log-item {
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  font-size: 12px;
+}
+
+.apps-log-item.expired {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.apps-log-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.apps-log-detail {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: #334155;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.apps-notice {
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  color: #155e75;
+}
+
+.apps-error {
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}

@@ -52,7 +52,7 @@ function attachRouterIntegration(
   mountId: string,
   autoGenerateRoute: boolean,
 ) {
-  const buildDynamicRoutes = createBrowserDynamicRoutesBuilder();
+  const buildDynamicRoutes = createBrowserDynamicRoutesBuilder(store);
   let baseRoutes: RouteObject[] | undefined;
   let activeRouter: DataRouter | undefined;
 
@@ -195,7 +195,8 @@ export const mfApplicationsPlugin = (
     const mountIdOf = (context: any) => context.application?.mountId || 'root';
 
     const autoGenerateRoute = config.autoGenerateRoute ?? true;
-    const buildDynamicRoutes = createBrowserDynamicRoutesBuilder();
+    let buildDynamicRoutes:
+      ReturnType<typeof createBrowserDynamicRoutesBuilder> | undefined;
     let baseRoutes: RouteObject[] | undefined;
     let activeRouter: DataRouter | undefined;
     let boundMountId = 'root';
@@ -203,6 +204,7 @@ export const mfApplicationsPlugin = (
 
     const computeMergedRoutes = (routes: RouteObject[]): RouteObject[] => {
       if (!store) return routes;
+      buildDynamicRoutes ||= createBrowserDynamicRoutesBuilder(store);
       const dynamicRoutes = autoGenerateRoute
         ? buildDynamicRoutes(
             store.getRoutesForMount(boundMountId),
@@ -316,12 +318,13 @@ export const mfApplicationsPlugin = (
  */
 export function createChildApplicationsPlugin(
   mountId: string,
+  explicitStore?: ApplicationsStore,
 ): RuntimePlugin<{ extendHooks: RouterExtendsHooks }> {
   return {
     name: '@modern-js/plugin-mf-applications-child',
     post: ['@modern-js/plugin-router'],
     setup: api => {
-      const store = getActiveApplicationsStore();
+      const store = explicitStore ?? getActiveApplicationsStore();
       if (!store) return;
       api.onBeforeRender(context => {
         context.applications = store.service;
