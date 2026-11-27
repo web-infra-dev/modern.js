@@ -14,6 +14,10 @@ export type AsyncHook<Callback extends (...args: any[]) => any> = {
 
 export type AsyncInterruptHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
+  callWithResult: (...args: Tail<Parameters<Callback>>) => Promise<{
+    value: UnwrapPromise<ReturnType<Callback>>;
+    interrupted: boolean;
+  }>;
   call: (
     ...args: Tail<Parameters<Callback>>
   ) => Promise<UnwrapPromise<ReturnType<Callback>>>;

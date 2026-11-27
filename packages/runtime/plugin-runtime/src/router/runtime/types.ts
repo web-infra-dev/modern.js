@@ -11,6 +11,7 @@ import type {
   MemoryRouteState,
   MemoryRouterConfig,
   MemoryRouterOptions,
+  NormalizedMemoryRouterConfig,
 } from './memory';
 
 export type {
@@ -19,6 +20,7 @@ export type {
   MemoryRouteState,
   MemoryRouterConfig,
   MemoryRouterOptions,
+  NormalizedMemoryRouterConfig,
 };
 
 export type SingleRouteConfig = RouteProps & {

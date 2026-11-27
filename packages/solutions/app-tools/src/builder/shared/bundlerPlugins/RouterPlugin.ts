@@ -124,6 +124,37 @@ export class RouterPlugin {
     const placeholder = `<!--<?- ${ROUTE_MANIFEST_HOLDER} ?>-->`;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
+      compilation.hooks.additionalTreeRuntimeRequirements.tap(
+        PLUGIN_NAME,
+        (chunk, requirements) => {
+          // A Bridge expose does not execute the producer's HTML manifest
+          // script. Keep its route chunk IDs on its own bundler runtime instead.
+          const hasApplicationExpose = Array.from(compilation.modules).some(
+            module =>
+              module instanceof rspack.NormalModule &&
+              /(?:\?|&)modern-mf-root(?:&|$)/.test(module.resource || ''),
+          );
+          if (!hasApplicationExpose) return;
+          requirements.add(rspack.RuntimeGlobals.requireScope);
+          class ScopedRouteManifest extends rspack.RuntimeModule {
+            constructor() {
+              super('modern scoped route manifest');
+            }
+            generate() {
+              const routeAssets: RouteAssets = {};
+              for (const [name, group] of compilation.namedChunkGroups) {
+                routeAssets[name] = {
+                  chunkIds: group.chunks
+                    .map(chunk => chunk.id!)
+                    .filter(id => id !== null),
+                };
+              }
+              return `__webpack_require__.modernRouteManifest = ${JSON.stringify({ routeAssets })};`;
+            }
+          }
+          compilation.addRuntimeModule(chunk, new ScopedRouteManifest());
+        },
+      );
       this.HtmlBundlerPlugin.getCompilationHooks(
         compilation,
       ).beforeEmit.tapAsync('RouterManifestPlugin', (data, callback) => {

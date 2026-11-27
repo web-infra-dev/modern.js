@@ -1,0 +1,34 @@
+import { createModuleFederationConfig } from '@module-federation/enhanced';
+import { origin, shared } from '../ports';
+export default createModuleFederationConfig({
+  name: 'lab_host',
+  dts: false,
+  runtimePlugins:
+    process.env.MF_LAB_SSR_SCOPE === 'entries'
+      ? []
+      : [
+          require.resolve('./src/plugins/inspect.tsx'),
+          require.resolve('./src/plugins/recovery.ts'),
+          ...(process.env.MF_LAB_UPDATES === 'service'
+            ? [
+                [
+                  require.resolve('../fixtures/service-app/host/src/node-entry-probe.ts'),
+                  { block: true },
+                ] as [string, { block: boolean }],
+              ]
+            : []),
+        ],
+  remotes: {
+    provider:
+      process.env.MF_LAB_SERVICE_DEPLOYMENT === '1'
+        ? `lab_provider@${origin('api', 4303)}/service-deployment/mf-manifest.json`
+        : `lab_provider@${origin('provider', 4301)}/static/mf-manifest.json`,
+    ...(process.env.MF_LAB_UPDATES === 'bridge' ||
+    process.env.MF_LAB_UPDATES === 'service'
+      ? {}
+      : {
+          nested: `lab_nested@${origin('nested', 4302)}/static/mf-manifest.json`,
+        }),
+  },
+  shared,
+});

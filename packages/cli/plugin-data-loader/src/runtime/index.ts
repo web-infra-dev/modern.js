@@ -136,6 +136,7 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
       monitors,
       request,
       activeDeferreds,
+      work: context.work,
     },
     async () => {
       const { queryRoute } = getStaticHandler(routesConfig, basename);
@@ -171,6 +172,7 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
             // @ts-ignore
             deferredData,
             request.signal,
+            context.work,
           );
           const init = deferredData.init || {};
           if (init.status && isRedirectResponse(init.status)) {

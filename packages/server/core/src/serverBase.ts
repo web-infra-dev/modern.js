@@ -20,6 +20,13 @@ export interface ServerBaseOptions extends ServerCreateOptions {
   config: CliConfig;
   serverConfig?: ServerConfig;
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
+  /** Internal dev control plane. Resource ownership starts after successful compilation. */
+  devControl?: {
+    reload(): void;
+    send?(event: string, data: unknown): void;
+    isAsset?(request: Request): boolean;
+  };
+  deferSSRResources?: boolean;
 }
 
 export class ServerBase<E extends Env = any> {
@@ -29,9 +36,13 @@ export class ServerBase<E extends Env = any> {
 
   private app: Hono<E>;
 
+  private requestMiddleware?: MiddlewareHandler<E>;
+
   private plugins: ServerPlugin[] = [];
 
   private serverContext: ServerContext | null = null;
+
+  private removeCloseListener?: () => void;
 
   constructor(options: ServerBaseOptions) {
     this.serverOptions = options;
@@ -41,6 +52,10 @@ export class ServerBase<E extends Env = any> {
       // Hono's next() resolves to a Context. Only responses may be returned
       // from middleware, so do not forward the storage callback's result.
       await run(context, next);
+    });
+    this.app.use('*', async (context, next) => {
+      if (this.requestMiddleware) return this.requestMiddleware(context, next);
+      await next();
     });
   }
 
@@ -64,11 +79,64 @@ export class ServerBase<E extends Env = any> {
     });
     (serverContext as Record<string, any>).serverBase = this;
     this.serverContext = serverContext as unknown as ServerContext;
+    Object.assign(serverContext, {
+      dev: this.serverOptions.devControl,
+      deferSSRResources: this.serverOptions.deferSSRResources,
+    });
     // need after serverContext to run onPrepare
     await serverContext.hooks.onPrepare.call();
     this.#applyMiddlewares();
+    const nodeServer = this.serverContext.nodeServer;
+    if (nodeServer) {
+      const close = () => {
+        void this.close().catch(error => console.error(error));
+      };
+      nodeServer.once('close', close);
+      this.removeCloseListener = () => nodeServer.off('close', close);
+    }
 
     return this;
+  }
+
+  /** Returns false when this runtime uses the legacy resource path. */
+  async prepareSSRResources(
+    invalidate: () => void | Promise<void>,
+    stats?: unknown,
+  ) {
+    if (!this.serverContext?.prepareSSRResources) return false;
+    if (stats !== undefined && !this.canPrepareSSRResources(stats)) return true;
+    await this.serverContext.prepareSSRResources(invalidate, stats);
+    return true;
+  }
+
+  canPrepareSSRResources(stats: unknown): boolean {
+    return this.serverContext?.canPrepareSSRResources?.(stats) ?? true;
+  }
+
+  async close() {
+    this.removeCloseListener?.();
+    this.removeCloseListener = undefined;
+    const callbacks = this.serverContext?.onServerClose?.splice(0) || [];
+    const results = await Promise.allSettled(
+      callbacks.map((callback: () => unknown) =>
+        Promise.resolve().then(callback),
+      ),
+    );
+    const failures = results.filter(
+      (result): result is PromiseRejectedResult => result.status === 'rejected',
+    );
+    if (failures.length)
+      throw new AggregateError(
+        failures.map(result => result.reason),
+        'Server cleanup failed',
+      );
+  }
+
+  /** Install one outer request owner before both direct routes and plugin middleware. */
+  setRequestMiddleware(middleware: MiddlewareHandler<E>) {
+    if (this.requestMiddleware)
+      throw new Error('A request owner is already installed');
+    this.requestMiddleware = middleware;
   }
 
   addPlugins(plugins: ServerPlugin[]) {

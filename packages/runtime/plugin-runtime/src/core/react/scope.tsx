@@ -1,0 +1,221 @@
+import { disposeResources } from '../application/cleanup';
+import { createBrowserRequestContext } from '../browser/data';
+import { useBridgeRouter } from '@module-federation/bridge-react/base';
+import {
+  createBrowserRouterConnector,
+  createMountWindow,
+  normalizeBasename,
+} from '../../mf/navigation';
+import React, { useContext, useEffect, useState } from 'react';
+import { createRoot as createReactRoot, type Root } from 'react-dom/client';
+import {
+  MemoryRouteContext,
+  type MemoryRouterConfig,
+  type NormalizedMemoryRouterConfig,
+  normalizeMemoryRouterConfig,
+} from '../../router/runtime/memory';
+import { wrapRuntimeContextProvider } from './wrapper';
+
+export type { ScopedRootDefinition } from './scopeDefinition';
+export { getScopedRootDefinition } from './scopeDefinition';
+import {
+  type ScopedRootDefinition,
+  createScopeRuntime,
+  registerScopedRoot,
+  PreparedScopeContext,
+  PreparedScopedRoot,
+  ScopedRootPropsContext,
+} from './scopeDefinition';
+
+/** Static definitions may be shared. Context, hooks and router belong to a mount. */
+export function createScopedRoot(
+  definition: ScopedRootDefinition,
+): React.ComponentType<any> {
+  function ScopedRootInstance({
+    props,
+    bridge,
+    basename,
+    memoryRoute,
+  }: {
+    props: Record<string, unknown>;
+    bridge: ReturnType<typeof useBridgeRouter>;
+    basename: string;
+    memoryRoute?: NormalizedMemoryRouterConfig;
+  }) {
+    const navigation = memoryRoute ? undefined : bridge?.navigation;
+    const [instance] = useState(() => {
+      const memory = Boolean(memoryRoute);
+      const url = new URL(
+        memoryRoute?.activePath || window.location.href,
+        window.location.href,
+      );
+      const instance = createScopeRuntime(definition, {
+        isBrowser: true,
+        basename: memory ? memoryRoute?.basename || '/' : basename,
+        initialUrl: `${url.pathname}${url.search}${url.hash}`,
+        context: {
+          ssrContext: createBrowserRequestContext(url, undefined, 'stream'),
+        },
+        memory,
+        memoryRoute,
+      });
+      const { context } = instance;
+      const mountWindow = memory
+        ? undefined
+        : createMountWindow(
+            () => context.application?.router,
+            () => context.application?.hash === true,
+          );
+      context.application!.getWindow = mountWindow
+        ? () => mountWindow.window
+        : undefined;
+      return Object.assign(instance, {
+        notifyPeers: mountWindow?.notifyPeers,
+        effects: 0,
+        connection: undefined as
+          ReturnType<typeof createBrowserRouterConnector> | undefined,
+      });
+    });
+    const [ready, setReady] = useState(0);
+    const [failure, setFailure] = useState<unknown>();
+    useEffect(() => {
+      let active = true;
+      const effect = ++instance.effects;
+      const scope = instance.context.application!;
+      const connection = scope.memory
+        ? undefined
+        : createBrowserRouterConnector(
+            undefined,
+            setFailure,
+            () => scope.hash === true,
+            instance.notifyPeers,
+          );
+      instance.connection = connection;
+      // This owner is committed before ready renders the Router. Attaching
+      // observes immediately, while Core queues notifications outside render.
+      scope.onRouterCreated = connection?.attach;
+      Promise.resolve()
+        .then(() => {
+          // StrictMode may clean up this setup before its microtask runs.
+          if (active)
+            return instance.prepare().then(result => {
+              if (result.interrupted) throw result.value;
+            });
+        })
+        .then(
+          () => {
+            if (active) setReady(version => version + 1);
+          },
+          error => {
+            if (active)
+              setFailure(
+                error instanceof Error ? error : new Error(String(error)),
+              );
+          },
+        );
+      return () => {
+        active = false;
+        instance.connection = undefined;
+        scope.onRouterCreated = undefined;
+        try {
+          disposeResources(() => connection?.dispose(), scope.releaseRouter);
+        } catch (error) {
+          // This owner has unmounted. Report cleanup errors without updating
+          // its React state or preventing the remaining runtime cleanup.
+          console.error(error);
+        }
+        queueMicrotask(() => {
+          if (instance.effects !== effect) return;
+          try {
+            instance.dispose();
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      };
+    }, [instance]);
+    useEffect(() => {
+      instance.connection?.setNavigation(navigation);
+    }, [instance, navigation]);
+    if (failure) throw failure;
+    if (!ready) return null;
+    const { Root: WrappedRoot } = instance;
+    return wrapRuntimeContextProvider(
+      <ScopedRootPropsContext.Provider value={props}>
+        <WrappedRoot {...props} />
+      </ScopedRootPropsContext.Provider>,
+      instance.context,
+    );
+  }
+  const ModernScopedRoot = function ModernScopedRoot(
+    props: Record<string, unknown>,
+  ) {
+    const bridge = useBridgeRouter();
+    const memoryRouteContext = useContext(MemoryRouteContext);
+    const prepared = useContext(PreparedScopeContext);
+    const memoryConfig: MemoryRouterConfig | undefined =
+      (bridge?.memoryRoute as MemoryRouterConfig | undefined) ??
+      (props.memoryRoute as MemoryRouterConfig | undefined) ??
+      memoryRouteContext;
+    const isMemory = Boolean(memoryConfig);
+    useEffect(() => {
+      if (prepared?.definition === definition && bridge)
+        prepared.setNavigation?.(
+          bridge?.memoryRoute ? undefined : bridge?.navigation,
+        );
+    }, [prepared, bridge?.memoryRoute, bridge?.navigation]);
+    if (prepared?.definition === definition)
+      return <PreparedScopedRoot instance={prepared} props={props} />;
+    const normalizedMemory = isMemory
+      ? normalizeMemoryRouterConfig(
+          memoryConfig,
+          typeof window !== 'undefined' ? window.location.href : '/',
+          '/',
+        )
+      : undefined;
+    const basename = isMemory
+      ? normalizedMemory?.basename || '/'
+      : normalizeBasename(
+          bridge?.basename ??
+            (typeof props.basename === 'string' ? props.basename : '/'),
+        );
+    return (
+      <ScopedRootInstance
+        key={`${isMemory ? 'memory' : 'url'}:${basename}`}
+        props={props}
+        bridge={bridge}
+        basename={basename}
+        memoryRoute={normalizedMemory}
+      />
+    );
+  };
+  return registerScopedRoot(ModernScopedRoot, definition);
+}
+
+/** Core calls custom render callbacks on updates too, so retain the DOM root. */
+export function createScopedRender() {
+  const roots = new WeakMap<HTMLElement, Root>();
+  return async (
+    element: React.ReactElement,
+    container?: HTMLElement | string,
+  ) => {
+    const dom =
+      typeof container === 'string'
+        ? document.getElementById(container)
+        : container;
+    if (!dom)
+      throw new Error('Modern application render requires a mount container.');
+    let root = roots.get(dom);
+    if (!root) {
+      root = createReactRoot(dom);
+      const unmount = root.unmount.bind(root);
+      root.unmount = () => {
+        roots.delete(dom);
+        unmount();
+      };
+      roots.set(dom, root);
+    }
+    root.render(element);
+    return root;
+  };
+}

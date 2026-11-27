@@ -2,12 +2,9 @@ import { storage } from '@modern-js/runtime-utils/node';
 import { useLoaderData, useLocation } from '@modern-js/runtime-utils/router';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import {
-  InternalRuntimeContext,
-  getInitialContext,
-  setGlobalContext,
-} from '../../src/core/context';
-import { registerPlugin } from '../../src/core/plugin';
+import { createApplicationInstance } from '../../src/core/application/instance';
+import { InternalRuntimeContext } from '../../src/core/context';
+import { createRuntime } from '../../src/core/plugin';
 import { useMemoryRoute } from '../../src/router';
 import { type RouterConfig, routerPlugin } from '../../src/router/internal';
 
@@ -47,26 +44,39 @@ describe('Modern.js memory router SSR (Node)', () => {
       },
     };
 
-    setGlobalContext({ routes: serverRoutes });
-    const serverRuntime = registerPlugin([routerPlugin(routerConfig)], {
-      router: routerConfig,
-    });
-    const serverContext = getInitialContext(false);
-    serverContext.ssrContext = {
-      mode: 'string',
-      baseUrl: '/',
-      request: {
-        raw: new Request('http://localhost/host-page'),
+    const serverInstance = createApplicationInstance(
+      {
+        routes: serverRoutes,
+        createRuntime: (context, instancePlugins) =>
+          createRuntime(
+            [routerPlugin(routerConfig)],
+            { router: routerConfig },
+            context,
+            instancePlugins,
+          ),
       },
-    } as any;
-    serverRuntime.pluginAPI.updateRuntimeContext(serverContext);
+      {
+        isBrowser: false,
+        output: 'document',
+        initialUrl: 'http://localhost/host-page',
+        context: {
+          ssrContext: {
+            mode: 'string',
+            baseUrl: '/',
+            request: {
+              raw: new Request('http://localhost/host-page'),
+            },
+          } as any,
+        },
+      },
+    );
     await storage.run(
       { headers: new Headers(), activeDeferreds: new Map() } as any,
-      () => serverRuntime.hooks.onBeforeRender.call(serverContext),
+      () => serverInstance.prepare(),
     );
-    const ServerRoot = serverRuntime.hooks.wrapRoot.call(undefined as any);
+    const ServerRoot = serverInstance.Root;
     const ssrHtml = renderToString(
-      <InternalRuntimeContext.Provider value={serverContext}>
+      <InternalRuntimeContext.Provider value={serverInstance.context}>
         <ServerRoot />
       </InternalRuntimeContext.Provider>,
     );
@@ -75,9 +85,10 @@ describe('Modern.js memory router SSR (Node)', () => {
     expect(ssrHtml).toContain('server-second');
     expect(ssrHtml).toContain('/detail/second');
     expect(ssrHtml).toContain('true');
-    expect(serverContext.routerContext?.loaderData).toEqual({
+    expect(serverInstance.context.routerContext?.loaderData).toEqual({
       detail: { item: 'server-second' },
     });
+    serverInstance.dispose();
   });
 
   it('preserves active entry location.state during SSR to match client memory hydration', async () => {
@@ -110,28 +121,42 @@ describe('Modern.js memory router SSR (Node)', () => {
       },
     };
 
-    setGlobalContext({ routes });
-    const serverRuntime = registerPlugin([routerPlugin(routerConfig)], {
-      router: routerConfig,
-    });
-    const serverContext = getInitialContext(false);
-    serverContext.ssrContext = {
-      mode: 'string',
-      baseUrl: '/',
-      request: {
-        raw: new Request('http://localhost/host-page'),
+    const serverInstance = createApplicationInstance(
+      {
+        routes,
+        createRuntime: (context, instancePlugins) =>
+          createRuntime(
+            [routerPlugin(routerConfig)],
+            { router: routerConfig },
+            context,
+            instancePlugins,
+          ),
       },
-    } as any;
-    serverRuntime.pluginAPI.updateRuntimeContext(serverContext);
-    await serverRuntime.hooks.onBeforeRender.call(serverContext);
-    const ServerRoot = serverRuntime.hooks.wrapRoot.call(undefined as any);
+      {
+        isBrowser: false,
+        output: 'document',
+        initialUrl: 'http://localhost/host-page',
+        context: {
+          ssrContext: {
+            mode: 'string',
+            baseUrl: '/',
+            request: {
+              raw: new Request('http://localhost/host-page'),
+            },
+          } as any,
+        },
+      },
+    );
+    await serverInstance.prepare();
+    const ServerRoot = serverInstance.Root;
     const html = renderToString(
-      <InternalRuntimeContext.Provider value={serverContext}>
+      <InternalRuntimeContext.Provider value={serverInstance.context}>
         <ServerRoot />
       </InternalRuntimeContext.Provider>,
     );
 
     expect(html).toContain('/detail/alpha');
     expect(html).toContain('catalog');
+    serverInstance.dispose();
   });
 });

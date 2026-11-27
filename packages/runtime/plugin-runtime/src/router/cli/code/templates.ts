@@ -21,7 +21,6 @@ import {
   isSSGEntry,
   slash,
 } from '@modern-js/utils';
-import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 import { APP_INIT_EXPORTED, TEMP_LOADERS_DIR } from '../constants';
 import {
   getPathWithoutExt,
@@ -204,6 +203,7 @@ export const fileSystemRoutes = async ({
   isRscClientBundle = false,
   srcDirectory,
   internalSrcAlias,
+  writeOutput,
 }: {
   metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
@@ -215,6 +215,7 @@ export const fileSystemRoutes = async ({
   isRscClientBundle?: boolean;
   srcDirectory?: string;
   internalSrcAlias?: string;
+  writeOutput?: (filename: string, content: string) => Promise<void>;
 }) => {
   const components: string[] = [];
   const loadings: string[] = [];
@@ -294,7 +295,7 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */  `
         : '';
 
-    return `() => import(${importOptions}'${formatImportPath(componentPath)}').then(routeModule => handleRouteModule(routeModule, "${routeId}"))`;
+    return `() => import(${importOptions}'${formatImportPath(componentPath)}').then(routeModule => handleRouteModule(routeModule, "${routeId}", routeModuleCache))`;
   };
 
   const traverseRouteTree = async (
@@ -420,6 +421,7 @@ export const fileSystemRoutes = async ({
       ...(shouldIncludeClientBundle && route._component && { component }),
     };
     delete finalRoute.ssgParams;
+    delete finalRoute._scopeAncestors;
     /**
      * All routing components with loader will add shouldRevalidate
      * but when routeModule does not have a corresponding shouldRevalidate
@@ -430,7 +432,7 @@ export const fileSystemRoutes = async ({
       route._component &&
       (route.loader || route.data)
     ) {
-      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}")`;
+      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}", routeModuleCache)`;
     }
     return finalRoute;
   };
@@ -541,17 +543,17 @@ export const fileSystemRoutes = async ({
     importConfigsCode += `import * as ${key} from "${slash(configPath)}";\n`;
   }
 
-  await fs.ensureFile(loadersMapFile);
-  await fs.writeJSON(loadersMapFile, loadersMap);
+  if (writeOutput) {
+    await writeOutput(loadersMapFile, `${JSON.stringify(loadersMap)}\n`);
+  } else {
+    await fs.ensureFile(loadersMapFile);
+    await fs.writeJSON(loadersMapFile, loadersMap);
+  }
 
   const importRuntimeRouterCode = `
     import { createShouldRevalidate, handleRouteModule } from '@${metaName}/runtime/routerHelper';
   `;
-  const routeModulesCode = `
-    if(typeof document !== 'undefined'){
-      window.${ROUTE_MODULES} = {}
-    }
-  `;
+  const routeModulesCode = 'const routeModuleCache = Object.create(null);';
 
   return `
     ${importLazyCode}
@@ -597,7 +599,12 @@ export function ssrLoaderCombinedModule(
       serverLoaderRuntime,
     )}"; export * from "${slash(serverLoadersFile)}"`;
 
-    if (!config.source.enableAsyncEntry) {
+    const mf = config.moduleFederation;
+    const reloadableSSR =
+      typeof mf === 'object' &&
+      typeof mf.ssr === 'object' &&
+      mf.ssr.cacheUpdates;
+    if (!config.source.enableAsyncEntry && !reloadableSSR) {
       return combinedModule;
     }
 

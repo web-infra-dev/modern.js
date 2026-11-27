@@ -1,5 +1,5 @@
 import { isBrowser } from '@modern-js/runtime';
-import type { TRuntimeContext } from '@modern-js/runtime';
+import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
 import type React from 'react';
 import { useEffect, useRef } from 'react';
 import type { I18nInstance } from './i18n';
@@ -18,7 +18,7 @@ import {
   useRouterHooks,
 } from './utils';
 
-interface RuntimeContextWithI18n extends TRuntimeContext {
+interface RuntimeContextWithI18n extends TInternalRuntimeContext {
   i18nInstance?: I18nInstance;
 }
 
@@ -73,6 +73,9 @@ export function useSdkResourcesLoader(
       return;
     }
 
+    let active = true;
+    const retries = new Set<ReturnType<typeof setTimeout>>();
+
     const handleSdkResourcesLoaded = (event: Event) => {
       const customEvent =
         event as CustomEvent<I18nSdkResourcesLoadedEventDetail>;
@@ -91,6 +94,7 @@ export function useSdkResourcesLoader(
       }
 
       const triggerUpdate = (retryCount = 0) => {
+        if (!active) return;
         const store = (i18nInstance as any).store;
         const hasResource = store?.data?.[language]?.[namespace];
 
@@ -110,6 +114,7 @@ export function useSdkResourcesLoader(
             i18nInstance
               .reloadResources(language, namespace)
               .then(() => {
+                if (!active) return;
                 if (typeof i18nInstance.emit === 'function') {
                   i18nInstance.emit('loaded', { language, namespace });
                 }
@@ -126,7 +131,11 @@ export function useSdkResourcesLoader(
 
           setForceUpdate(prev => prev + 1);
         } else {
-          setTimeout(() => triggerUpdate(retryCount + 1), 10);
+          const timer = setTimeout(() => {
+            retries.delete(timer);
+            triggerUpdate(retryCount + 1);
+          }, 10);
+          retries.add(timer);
         }
       };
 
@@ -139,6 +148,9 @@ export function useSdkResourcesLoader(
     );
 
     return () => {
+      active = false;
+      retries.forEach(clearTimeout);
+      retries.clear();
       window.removeEventListener(
         I18N_SDK_RESOURCES_LOADED_EVENT,
         handleSdkResourcesLoaded,
@@ -162,6 +174,7 @@ export function useClientSideRedirect(
   languages: string[],
   fallbackLanguage: string,
   ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
+  runtimeContext?: TInternalRuntimeContext,
 ) {
   const hasRedirectedRef = useRef(false);
   // Get router hooks safely
@@ -175,13 +188,8 @@ export function useClientSideRedirect(
       return;
     }
 
-    try {
-      const ssrData = (window as any)._SSR_DATA;
-      if (ssrData) {
-        return;
-      }
-    } catch {
-      // Ignore errors when checking SSR data
+    if (runtimeContext?.__i18nData__) {
+      return;
     }
 
     if (hasRedirectedRef.current) {
@@ -200,7 +208,7 @@ export function useClientSideRedirect(
     const currentHash =
       hasRouter && location ? location.hash : window.location.hash;
 
-    const entryPath = getEntryPath();
+    const entryPath = getEntryPath(runtimeContext);
     const relativePath = currentPathname.replace(entryPath, '');
 
     if (shouldIgnoreRedirect(relativePath, languages, ignoreRedirectRoutes)) {
@@ -211,6 +219,7 @@ export function useClientSideRedirect(
       currentPathname,
       languages,
       localePathRedirect,
+      entryPath,
     );
 
     if (pathDetection.detected) {
@@ -244,6 +253,7 @@ export function useClientSideRedirect(
     languages,
     fallbackLanguage,
     ignoreRedirectRoutes,
+    runtimeContext,
   ]);
 }
 
@@ -266,6 +276,7 @@ export function useLanguageSync(
         currentPathname,
         languages,
         localePathRedirect,
+        getEntryPath(runtimeContextRef.current),
       );
       if (pathDetection.detected && pathDetection.language) {
         const currentLang = pathDetection.language;

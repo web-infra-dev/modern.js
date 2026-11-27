@@ -63,12 +63,40 @@ export function getBuilderEnvironments(
     (isProd() ? isUseSSRBundle(normalizedConfig) : isSSR(normalizedConfig));
 
   if (useNodeTarget) {
+    const mf = normalizedConfig.moduleFederation;
+    const nodeEntries = { ...serverEntries };
+    if (
+      typeof mf === 'object' &&
+      typeof mf.ssr === 'object' &&
+      mf.ssr.cacheUpdates
+    ) {
+      const ssrEntries = new Set(
+        appContext.serverRoutes
+          .filter(route => route.isSSR)
+          .map(route => route.entryName),
+      );
+      const generatedEntries = new Set(
+        entrypoints
+          .filter(entry => entry.isAutoMount && ssrEntries.has(entry.entryName))
+          .map(entry => entry.internalEntry),
+      );
+      for (const [entryName, sources] of Object.entries(entries)) {
+        nodeEntries[entryName] = sources.map((source, index) =>
+          generatedEntries.has(source)
+            ? source.replace(
+                /(?:index|bootstrap)\.jsx$/,
+                'ssr-bootstrap.server.jsx',
+              )
+            : serverEntries[entryName][index],
+        );
+      }
+    }
     environments.server = {
       output: {
         target: 'node',
       },
       source: {
-        entry: serverEntries,
+        entry: nodeEntries,
       },
     };
   }
