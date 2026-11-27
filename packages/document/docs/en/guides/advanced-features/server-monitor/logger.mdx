@@ -19,3 +19,19 @@ import InternalLogger from '@site-docs-en/components/internal-logger.mdx';
 <InternalLogger />
 
 To configure the built-in production server logger with `MODERN_SERVER_LOG_LEVEL`, see [Production server logs](../../basic-features/deploy#production-server-logs).
+
+## Request headers in error logs
+
+Modern.js omits `cookie`, `set-cookie`, `authorization`, `proxy-authorization`, `x-api-key`, and `x-proxy-auth` when it logs request headers for SSR or server errors. Other headers, such as `x-request-id`, are available for troubleshooting.
+
+Use `server.logger.redactHeaders` in `modern.config.ts` to add names to the default list. Header names are case-insensitive.
+
+```ts
+import { defineConfig } from '@modern-js/app-tools'
+
+export default defineConfig({
+  server: {
+    logger: { redactHeaders: ['X-Internal-Token'] },
+  },
+})
+```

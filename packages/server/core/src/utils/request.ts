@@ -1,3 +1,5 @@
+import type { ServerUserConfig } from '../types/config';
+
 export type Query = Record<string, string>;
 
 export function parseQuery(req: Request): Query {
@@ -17,12 +19,33 @@ export function parseQuery(req: Request): Query {
   return query;
 }
 
-export type HeadersData = Record<string, string | undefined>;
+const DEFAULT_REDACTED_HEADERS = [
+  'cookie',
+  'set-cookie',
+  'authorization',
+  'proxy-authorization',
+  'x-api-key',
+  'x-proxy-auth',
+];
 
-export function parseHeaders(request: Request): HeadersData {
-  const headersData: HeadersData = {};
+export function getHeadersForErrorLog(
+  request: Request,
+  logger?: ServerUserConfig['logger'],
+): Record<string, string> {
+  const redacted = new Set(DEFAULT_REDACTED_HEADERS);
+  if (typeof logger === 'object' && Array.isArray(logger?.redactHeaders)) {
+    for (const name of logger.redactHeaders) {
+      if (typeof name === 'string') {
+        redacted.add(name.toLowerCase());
+      }
+    }
+  }
+
+  const headersData: Record<string, string> = {};
   request.headers.forEach((value, key) => {
-    headersData[key] = value;
+    if (!redacted.has(key.toLowerCase())) {
+      headersData[key] = value;
+    }
   });
 
   return headersData;

@@ -56,7 +56,13 @@ export interface ServerUserConfig {
    * @default false
    */
   useJsonScript?: boolean;
-  logger?: boolean | Record<string, unknown>;
+  logger?:
+    | boolean
+    | {
+        /** Additional request header names to omit from server and SSR error logs. */
+        redactHeaders?: string[];
+        [key: string]: unknown;
+      };
   /**
    * @description set `Cache-Control` for static files served by the production server
    * @default true

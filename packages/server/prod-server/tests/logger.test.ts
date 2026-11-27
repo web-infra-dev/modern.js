@@ -32,7 +32,7 @@ afterEach(() => {
 
 async function createServer(
   overrides: Pick<ProdServerOptions, 'logger'> = {},
-  enableLogger = true,
+  logger: ProdServerOptions['config']['server']['logger'] = true,
 ) {
   const options: ProdServerOptions = {
     pwd,
@@ -42,7 +42,7 @@ async function createServer(
       output: {},
       source: {},
       tools: {},
-      server: { logger: enableLogger },
+      server: { logger },
       bff: {},
       dev: {},
       security: {},
@@ -161,6 +161,31 @@ it('preserves a custom logger', async () => {
   await requestPageAndAsset(server);
   expect(stdout()).toContain('GET /page');
   expect(stdout()).toContain('GET /static/app.js');
+});
+
+it('omits configured and default headers when logging a 404 to a custom logger', async () => {
+  const logger = createLogger();
+  const error = rstest.spyOn(logger, 'error');
+  const server = await createServer(
+    { logger },
+    { redactHeaders: ['X-Internal-Token'] },
+  );
+
+  const response = await server.request('/missing', {
+    headers: {
+      authorization: 'sample',
+      'x-internal-token': 'sample',
+      'x-request-id': 'request-1',
+    },
+  });
+
+  expect(response.status).toBe(404);
+  expect(error).toHaveBeenCalledWith(
+    expect.stringContaining('Server Error'),
+    '404 not found',
+    expect.stringContaining('/missing'),
+    { 'x-request-id': 'request-1' },
+  );
 });
 
 it('keeps logging disabled when server.logger is false', async () => {

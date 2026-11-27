@@ -20,8 +20,7 @@ import {
 import { createLogger, isProd, logger } from '@modern-js/utils';
 import type { ProdServerOptions } from './types';
 
-// Now we not use logger options, it can be implemented in the future
-function getLogger(_?: boolean | Record<string, unknown>) {
+function getLogger() {
   if (process.env.DEBUG || process.env.NODE_ENV === 'production') {
     return createLogger({
       level:
@@ -41,6 +40,7 @@ export async function applyPlugins(
   nodeServer?: NodeServer | Http2SecureServer,
 ) {
   const { pwd, appContext, config, logger: optLogger, serverConfig } = options;
+  const loggerOptions = config.server.logger;
 
   const enableRsc = config.server?.rsc ?? serverConfig?.server?.rsc ?? false;
 
@@ -50,13 +50,19 @@ export async function applyPlugins(
 
   serverBase.notFound(c => {
     const monitors = c.get('monitors');
-    onError(ErrorDigest.ENOTF, '404 not found', monitors, c.req.raw);
+    onError(
+      ErrorDigest.ENOTF,
+      '404 not found',
+      monitors,
+      c.req.raw,
+      loggerOptions,
+    );
     return c.html(createErrorHtml(404), 404);
   });
 
   serverBase.onError(async (err, c) => {
     const monitors = c.get('monitors');
-    onError(ErrorDigest.EINTER, err, monitors, c.req.raw);
+    onError(ErrorDigest.EINTER, err, monitors, c.req.raw, loggerOptions);
 
     if (serverErrorHandler) {
       try {
@@ -83,7 +89,6 @@ export async function applyPlugins(
     }
   });
 
-  const loggerOptions = config.server.logger;
   const { middlewares, renderMiddlewares } = options.serverConfig || {};
 
   const plugins = [
@@ -91,8 +96,7 @@ export async function applyPlugins(
     ...createDefaultPlugins({
       cacheConfig,
       staticGenerate: options.staticGenerate,
-      logger:
-        loggerOptions === false ? false : optLogger || getLogger(loggerOptions),
+      logger: loggerOptions === false ? false : optLogger || getLogger(),
     }),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
