@@ -1,6 +1,6 @@
 {
   "name": "ssr-useid-test",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261127051256",
   "private": true,
   "scripts": {
     "dev": "modern dev"
