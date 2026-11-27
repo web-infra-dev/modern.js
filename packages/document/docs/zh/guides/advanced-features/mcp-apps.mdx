@@ -171,6 +171,98 @@ export const { POST, GET, DELETE } = createBffHandlers(createServer)
 
 独立 Hono 服务可通过 `app.all('/mcp', c => handle(c.req.raw))` 挂载 `createFetchHandler(createServer)`。适配器默认只允许同源浏览器请求，额外来源通过第二个参数的 `allowedOrigins` 配置。
 
+## 使用应用入口和 URL 页面
+
+`mcp-views.json` 只声明视图及其构建、资源和页面配置。工具名称、输入 Schema、处理函数和宿主入口元数据在 SDK 注册代码中定义，不在视图 JSON 中声明工具。`registerUiResources` 注册 MCP 资源，`resolveUiViews` 返回页面 URL、解析后的 UI 元数据和渲染函数，两者都不注册业务工具。
+
+```json
+{
+  "views": {
+    "home": { "entry": "main", "url": "/" },
+    "todos": "./src/components/Todos.tsx",
+    "preview": { "component": "./src/components/Preview.tsx", "http": true }
+  }
+}
+```
+
+- `home` 引用已有应用入口 `main`，`url` 声明应用真实路由。请替换示例入口名和路径，入口名称不会用于推导路由。`entry`、`component` 和 `expose` 只能选择一个。
+- `todos` 默认只提供 MCP UI 资源，`/mcp-views/todos` 返回 404。
+- `preview` 通过 `http: true` 显式开启 `/mcp-views/preview` 页面。`component` 和 `expose` 视图都支持该开关，默认关闭，仍可同时注册为 MCP 资源。请将示例组件路径替换为实际文件路径。
+
+entry 视图沿用应用已有 HTML、React 根节点和路由，不注册 MCP UI 资源，也不会在 `/mcp-views/` 下提供页面。它不接受 `http` 开关。普通浏览器直接访问时正常渲染，嵌入宿主时按 `entryAutoConnect` 配置建立 MCP 连接。
+
+### 在工具中引用页面 URL
+
+URL 模式需要页面服务运行，并由支持 URL 来源的宿主加载页面。以下示例放在 `api/lambda/mcp.ts` 中，通过 `views.home.url` 引用解析后的完整地址：
+
+```ts
+import { McpServer } from '@modelcontextprotocol/server';
+import { createBffHandlers, resolveUiViews } from '@modern-js/mcp-apps/server';
+
+export const { POST, GET, DELETE } = createBffHandlers(async request => {
+  const server = new McpServer({ name: 'tasks', version: '1.0.0' });
+  const views = await resolveUiViews({ request });
+  server.registerTool(
+    'open_home',
+    {
+      title: 'Home',
+      inputSchema: {},
+      _meta: {
+        'doubao/ui': {
+          url: views.home.url,
+          entrypoints: [{ type: 'global' }],
+          csp: views.home.ui.csp,
+          permissions: views.home.ui.permissions,
+        },
+      },
+    },
+    async () => ({ content: [], structuredContent: { todos: [] } }),
+  );
+  return server;
+});
+```
+
+同样可以使用 `views.preview.url` 引用已开启 HTTP 的组件页面。URL 工具不能同时声明 `_meta.ui.resourceUri`。纯 URL 服务不需要调用 `registerUiResources`，需要资源卡片时继续使用前面的资源注册示例。
+
+相对路径使用请求的公开 origin，并识别经过可信代理清理的 `x-forwarded-proto`。可以通过 `resolveUiViews({ request, publicBaseUrl: 'https://app.example.com' })` 覆盖应用域名，将示例域名替换为实际部署域名。`publicBaseUrl` 必须是无路径、查询参数和片段的 HTTP(S) origin，优先于请求域名。entry 的 `url` 也可以填写完整 HTTP(S) 地址。静态资源的 `assetBase` 可能指向 CDN，不用于推导应用页面地址。
+
+`.url` 在读取时解析。entry 缺少 `url`、组件或 expose 没有开启 `http: true`、相对地址缺少请求和 `publicBaseUrl` 时，读取会报错。纯资源或 stdio 服务不读取 `.url`，无需额外配置应用域名。
+
+### 资源元数据与宿主声明
+
+在 `resource` 中配置自定义 `uri`、`mimeType` 和 `_meta`。`resource._meta.ui` 保存 CSP 和浏览器权限，`resource._meta` 也可以携带宿主扩展字段。框架在资源列表和资源内容中保留这些声明，不会自动复制到工具元数据中。URL 工具通过 `views.home.ui.csp` 和 `views.home.ui.permissions` 显式引用解析后的配置。宿主决定如何解释入口、展示偏好和权限声明。
+
+需要自定义 CSP 和权限的 entry 视图，也可以通过 `resource._meta.ui` 提供视图级配置，这不会使 entry 注册为 MCP 资源：
+
+```json
+{
+  "views": {
+    "home": {
+      "entry": "main",
+      "url": "/",
+      "resource": {
+        "_meta": {
+          "ui": {
+            "csp": { "connectDomains": ["https://api.example.com"] },
+            "permissions": {}
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+将 API 域名替换为实际服务地址。已知 CSP 域名数组与默认值及页面必需来源去重合并。显式 `permissions` 整体覆盖默认值，`{}` 表示不请求浏览器权限。
+
+### 从旧配置迁移与验证
+
+原来在视图 JSON 中声明 `tool` 的项目，需要把工具配置移到 SDK 注册代码。资源工具通过 `registerUiResources` 返回的 URI 绑定视图。原来手动拼接页面地址的代码，改为引用 `resolveUiViews` 返回的 `.url`。
+
+原来通过 `/mcp-views/<视图名>` 打开卡片的项目，需要为对应的组件或 expose 视图添加 `http: true` 并重新构建。仅使用 `resources/read` 的卡片无需开启 HTTP。
+
+构建后检查 `tools/list`，资源工具应包含 `_meta.ui.resourceUri`，URL 工具应包含完整的 `_meta["doubao/ui"].url`。确认未开启 HTTP 的卡片返回 404，已开启的卡片支持 GET 和 HEAD。从宿主打开 URL 工具，确认页面和应用内部路由正常，并收到入口工具结果。入口脚本发出 `mcp-app-connected` 和 `mcp-app-tool-result` 事件，React 页面可通过 `useEntryMcpApp` 读取连接状态和保留的结果。
+
 ## 清单与部署
 
 ```text
@@ -226,7 +318,7 @@ dist/
 
 ## 打包豆包工作台 Plugin
 
-配置 `mcpServers` 后，生产构建会在应用产物目录下生成独立的 `plugin/` 包。服务地址必须显式提供完整的 HTTP(S) 部署 URL，包含实际 MCP 路由。可以通过部署环境变量传入，框架不会从静态资源地址推断 MCP 服务地址。
+配置 `mcpServers` 后，生产构建会在应用产物目录下生成独立的 `plugin/` 包。设置 `origin` 为应用的公开 HTTP(S) 域名，框架会按 `bff.prefix` 和 `/mcp` 拼接服务地址，默认生成 `/api/mcp`。前缀为数组时取第一项，与开发地址发现保持一致。`origin` 不得包含路径、查询参数和片段。自定义路由或网关改写路径时，提供完整 `url` 覆盖。可以通过部署环境变量传入这些值，框架不会从静态资源地址推断 MCP 服务地址。
 
 ```ts
 mcpAppsPlugin({
@@ -235,7 +327,9 @@ mcpAppsPlugin({
     // 工作台通过 server: 'tasks' 引用这个服务配置键
     tasks: {
       type: 'streamable-http',
-      url: 'https://app.example.com/api/mcp',
+      origin: 'https://app.example.com',
+      // 自定义路由时可使用完整 url 覆盖
+      // url: 'https://gateway.example.com/custom/mcp',
     },
   },
   plugin: {
@@ -299,6 +393,8 @@ dist/plugin/                    # 构建生成的 Plugin 包根
   }
 }
 ```
+
+生成的 `mcp.json` 只包含解析后的完整 `url`，不包含配置简写 `origin`。将示例域名替换为实际部署域名。
 
 打包始终复制源目录的 `plugin.json`。通过 `plugin.resources` 显式选择额外的文件或目录，路径相对源包目录，默认值为 `[]`。本例配置 `['com.doubao']`，其他宿主可配置 `['assets', 'vendor.example']`。声明的路径必须存在，不允许绝对路径、空路径段、`.` 或 `..` 路径段，也不允许选择保留的 `plugin.json` 和 `mcp.json`。资源路径及其内容不支持符号链接。不读取用户手写的 `mcp.json`。源目录不能与输出包目录重叠，包内不支持符号链接。每次成功打包都会替换 `dist/plugin/`，清理不再使用的资源。自定义应用产物目录时，Plugin 包也随之输出到该目录的 `plugin/` 下。未配置 `mcpServers` 时不生成 Plugin 包，单独配置 `plugin` 会报错。开发模式不生成部署包。
 

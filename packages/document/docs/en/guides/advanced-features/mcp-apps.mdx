@@ -131,7 +131,7 @@ Props come from successful `structuredContent`. The reserved `mcpApp` prop is in
 
 ## Write the server
 
-Enable `bffPlugin()` and create `api/lambda/mcp.ts`. The UI plugin does not register any HTTP route.
+Enable `bffPlugin()` and create `api/lambda/mcp.ts`. The UI plugin does not register the MCP endpoint. Card HTTP pages require per-view opt-in as described below.
 
 {/* prettier-ignore */}
 ```ts
@@ -168,6 +168,98 @@ The adapter reconstructs BFF's consumed JSON body and returns the SDK Response. 
 
 For independent Hono servers, create `handle = createFetchHandler(createServer)` and mount `app.all('/mcp', c => handle(c.req.raw))`. Foreign browser origins are rejected unless listed in `allowedOrigins` in the adapter's second argument.
 
+## Application entries and URL pages
+
+`mcp-views.json` declares views and their build, resource and page settings. Define tool names, input schemas, handlers and host entrypoint metadata in SDK registration code, rather than in the view JSON. `registerUiResources` registers MCP resources. `resolveUiViews` returns page URLs, resolved UI metadata and render functions. Neither registers business tools.
+
+```json
+{
+  "views": {
+    "home": { "entry": "main", "url": "/" },
+    "todos": "./src/components/Todos.tsx",
+    "preview": { "component": "./src/components/Preview.tsx", "http": true }
+  }
+}
+```
+
+- `home` references the existing application entry `main`. Its `url` declares the actual application route. Replace the example entry name and path. Entry names do not determine routes. Choose exactly one of `entry`, `component` and `expose`.
+- `todos` is a resource-only card by default. `/mcp-views/todos` returns 404.
+- `preview` explicitly enables `/mcp-views/preview` with `http: true`. Component and expose views support this option, which defaults to false. These cards can still be registered as MCP resources. Replace component paths with files in your application.
+
+Entry views reuse the application's HTML, React root and routes. They are excluded from MCP UI resources, return 404 under `/mcp-views/`, and do not accept `http`. Top-level browser visits render normally. Embedded visits establish an MCP connection according to `entryAutoConnect`.
+
+### Reference page URLs in tools
+
+URL delivery requires a running page server and a host supporting URL sources. Put the following example in `api/lambda/mcp.ts` to reference the complete application URL through `views.home.url`:
+
+```ts
+import { McpServer } from '@modelcontextprotocol/server';
+import { createBffHandlers, resolveUiViews } from '@modern-js/mcp-apps/server';
+
+export const { POST, GET, DELETE } = createBffHandlers(async request => {
+  const server = new McpServer({ name: 'tasks', version: '1.0.0' });
+  const views = await resolveUiViews({ request });
+  server.registerTool(
+    'open_home',
+    {
+      title: 'Home',
+      inputSchema: {},
+      _meta: {
+        'doubao/ui': {
+          url: views.home.url,
+          entrypoints: [{ type: 'global' }],
+          csp: views.home.ui.csp,
+          permissions: views.home.ui.permissions,
+        },
+      },
+    },
+    async () => ({ content: [], structuredContent: { todos: [] } }),
+  );
+  return server;
+});
+```
+
+Use `views.preview.url` in the same way for an HTTP-enabled component page. A URL tool must not also declare `_meta.ui.resourceUri`. URL-only servers do not need `registerUiResources`. Use the resource registration example above when resource cards are also needed.
+
+Relative paths use the request's public origin, honoring `x-forwarded-proto` sanitized by a trusted proxy. Override it with `resolveUiViews({ request, publicBaseUrl: 'https://app.example.com' })`, replacing the example domain with the deployed application domain. `publicBaseUrl` must be an HTTP(S) origin without a path, query or fragment and takes precedence over the request origin. An entry's `url` may also be a complete HTTP(S) URL. Static `assetBase` may point to a CDN and is never used as the application page origin.
+
+The `.url` property resolves on access. Reading it throws when an entry has no configured `url`, a component or expose has not enabled `http: true`, or a relative URL has neither a request nor `publicBaseUrl`. Resource-only and stdio servers do not read `.url` and need no additional application origin.
+
+### Resource metadata and host declarations
+
+Configure custom `uri`, `mimeType` and `_meta` in `resource`. `resource._meta.ui` carries CSP and browser permissions. Other fields in `resource._meta` can carry host extensions. The framework preserves declarations in resource listings and resource contents without copying them into tool metadata. URL tools explicitly reference resolved `views.home.ui.csp` and `views.home.ui.permissions`. The host interprets entrypoints, display preferences and permission declarations.
+
+Entry views can also use `resource._meta.ui` for view-specific CSP and browser permissions without registering an MCP resource:
+
+```json
+{
+  "views": {
+    "home": {
+      "entry": "main",
+      "url": "/",
+      "resource": {
+        "_meta": {
+          "ui": {
+            "csp": { "connectDomains": ["https://api.example.com"] },
+            "permissions": {}
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Replace the example API domain with the actual service. Known CSP domain arrays merge with defaults and required page origins, removing duplicates. Explicit `permissions` replaces the defaults, including an empty object requesting no browser permissions.
+
+### Migrate and verify
+
+Move any legacy JSON `tool` configuration into SDK registration code. Resource tools bind views through URIs returned by `registerUiResources`. Replace manually assembled page URLs with `.url` from `resolveUiViews`.
+
+Applications previously opening cards through `/mcp-views/<view-name>` must add `http: true` to those component or expose views and rebuild. Cards used only through `resources/read` need no HTTP opt-in.
+
+After building, check `tools/list`. Resource tools should include `_meta.ui.resourceUri`. URL tools should include the complete `_meta["doubao/ui"].url`. Verify that cards without HTTP opt-in return 404 and opted-in cards support GET and HEAD. Open URL tools from the host and verify the page, application routes and entry tool result. Entry scripts emit `mcp-app-connected` and `mcp-app-tool-result`. React pages can use `useEntryMcpApp` to read connection state and retained results.
+
 ## Manifest and deployment
 
 Builds emit `dist/mcp-apps/ui-manifest.json` and `dist/mcp-apps/ui/*.html`. Static JavaScript, CSS and MF files remain in the application's standard output. MF-only projects also emit a UI manifest. Local HTML filenames use a stable hash of the view name. MF cards share `mcp-shell.html`.
@@ -193,7 +285,7 @@ Platforms may rewrite file and MF addresses to absolute URLs and combine cards i
 
 ## Package a Doubao workbench Plugin
 
-Set `mcpServers` to generate a separate `plugin/` package inside the application output directory during production builds. Supply a complete public HTTP(S) endpoint, including the actual MCP route. Deployment environment variables can provide the URL. The framework does not infer MCP endpoints from static asset URLs.
+Set `mcpServers` to generate a separate `plugin/` package inside the application output directory during production builds. Set `origin` to the public HTTP(S) application origin. The framework appends `bff.prefix` and `/mcp`, defaulting to `/api/mcp`. An array prefix uses its first item, matching development discovery. Origins cannot contain a path, query or fragment. For custom routes or gateway rewrites, provide a complete `url`, which takes precedence. Deployment environment variables can provide these values. The framework does not infer MCP endpoints from static asset URLs.
 
 ```ts
 mcpAppsPlugin({
@@ -202,7 +294,9 @@ mcpAppsPlugin({
     // Workbench tool references use server: 'tasks'
     tasks: {
       type: 'streamable-http',
-      url: 'https://app.example.com/api/mcp',
+      origin: 'https://app.example.com',
+      // Override with a complete URL for custom routes:
+      // url: 'https://gateway.example.com/custom/mcp',
     },
   },
   plugin: {
@@ -264,6 +358,8 @@ The generated `dist/plugin/mcp.json` contains:
   }
 }
 ```
+
+The generated `mcp.json` contains only resolved complete `url` values, without the `origin` shorthand. Replace example domains with actual deployment domains.
 
 The source `plugin.json` is always copied. Set `plugin.resources` to explicitly include additional files or directories relative to the source package, such as `['com.doubao']` for this example or `['assets', 'vendor.example']` for other hosts. The default is `[]`. Declared paths must exist and cannot be absolute, contain empty, `.` or `..` segments, or target the reserved `plugin.json` and `mcp.json` paths. Symbolic links in resource paths or their contents are rejected. A source `mcp.json` is not consumed. Source and output package directories must not overlap, and symbolic links are rejected. Each successful package build replaces `dist/plugin/` to remove stale resources. A custom application output directory also relocates its `plugin/` subdirectory. Without `mcpServers`, no package is generated. Providing `plugin` without `mcpServers` is an error. Development mode does not generate deployment packages.
 
