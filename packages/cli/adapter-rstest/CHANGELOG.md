@@ -1,5 +1,13 @@
 # @modern-js/adapter-rstest
 
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [e950060]
+- Updated dependencies [b5752e3]
+  - @modern-js/app-tools@3.13.0
+
 ## 3.12.0
 
 ### Patch Changes

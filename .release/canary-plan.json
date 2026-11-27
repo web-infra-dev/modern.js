@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "r20261127083833-47db4e3baa329c1284bf2c4d305d86e8",
+  "channel": "latest",
+  "tag": "latest",
+  "version": "3.13.0",
+  "baseSha": "6b88c3f57a4301e894a4936017e5479e957b2450",
+  "packages": [
+    {
+      "name": "@modern-js/adapter-rstest",
+      "version": "3.13.0",
+      "path": "packages/cli/adapter-rstest"
+    },
+    {
+      "name": "@modern-js/app-tools",
+      "version": "3.13.0",
+      "path": "packages/solutions/app-tools"
+    },
+    {
+      "name": "@modern-js/bff-core",
+      "version": "3.13.0",
+      "path": "packages/server/bff-core"
+    },
+    {
+      "name": "@modern-js/bff-runtime",
+      "version": "3.13.0",
+      "path": "packages/server/bff-runtime"
+    },
+    {
+      "name": "@modern-js/builder",
+      "version": "3.13.0",
+      "path": "packages/cli/builder"
+    },
+    {
+      "name": "@modern-js/create",
+      "version": "3.13.0",
+      "path": "packages/toolkit/create"
+    },
+    {
+      "name": "@modern-js/create-request",
+      "version": "3.13.0",
+      "path": "packages/server/create-request"
+    },
+    {
+      "name": "@modern-js/i18n-utils",
+      "version": "3.13.0",
+      "path": "packages/toolkit/i18n-utils"
+    },
+    {
+      "name": "@modern-js/image",
+      "version": "3.13.0",
+      "path": "packages/runtime/plugin-image"
+    },
+    {
+      "name": "@modern-js/main-doc",
+      "version": "3.13.0",
+      "path": "packages/document"
+    },
+    {
+      "name": "@modern-js/mcp-apps",
+      "version": "3.13.0",
+      "path": "packages/toolkit/mcp-apps"
+    },
+    {
+      "name": "@modern-js/plugin",
+      "version": "3.13.0",
+      "path": "packages/toolkit/plugin"
+    },
+    {
+      "name": "@modern-js/plugin-bff",
+      "version": "3.13.0",
+      "path": "packages/cli/plugin-bff"
+    },
+    {
+      "name": "@modern-js/plugin-data-loader",
+      "version": "3.13.0",
+      "path": "packages/cli/plugin-data-loader"
+    },
+    {
+      "name": "@modern-js/plugin-i18n",
+      "version": "3.13.0",
+      "path": "packages/runtime/plugin-i18n"
+    },
+    {
+      "name": "@modern-js/plugin-polyfill",
+      "version": "3.13.0",
+      "path": "packages/server/plugin-polyfill"
+    },
+    {
+      "name": "@modern-js/plugin-ssg",
+      "version": "3.13.0",
+      "path": "packages/cli/plugin-ssg"
+    },
+    {
+      "name": "@modern-js/plugin-styled-components",
+      "version": "3.13.0",
+      "path": "packages/cli/plugin-styled-components"
+    },
+    {
+      "name": "@modern-js/prod-server",
+      "version": "3.13.0",
+      "path": "packages/server/prod-server"
+    },
+    {
+      "name": "@modern-js/render",
+      "version": "3.13.0",
+      "path": "packages/runtime/render"
+    },
+    {
+      "name": "@modern-js/runtime",
+      "version": "3.13.0",
+      "path": "packages/runtime/plugin-runtime"
+    },
+    {
+      "name": "@modern-js/runtime-utils",
+      "version": "3.13.0",
+      "path": "packages/toolkit/runtime-utils"
+    },
+    {
+      "name": "@modern-js/sandpack-react",
+      "version": "3.13.0",
+      "path": "packages/toolkit/sandpack-react"
+    },
+    {
+      "name": "@modern-js/server",
+      "version": "3.13.0",
+      "path": "packages/server/server"
+    },
+    {
+      "name": "@modern-js/server-core",
+      "version": "3.13.0",
+      "path": "packages/server/core"
+    },
+    {
+      "name": "@modern-js/server-runtime",
+      "version": "3.13.0",
+      "path": "packages/server/server-runtime"
+    },
+    {
+      "name": "@modern-js/server-utils",
+      "version": "3.13.0",
+      "path": "packages/server/utils"
+    },
+    {
+      "name": "@modern-js/storybook-addon",
+      "version": "3.13.0",
+      "path": "packages/cli/storybook-addon"
+    },
+    {
+      "name": "@modern-js/tsconfig",
+      "version": "3.13.0",
+      "path": "packages/tsconfig"
+    },
+    {
+      "name": "@modern-js/types",
+      "version": "3.13.0",
+      "path": "packages/toolkit/types"
+    },
+    {
+      "name": "@modern-js/utils",
+      "version": "3.13.0",
+      "path": "packages/toolkit/utils"
+    }
+  ],
+  "mode": "publish",
+  "requiredTargets": [
+    "npm"
+  ]
+}

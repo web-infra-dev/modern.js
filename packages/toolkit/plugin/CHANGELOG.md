@@ -1,5 +1,18 @@
 # @modern-js/plugin-v2
 
+## 3.13.0
+
+### Patch Changes
+
+- e950060: Upgrade @rsbuild/core to 2.3.3.
+
+  将 @rsbuild/core 升级至 2.3.3。
+
+- Updated dependencies [2d22b2c]
+  - @modern-js/utils@3.13.0
+  - @modern-js/runtime-utils@3.13.0
+  - @modern-js/types@3.13.0
+
 ## 3.12.0
 
 ### Patch Changes

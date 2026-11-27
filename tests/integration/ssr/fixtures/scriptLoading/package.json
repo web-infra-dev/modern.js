@@ -1,13 +1,13 @@
 {
   "private": true,
   "name": "ssr-script-loading",
-  "version": "2.66.8",
+  "version": "2.66.9",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
-    "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:3.13.0",
+    "@modern-js/runtime": "workspace:3.13.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
