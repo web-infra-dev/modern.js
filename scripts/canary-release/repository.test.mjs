@@ -11,7 +11,7 @@ import { prepare } from './prepare.mjs';
 test.skipIf(
   !process.env.CANARY_TEST_REPOSITORY || !process.env.CANARY_TEST_TOOLCHAIN,
 )(
-  'real Modern.js repository produces exactly the 29 publishable snapshot packages',
+  'real Modern.js repository plans exactly its publishable packages, no more and no fewer',
   t => {
     const repository = path.resolve(
       path.dirname(fileURLToPath(import.meta.url)),
@@ -62,8 +62,29 @@ test.skipIf(
       if (args.includes('--lockfile-only')) return '';
       return run(command, args, { ...options, inherit: false });
     };
+    // The expected set is read straight from the tracked manifests, not from
+    // the code under test, and not from a count: a count went stale the day
+    // a package was added (29 written, 31 real), and it said nothing about
+    // which packages those were.
+    const expected = files
+      .filter(
+        file =>
+          file.startsWith('packages/') &&
+          file.endsWith('/package.json') &&
+          !/(^|\/)(node_modules|compiled|fixtures?|tests?|__tests__)\//.test(
+            file,
+          ),
+      )
+      .map(file => readJson(path.join(repository, file)))
+      .filter(json => json.name?.startsWith('@modern-js/') && !json.private)
+      .map(json => json.name)
+      .sort();
+    assert(expected.length > 0);
     const result = prepare(root, releaseId, 'a'.repeat(40), execute);
-    assert.equal(result.plan.packages.length, 29);
+    assert.deepEqual(
+      result.plan.packages.map(pkg => pkg.name).sort(),
+      expected,
+    );
     assert(result.plan.packages.every(pkg => pkg.version === version));
     assert(
       result.plan.packages.some(pkg => pkg.name === '@modern-js/main-doc'),
@@ -77,9 +98,9 @@ test.skipIf(
       listWorkspaces(root, execute).filter(pkg =>
         result.plan.packages.some(planned => planned.name === pkg.name),
       ).length,
-      29,
+      expected.length,
     );
-    assert.equal(result.predicted.packages.length, 29);
+    assert.equal(result.predicted.packages.length, expected.length);
     assert(
       result.predicted.packages.every(pkg => !pkg.version.includes('canary')),
     );
