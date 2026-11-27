@@ -14,6 +14,8 @@ export type McpViewSource =
       | { entry: string; url?: string }
       | { expose: string; remote?: string }
     ) & {
+      /** Serve component or expose views at /mcp-views/<name>. Defaults to false. */
+      http?: boolean;
       resource?: UiResourceConfig;
     });
 export interface McpViewsConfig extends UiMetadata {
@@ -34,7 +36,7 @@ export interface UiManifest {
       | { html: string; inline?: boolean }
       | { entry: string; url?: string }
       | { remote: string; expose: string }
-    ) & { ui: UiMetadata; resource?: UiResourceConfig }
+    ) & { ui: UiMetadata; resource?: UiResourceConfig; http?: boolean }
   >;
 }
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -141,6 +143,16 @@ function validateResourceConfig(
   }
 }
 
+function validateViewHttp(view: Record<string, unknown>) {
+  if (view.http === undefined) return;
+  if (typeof view.http !== 'boolean')
+    throw new Error('View http must be a boolean');
+  if ('entry' in view)
+    throw new Error(
+      'Entry views use application routes and do not support http',
+    );
+}
+
 export function validateViewsConfig(
   value: unknown,
 ): asserts value is McpViewsConfig {
@@ -170,13 +182,14 @@ export function validateViewsConfig(
     if (typeof view === 'string' && view.trim()) continue;
     if (isRecord(view)) {
       validateResourceConfig(view.resource);
+      validateViewHttp(view);
       if (view.url !== undefined) {
         if (!('entry' in view))
           throw new Error('Only entry views support a configured URL');
         validateViewUrl(view.url);
       }
       const keys = Object.keys(view).filter(
-        key => key !== 'resource' && key !== 'url',
+        key => key !== 'resource' && key !== 'url' && key !== 'http',
       );
       if (
         typeof view.entry === 'string' &&
@@ -282,6 +295,7 @@ export function validateUiManifest(
       throw new Error('UI manifest views do not support tool configuration');
     validateUiMetadata(view.ui, true);
     validateResourceConfig(view.resource);
+    validateViewHttp(view);
     if (view.url !== undefined) {
       if (!('entry' in view))
         throw new Error('Only entry views support a configured URL');

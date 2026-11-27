@@ -144,9 +144,12 @@ export function createUiManifest(
   };
   for (const [name, source] of Object.entries(views)) {
     const resource = typeof source === 'string' ? undefined : source.resource;
-    const resourceFields = resource
-      ? { resource: structuredClone(resource) }
-      : {};
+    const resourceFields = {
+      ...(resource ? { resource: structuredClone(resource) } : {}),
+      ...(typeof source !== 'string' && source.http !== undefined
+        ? { http: source.http }
+        : {}),
+    };
     const viewUi = mergeUiMetadata(ui, resource?._meta?.ui);
     const inlineViewUi = mergeUiMetadata(inlineUi, resource?._meta?.ui);
     if (typeof source !== 'string' && 'entry' in source) {

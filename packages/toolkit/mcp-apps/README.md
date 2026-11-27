@@ -119,7 +119,24 @@ On startup, `modern dev` writes `node_modules/.modern-js/mcp-apps/dev-server.jso
 
 ## URL views
 
-The server plugin also serves compiled cards at `GET /mcp-views/<encoded-view-name>`.
+The server plugin serves a compiled card at `GET /mcp-views/<encoded-view-name>` only
+when that view explicitly enables `http: true`:
+
+```json
+{
+  "views": {
+    "todos": "./Todos.tsx",
+    "preview": { "component": "./Preview.tsx", "http": true },
+    "stats": { "expose": "./Stats", "http": true }
+  }
+}
+```
+
+`todos` remains a resource-only card. Its HTTP route returns 404. `preview` and
+`stats` can be opened through their resolved `.url` properties. Omitting `http`,
+or setting it to `false`, does not expose the card through this HTTP route.
+All cards remain available for MCP resource registration. Existing application
+entries use their application routes and do not accept `http`.
 These pages use the same HTML renderer as `resources/read`, including the asset base
 and MF shell configuration. `HEAD` returns the same headers without a body.
 The route only serves names declared in the UI manifest.
@@ -129,8 +146,8 @@ Call the returned handler with a `Request`. It returns a `Response` for the
 `/mcp-views/` route, or `undefined` for other paths so the service can continue routing.
 `resolveUiViews({ request, manifest })` returns each view's resolved `ui` metadata
 and `render(signal?)` function for host-specific adapters. It also exposes a `url`
-property for use in tool metadata. Component and expose views use
-`/mcp-views/<encoded-view-name>`. Entry views use their configured `url` path or
+property for use in tool metadata. Component and expose views with `http: true` use
+`/mcp-views/<encoded-view-name>`. Reading `.url` on a resource-only card throws an error. Entry views use their configured `url` path or
 absolute HTTP(S) URL. Relative paths resolve against `publicBaseUrl`, when supplied,
 or the request origin, honoring a sanitized `x-forwarded-proto`. `publicBaseUrl`
 must be an HTTP(S) origin without a path, query or fragment. Static `assetBase`
@@ -254,7 +271,7 @@ Use `{ "entry": "main" }` to reference a normal application entry. The name must
 }
 ```
 
-The selected entry keeps its normal HTML, React root and application routes. Its browser bundle connects to an MCP host when embedded. Top-level browser visits render normally. Declare the application's route once in the view's `url` field, then reference `views.home.url` in the tool metadata. Entry names do not determine URL paths. Entry views are excluded from MCP resource registration and return 404 under `/mcp-views/`. Component views keep that route.
+The selected entry keeps its normal HTML, React root and application routes. Its browser bundle connects to an MCP host when embedded. Top-level browser visits render normally. Declare the application's route once in the view's `url` field, then reference `views.home.url` in the tool metadata. Entry names do not determine URL paths. Entry views are excluded from MCP resource registration and return 404 under `/mcp-views/`. Component views use that route only when configured with `http: true`.
 
 ```ts
 const views = await resolveUiViews({ request });

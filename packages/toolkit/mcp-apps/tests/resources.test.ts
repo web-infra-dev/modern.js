@@ -26,6 +26,7 @@ import { InMemoryTransport } from '@modelcontextprotocol/server';
 import {
   registerUiResources,
   resolveUiViews,
+  createUiViewHandler,
   type UiManifest,
 } from '../src/server';
 
@@ -455,6 +456,8 @@ describe('view page URLs', () => {
     const value = manifest();
     value.assetBase = 'https://cdn.example/assets/';
     value.views.home = { entry: 'main', url: '/home?tab=todo#today', ui: {} };
+    value.views.local.http = true;
+    value.views.remote.http = true;
     value.views['my tasks/一'] = value.views.local;
     const views = await resolve(value, {
       request: new Request('http://app.example/api/mcp', {
@@ -493,6 +496,7 @@ describe('view page URLs', () => {
     const value = manifest();
     value.assetBase = 'https://cdn.example/';
     value.views.home = { entry: 'main', ui: {} };
+    value.views.local.http = true;
     const views = await resolve(value);
     expect(await views.local.render()).toContain('<body>Hello</body>');
     expect(() => views.local.url).toThrow(
@@ -628,5 +632,71 @@ describe('plugin package MCP endpoints', () => {
     await expect(
       build({ tasks: { type: 'streamable-http', origin } }),
     ).rejects.toThrow();
+  });
+});
+
+describe('optional card HTTP pages', () => {
+  it('serves only opted-in cards while retaining resource rendering for all cards', async () => {
+    const value = manifest();
+    value.views.enabled = { html: './ui/card.html', http: true, ui: {} };
+    value.views.disabled = { html: './ui/card.html', http: false, ui: {} };
+    value.views.home = { entry: 'main', url: '/', ui: {} };
+    const filename = path.join(directory, `http-${crypto.randomUUID()}.json`);
+    await writeFile(filename, JSON.stringify(value));
+    const handler = createUiViewHandler({ manifest: filename });
+    const request = (name: string, method = 'GET') =>
+      new Request(`https://app.example/mcp-views/${name}`, { method });
+    for (const name of ['local', 'remote', 'disabled', 'home', 'missing']) {
+      expect((await handler(request(name)))?.status).toBe(404);
+      expect((await handler(request(name, 'POST')))?.status).toBe(404);
+    }
+    const response = await handler(request('enabled'));
+    expect(response?.status).toBe(200);
+    expect(await response?.text()).toContain('modern-mcp-bootstrap');
+    const head = await handler(request('enabled', 'HEAD'));
+    expect(head?.status).toBe(200);
+    expect(await head?.text()).toBe('');
+    expect((await handler(request('enabled', 'POST')))?.status).toBe(405);
+    expect(
+      await handler(new Request('https://app.example/other')),
+    ).toBeUndefined();
+    const views = await resolveUiViews({
+      manifest: filename,
+      request: request('enabled'),
+    });
+    expect(views.enabled.url).toBe('https://app.example/mcp-views/enabled');
+    expect(() => views.local.url).toThrow('requires http: true');
+    expect(() => views.disabled.url).toThrow('requires http: true');
+    expect(await views.local.render()).toContain('<body>Hello</body>');
+    const session = await connect(filename, { request: request('enabled') });
+    try {
+      expect(Object.keys(session.uris)).toEqual([
+        'local',
+        'remote',
+        'enabled',
+        'disabled',
+      ]);
+      const result = await session.client.readResource({
+        uri: session.uris.local,
+      });
+      expect(String(result.contents[0].text)).toContain('<body>Hello</body>');
+    } finally {
+      await session.close();
+    }
+  });
+
+  it.each([
+    { html: './ui/card.html', http: 'true', ui: {} },
+    { entry: 'main', http: true, ui: {} },
+  ])('rejects invalid card HTTP declarations $http', async view => {
+    const filename = path.join(
+      directory,
+      `invalid-http-${crypto.randomUUID()}.json`,
+    );
+    await writeFile(
+      filename,
+      JSON.stringify({ ...manifest(), views: { card: view } }),
+    );
+    await expect(resolveUiViews({ manifest: filename })).rejects.toThrow();
   });
 });

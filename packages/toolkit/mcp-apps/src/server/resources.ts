@@ -131,6 +131,8 @@ function escapeAttribute(value: string) {
 export interface ResolvedUiView {
   /** Existing application entry. URL-only, served by the application router. */
   entry?: string;
+  /** Whether this card is explicitly served over HTTP. */
+  http?: boolean;
   /** Absolute page URL, resolved on access. Requires an entry URL and an application origin for relative paths. */
   readonly url: string;
   ui: UiMetadata;
@@ -177,9 +179,10 @@ export async function resolveUiViews(
   );
   for (const [name, view] of Object.entries(manifest.views)) {
     const configuredUi = mergeUiMetadata(view.ui, view.resource?._meta?.ui);
-    const resourceFields = view.resource
-      ? { resource: structuredClone(view.resource) }
-      : {};
+    const resourceFields = {
+      ...(view.resource ? { resource: structuredClone(view.resource) } : {}),
+      ...(view.http !== undefined ? { http: view.http } : {}),
+    };
     if ('entry' in view) {
       views[name] = {
         entry: view.entry,
@@ -273,6 +276,8 @@ export async function resolveUiViews(
     Object.defineProperty(views[name], 'url', {
       enumerable: true,
       get: () => {
+        if (!('entry' in view) && view.http !== true)
+          throw new Error(`View ${name} requires http: true for URL delivery`);
         const source =
           'entry' in view
             ? view.url
@@ -355,11 +360,6 @@ export function createUiViewHandler(options: RegisterUiOptions = {}) {
   return async (request: Request): Promise<Response | undefined> => {
     const pathname = new URL(request.url).pathname;
     if (!pathname.startsWith(UI_VIEW_PATH)) return undefined;
-    if (request.method !== 'GET' && request.method !== 'HEAD')
-      return new Response('Method not allowed', {
-        status: 405,
-        headers: { Allow: 'GET, HEAD' },
-      });
     let name: string;
     try {
       name = decodeURIComponent(pathname.slice(UI_VIEW_PATH.length));
@@ -367,8 +367,17 @@ export function createUiViewHandler(options: RegisterUiOptions = {}) {
       return new Response('Invalid view name', { status: 400 });
     }
     const views = await resolveUiViews({ ...options, request });
-    if (!Object.hasOwn(views, name) || views[name].entry)
+    if (
+      !Object.hasOwn(views, name) ||
+      views[name].entry ||
+      views[name].http !== true
+    )
       return new Response('View not found', { status: 404 });
+    if (request.method !== 'GET' && request.method !== 'HEAD')
+      return new Response('Method not allowed', {
+        status: 405,
+        headers: { Allow: 'GET, HEAD' },
+      });
     // URL apps can open directly from a host entrypoint without a tool result.
     // Reuse the resource HTML, but tell createMcpView to render after connection.
     // This marker selects the render timing; the page's SDK still performs the handshake.
