@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { rename, rm, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
@@ -145,10 +147,41 @@ export function createLabDeploymentPlatform({ root, ports }) {
     return manifest;
   }
 
+  const stateFile = path.join(root, '.local-deployments.json');
+
+  function loadPersistedConfigs() {
+    try {
+      if (!existsSync(stateFile)) return null;
+      const parsed = JSON.parse(readFileSync(stateFile, 'utf8'));
+      if (
+        parsed &&
+        parsed.portal &&
+        Array.isArray(parsed.portal.applications) &&
+        parsed.children &&
+        typeof parsed.children === 'object'
+      ) {
+        return parsed;
+      }
+    } catch {
+      // Ignore corrupt local state file and fall back to defaults.
+    }
+    return null;
+  }
+
+  async function persistConfigs(nextConfigs) {
+    try {
+      const tmp = `${stateFile}.${Date.now()}.tmp`;
+      await writeFile(tmp, JSON.stringify(nextConfigs, null, 2), 'utf8');
+      await rename(tmp, stateFile);
+    } catch {
+      // Non-fatal in read-only test workspaces.
+    }
+  }
+
   let seq = 0;
   let initialized = false;
   let initPromise = null;
-  let configs = defaultConfigs();
+  let configs = loadPersistedConfigs() || defaultConfigs();
 
   const revisions = new Map(); // sourceName -> Map<deploymentId, snapshot>
   const activeIds = new Map(); // sourceName -> deploymentId
@@ -288,23 +321,50 @@ export function createLabDeploymentPlatform({ root, ports }) {
     if (initialized) return;
     if (!initPromise) {
       initPromise = (async () => {
-        for (const [childName, childCfg] of Object.entries(configs.children)) {
-          const childSnap = await computeSourceSnapshot(
-            childName,
-            childCfg,
-            undefined,
+        try {
+          for (const [childName, childCfg] of Object.entries(
+            configs.children,
+          )) {
+            const childSnap = await computeSourceSnapshot(
+              childName,
+              childCfg,
+              undefined,
+              false,
+            );
+            saveAndActivate(childName, childSnap);
+          }
+          const portalSnap = await computeSourceSnapshot(
+            'portal',
+            configs.portal,
+            configs.children,
             false,
           );
-          saveAndActivate(childName, childSnap);
+          saveAndActivate('portal', portalSnap);
+          initialized = true;
+        } catch {
+          // If a persisted external manifest URL is no longer running on restart,
+          // gracefully fall back to defaults rather than blocking startup.
+          configs = defaultConfigs();
+          for (const [childName, childCfg] of Object.entries(
+            configs.children,
+          )) {
+            const childSnap = await computeSourceSnapshot(
+              childName,
+              childCfg,
+              undefined,
+              false,
+            );
+            saveAndActivate(childName, childSnap);
+          }
+          const portalSnap = await computeSourceSnapshot(
+            'portal',
+            configs.portal,
+            configs.children,
+            false,
+          );
+          saveAndActivate('portal', portalSnap);
+          initialized = true;
         }
-        const portalSnap = await computeSourceSnapshot(
-          'portal',
-          configs.portal,
-          configs.children,
-          false,
-        );
-        saveAndActivate('portal', portalSnap);
-        initialized = true;
       })().catch(error => {
         initPromise = null;
         throw error;
@@ -474,6 +534,7 @@ export function createLabDeploymentPlatform({ root, ports }) {
       if (req.method === 'POST' && url.pathname === '/_lab/deployments/reset') {
         configs = defaultConfigs();
         discoveryLogs.length = 0;
+        await rm(stateFile, { force: true }).catch(() => {});
         for (const [childName, childCfg] of Object.entries(configs.children)) {
           const childSnap = await computeSourceSnapshot(
             childName,
@@ -536,6 +597,7 @@ export function createLabDeploymentPlatform({ root, ports }) {
           );
           configs.portal = body.portal;
           saveAndActivate('portal', portalSnap);
+          await persistConfigs(configs);
           json(serializeState());
           return true;
         }
@@ -550,6 +612,7 @@ export function createLabDeploymentPlatform({ root, ports }) {
           );
           configs.children[body.source] = body.config;
           saveAndActivate(body.source, childSnap);
+          await persistConfigs(configs);
           json(serializeState());
           return true;
         }

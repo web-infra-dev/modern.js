@@ -136,6 +136,48 @@ interface RouteEditorTarget {
   };
 }
 
+const DRAFT_STORAGE_KEY = 'mf-lab-apps-platform-draft-v1';
+
+function saveLocalDraft(
+  portal: PortalPlatformConfig,
+  children: Record<string, ChildPlatformConfig>,
+) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(
+      DRAFT_STORAGE_KEY,
+      JSON.stringify({ portal, children }),
+    );
+  } catch {
+    // ignore storage quota errors
+  }
+}
+
+function readLocalDraft(): {
+  portal: PortalPlatformConfig;
+  children: Record<string, ChildPlatformConfig>;
+} | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed?.portal && parsed?.children) return parsed;
+  } catch {
+    // ignore corrupt draft
+  }
+  return null;
+}
+
+function clearLocalDraft() {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 function deploymentApiBase(): string {
   return process.env.MF_LAB_API || '';
 }
@@ -778,12 +820,18 @@ export function ApplicationsWorkbench() {
       const data = (await response.json()) as PlatformStateResponse;
       setPlatformState(data);
       if (syncDrafts) {
-        setPortalDraft(structuredClone(data.sources.portal.config));
-        const nextChildren: Record<string, ChildPlatformConfig> = {};
-        for (const [k, v] of Object.entries(data.sources.children || {})) {
-          nextChildren[k] = structuredClone(v.config);
+        const localDraft = readLocalDraft();
+        if (localDraft) {
+          setPortalDraft(localDraft.portal);
+          setChildrenDraft(localDraft.children);
+        } else {
+          setPortalDraft(structuredClone(data.sources.portal.config));
+          const nextChildren: Record<string, ChildPlatformConfig> = {};
+          for (const [k, v] of Object.entries(data.sources.children || {})) {
+            nextChildren[k] = structuredClone(v.config);
+          }
+          setChildrenDraft(nextChildren);
         }
-        setChildrenDraft(nextChildren);
       }
       setError('');
     } catch (err) {
@@ -862,6 +910,7 @@ export function ApplicationsWorkbench() {
   };
 
   const syncDraftsFromState = (data: PlatformStateResponse) => {
+    clearLocalDraft();
     setPlatformState(data);
     setPortalDraft(structuredClone(data.sources.portal.config));
     const nextChildren: Record<string, ChildPlatformConfig> = {};
@@ -871,8 +920,10 @@ export function ApplicationsWorkbench() {
     setChildrenDraft(nextChildren);
   };
 
-  const publishAll = async () => {
-    if (!portalDraft) return;
+  const publishConfigs = async (
+    nextPortal: PortalPlatformConfig,
+    nextChildren: Record<string, ChildPlatformConfig>,
+  ) => {
     setBusy(true);
     setNotice('');
     setError('');
@@ -883,8 +934,8 @@ export function ApplicationsWorkbench() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            portal: portalDraft,
-            children: childrenDraft,
+            portal: nextPortal,
+            children: nextChildren,
           }),
         },
       );
@@ -895,12 +946,17 @@ export function ApplicationsWorkbench() {
       syncDraftsFromState(data as PlatformStateResponse);
       const modeLabel =
         data.computedDelivery?.mode === 'full' ? '全量下发' : '分层下发';
-      setNotice(`配置已发布 · 当前下发模式：${modeLabel}`);
+      setNotice(`已保存并发布 · 当前下发模式：${modeLabel}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setBusy(false);
     }
+  };
+
+  const publishAll = async () => {
+    if (!portalDraft) return;
+    await publishConfigs(portalDraft, childrenDraft);
   };
 
   const resetPlatform = async () => {
@@ -923,50 +979,51 @@ export function ApplicationsWorkbench() {
   };
 
   const updatePortalApp = (id: string, patch: Partial<PlatformAppConfig>) => {
-    setPortalDraft(prev =>
-      prev
-        ? {
-            ...prev,
-            applications: prev.applications.map(app =>
-              app.id === id ? { ...app, ...patch } : app,
-            ),
-          }
-        : prev,
-    );
+    if (!portalDraft) return;
+    const nextPortal: PortalPlatformConfig = {
+      ...portalDraft,
+      applications: portalDraft.applications.map(app =>
+        app.id === id ? { ...app, ...patch } : app,
+      ),
+    };
+    setPortalDraft(nextPortal);
+    saveLocalDraft(nextPortal, childrenDraft);
   };
 
   const removeOrTogglePortalApp = (app: PlatformAppConfig) => {
-    if (app.id.startsWith('custom-')) {
-      setPortalDraft(prev =>
-        prev
-          ? {
-              ...prev,
-              applications: prev.applications.filter(a => a.id !== app.id),
-            }
-          : prev,
-      );
-    } else {
-      updatePortalApp(app.id, { enabled: !app.enabled });
-    }
+    if (!portalDraft) return;
+    const nextPortal: PortalPlatformConfig = app.id.startsWith('custom-')
+      ? {
+          ...portalDraft,
+          applications: portalDraft.applications.filter(a => a.id !== app.id),
+        }
+      : {
+          ...portalDraft,
+          applications: portalDraft.applications.map(a =>
+            a.id === app.id ? { ...a, enabled: !a.enabled } : a,
+          ),
+        };
+    setPortalDraft(nextPortal);
+    saveLocalDraft(nextPortal, childrenDraft);
   };
 
   const removeOrToggleChildApp = (
     sourceName: string,
     child: PlatformAppConfig,
   ) => {
-    setChildrenDraft(prev => {
-      const cfg = prev[sourceName];
-      if (!cfg) return prev;
-      const nextApps = child.id.startsWith('custom-')
-        ? cfg.applications.filter(c => c.id !== child.id)
-        : cfg.applications.map(c =>
-            c.id === child.id ? { ...c, enabled: !c.enabled } : c,
-          );
-      return {
-        ...prev,
-        [sourceName]: { ...cfg, applications: nextApps },
-      };
-    });
+    const cfg = childrenDraft[sourceName];
+    if (!cfg || !portalDraft) return;
+    const nextApps = child.id.startsWith('custom-')
+      ? cfg.applications.filter(c => c.id !== child.id)
+      : cfg.applications.map(c =>
+          c.id === child.id ? { ...c, enabled: !c.enabled } : c,
+        );
+    const nextChildren: Record<string, ChildPlatformConfig> = {
+      ...childrenDraft,
+      [sourceName]: { ...cfg, applications: nextApps },
+    };
+    setChildrenDraft(nextChildren);
+    saveLocalDraft(portalDraft, nextChildren);
   };
 
   const handleModalConfirm = (result: {
@@ -979,90 +1036,103 @@ export function ApplicationsWorkbench() {
     render?: 'bridge' | 'component';
     stationProp: string;
   }) => {
-    if (!editorTarget) return;
+    if (!editorTarget || !portalDraft) return;
     const props: Record<string, string> = result.stationProp
       ? { station: result.stationProp }
       : {};
 
+    let nextPortal: PortalPlatformConfig = portalDraft;
+    let nextChildren: Record<string, ChildPlatformConfig> = childrenDraft;
+
     if (editorTarget.mode === 'add-root') {
       const id = `custom-${Date.now()}`;
-      setPortalDraft(prev =>
-        prev
-          ? {
-              ...prev,
-              applications: [
-                ...prev.applications,
-                {
-                  id,
-                  title: result.expose,
-                  enabled: true,
-                  route: result.route,
-                  sourceKind: result.sourceKind,
-                  producerName: result.producerName,
-                  version: result.version,
-                  manifestUrl: result.manifestUrl,
-                  expose: result.expose,
-                  ...(result.render ? { render: result.render } : {}),
-                  childrenMode: 'none',
-                  childrenDelivery: 'full',
-                  props,
-                },
-              ],
-            }
-          : prev,
-      );
+      nextPortal = {
+        ...portalDraft,
+        applications: [
+          ...portalDraft.applications,
+          {
+            id,
+            title: result.expose,
+            enabled: true,
+            route: result.route,
+            sourceKind: result.sourceKind,
+            producerName: result.producerName,
+            version: result.version,
+            manifestUrl: result.manifestUrl,
+            expose: result.expose,
+            ...(result.render ? { render: result.render } : {}),
+            childrenMode: 'none',
+            childrenDelivery: 'full',
+            props,
+          },
+        ],
+      };
     } else if (editorTarget.mode === 'edit-root' && editorTarget.editingId) {
-      updatePortalApp(editorTarget.editingId, {
-        route: result.route,
-        sourceKind: result.sourceKind,
-        producerName: result.producerName,
-        version: result.version,
-        manifestUrl: result.manifestUrl,
-        expose: result.expose,
-        render: result.render,
-      });
+      nextPortal = {
+        ...portalDraft,
+        applications: portalDraft.applications.map(app =>
+          app.id === editorTarget.editingId
+            ? {
+                ...app,
+                route: result.route,
+                sourceKind: result.sourceKind,
+                producerName: result.producerName,
+                version: result.version,
+                manifestUrl: result.manifestUrl,
+                expose: result.expose,
+                render: result.render,
+              }
+            : app,
+        ),
+      };
     } else if (editorTarget.mode === 'add-child' && editorTarget.parentAppId) {
-      const parentApp = portalDraft?.applications.find(
+      const parentApp = portalDraft.applications.find(
         a => a.id === editorTarget.parentAppId,
       );
       if (parentApp) {
         const sourceName =
           parentApp.childrenSource || `${parentApp.id}-children`;
-        updatePortalApp(parentApp.id, {
-          childrenMode: 'dynamic',
-          childrenSource: sourceName,
-          childrenDelivery: parentApp.childrenDelivery || 'full',
-        });
-        setChildrenDraft(prev => {
-          const existing = prev[sourceName] || {
-            consumer: parentApp.producerName || 'lab_provider',
-            consumerManifestUrl: parentApp.manifestUrl,
-            applications: [],
-          };
-          return {
-            ...prev,
-            [sourceName]: {
-              ...existing,
-              applications: [
-                ...existing.applications,
-                {
-                  id: `custom-child-${Date.now()}`,
-                  title: result.expose,
-                  enabled: true,
-                  route: result.route,
-                  sourceKind: result.sourceKind,
-                  producerName: result.producerName,
-                  version: result.version,
-                  manifestUrl: result.manifestUrl,
-                  expose: result.expose,
-                  ...(result.render ? { render: result.render } : {}),
-                  childrenMode: 'none',
-                  props,
-                },
-              ],
-            },
-          };
-        });
+        nextPortal = {
+          ...portalDraft,
+          applications: portalDraft.applications.map(app =>
+            app.id === parentApp.id
+              ? {
+                  ...app,
+                  childrenMode: 'dynamic',
+                  childrenSource: sourceName,
+                  childrenDelivery: app.childrenDelivery || 'full',
+                }
+              : app,
+          ),
+        };
+        const existing = childrenDraft[sourceName] || {
+          consumer: parentApp.producerName || 'lab_provider',
+          consumerManifestUrl: parentApp.manifestUrl,
+          applications: [],
+        };
+        nextChildren = {
+          ...childrenDraft,
+          [sourceName]: {
+            ...existing,
+            applications: [
+              ...existing.applications,
+              {
+                id: `custom-child-${Date.now()}`,
+                title: result.expose,
+                enabled: true,
+                route: result.route,
+                sourceKind: result.sourceKind,
+                producerName: result.producerName,
+                version: result.version,
+                manifestUrl: result.manifestUrl,
+                expose: result.expose,
+                ...(result.render ? { render: result.render } : {}),
+                childrenMode: 'none',
+                props,
+              },
+            ],
+          },
+        };
       }
     } else if (
       editorTarget.mode === 'edit-child' &&
@@ -1070,11 +1140,10 @@ export function ApplicationsWorkbench() {
       editorTarget.editingId
     ) {
       const sourceName = editorTarget.childSourceName;
-      setChildrenDraft(prev => {
-        const cfg = prev[sourceName];
-        if (!cfg) return prev;
-        return {
-          ...prev,
+      const cfg = childrenDraft[sourceName];
+      if (cfg) {
+        nextChildren = {
+          ...childrenDraft,
           [sourceName]: {
             ...cfg,
             applications: cfg.applications.map(c =>
@@ -1096,9 +1165,15 @@ export function ApplicationsWorkbench() {
             ),
           },
         };
-      });
+      }
     }
+
+    setPortalDraft(nextPortal);
+    setChildrenDraft(nextChildren);
+    saveLocalDraft(nextPortal, nextChildren);
     setEditorTarget(null);
+    // Persist & publish immediately on modal confirm so switching tabs never loses edits.
+    void publishConfigs(nextPortal, nextChildren);
   };
 
   const portalActive = platformState?.sources.portal.active;
