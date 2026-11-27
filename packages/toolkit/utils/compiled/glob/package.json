@@ -1,1 +1,1 @@
-{"name":"glob","author":"Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)","version":"7.2.0","funding":{"url":"https://github.com/sponsors/isaacs"},"license":"ISC"}
+{"name":"glob","author":"Isaac Z. Schlueter <i@izs.me> (https://blog.izs.me/)","version":"14.0.6","funding":{"url":"https://github.com/sponsors/isaacs"},"license":"BlueOak-1.0.0","types":"./types/commonjs/index.d.ts","main":"index.js","module":"index.mjs"}

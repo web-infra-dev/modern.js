@@ -1,5 +1,5 @@
-import { Interface as ReadlineInterface } from 'readline';
-import inquirer = require('../..');
+import { Interface as ReadlineInterface } from "readline";
+import inquirer = require("../..");
 
 /**
  * Represents a ui.
@@ -16,7 +16,7 @@ declare class UI {
     protected activePrompt: inquirer.prompts.PromptBase;
 
     /**
-     * Initializes a new instance of the `UI` class.
+     * Initializes a new instance of the {@link UI `UI`} class.
      *
      * @param options
      * The input- and output-stream of the ui.

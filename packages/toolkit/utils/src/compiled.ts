@@ -1,9 +1,11 @@
 import { createRequire } from 'node:module';
+import dotenvExpandModule from '../compiled/dotenv-expand';
+import legacyDotenvExpand from '../compiled/dotenv-expand-v5';
 import { Import } from './import';
 
 export { default as fs } from '../compiled/fs-extra';
 export { default as ora } from '../compiled/ora';
-export { default as glob } from '../compiled/glob';
+export { default as glob } from '../compiled/glob-v7';
 export { default as yaml } from '../compiled/js-yaml';
 export { default as chalk } from '../compiled/chalk';
 export { default as debug } from '../compiled/debug';
@@ -25,7 +27,11 @@ export { default as fastGlob } from '../compiled/fast-glob';
 export { default as filesize } from '../compiled/filesize';
 export { default as gzipSize } from '../compiled/gzip-size';
 export { default as stripAnsi } from '../compiled/strip-ansi';
-export { default as dotenvExpand } from '../compiled/dotenv-expand';
+// Keep the callable export while exposing the v11 method.
+export const dotenvExpand = Object.assign(
+  legacyDotenvExpand,
+  dotenvExpandModule,
+);
 export { default as browserslist } from '../compiled/browserslist';
 
 export { program, Command } from '../compiled/commander';
@@ -34,7 +40,7 @@ import _signale from '../compiled/signale';
 export const { Signale } = _signale;
 
 export type { SignaleOptions } from '../compiled/signale';
-export type { IOptions as GlobOptions } from '../compiled/glob';
+export type { IOptions as GlobOptions } from '../compiled/glob-v7';
 export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 export type { ExecaError } from '../compiled/execa';

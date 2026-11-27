@@ -1,10 +1,10 @@
-import { join } from 'path';
+import { dirname, join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fastGlob from 'fast-glob';
 import fs from 'fs-extra';
 import { DEFAULT_EXTERNALS } from './constant';
-import { pick, replaceFileContent } from './helper';
+import { copyLicense, pick, replaceFileContent } from './helper';
 import type { ParsedTask } from './types';
 
 function emitAssets(
@@ -51,30 +51,30 @@ function emitDts(task: ParsedTask) {
     return;
   }
 
+  if (typeof task.emitDts === 'function') {
+    task.emitDts(task);
+    return;
+  }
+
   if (task.ignoreDts) {
     fs.writeFileSync(join(task.distPath, 'index.d.ts'), 'export = any;\n');
     return;
   }
 
-  try {
-    const externals = {
-      ...DEFAULT_EXTERNALS,
-      ...task.externals,
-    };
-    const { files } = new DtsPacker({
-      cwd: process.cwd(),
-      name: task.depName,
-      typesRoot: task.distPath,
-      externals: Object.keys(externals),
-    });
+  const externals = {
+    ...DEFAULT_EXTERNALS,
+    ...task.externals,
+  };
+  const { files } = new DtsPacker({
+    cwd: process.cwd(),
+    name: task.depName,
+    typesRoot: task.distPath,
+    externals: Object.keys(externals),
+  });
 
-    Object.keys(files).forEach(file => {
-      fixTypeExternalPath(file, task, externals);
-    });
-  } catch (error) {
-    console.error(`DtsPacker failed: ${task.depName}`);
-    console.error(error);
-  }
+  Object.keys(files).forEach(file => {
+    fixTypeExternalPath(file, task, externals);
+  });
 }
 
 function emitPackageJson(task: ParsedTask) {
@@ -94,6 +94,11 @@ function emitPackageJson(task: ParsedTask) {
     ...task.packageJsonField,
   ]);
 
+  if (task.depEsmEntry) {
+    pickedPackageJson.main = 'index.js';
+    pickedPackageJson.module = 'index.mjs';
+  }
+
   if (task.depName !== pickedPackageJson.name) {
     pickedPackageJson.name = task.depName;
   }
@@ -105,13 +110,6 @@ function emitPackageJson(task: ParsedTask) {
   }
 
   fs.writeJSONSync(outputPath, pickedPackageJson);
-}
-
-function emitLicense(task: ParsedTask) {
-  const licensePath = join(task.depPath, 'LICENSE');
-  if (fs.existsSync(licensePath)) {
-    fs.copySync(licensePath, join(task.distPath, 'license'));
-  }
 }
 
 function emitExtraFiles(task: ParsedTask) {
@@ -134,7 +132,7 @@ function renameDistFolder(task: ParsedTask) {
   const pkgJson = fs.readJsonSync(pkgPath, 'utf-8');
 
   ['types', 'typing', 'typings'].forEach(key => {
-    if (pkgJson[key]?.startsWith('dist/')) {
+    if (/^(\.\/)?dist\//.test(pkgJson[key])) {
       pkgJson[key] = pkgJson[key].replace('dist/', 'types/');
 
       const distFolder = join(task.distPath, 'dist');
@@ -148,19 +146,7 @@ function renameDistFolder(task: ParsedTask) {
   fs.writeJSONSync(pkgPath, pkgJson);
 }
 
-const pkgName = process.argv[2];
-
-export async function prebundle(task: ParsedTask) {
-  if (pkgName && task.depName !== pkgName) {
-    return;
-  }
-
-  console.log(`==== Start prebundle "${task.depName}" ====`);
-
-  if (task.clear) {
-    fs.removeSync(task.distPath);
-  }
-
+async function build(task: ParsedTask) {
   if (task.beforeBundle) {
     await task.beforeBundle(task);
   }
@@ -191,7 +177,7 @@ export async function prebundle(task: ParsedTask) {
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);
   emitDts(task);
-  emitLicense(task);
+  copyLicense(task.depPath, task.distPath);
   emitPackageJson(task);
   removeSourceMap(task);
   renameDistFolder(task);
@@ -200,6 +186,20 @@ export async function prebundle(task: ParsedTask) {
   if (task.afterBundle) {
     await task.afterBundle(task);
   }
+}
 
+export async function prebundle(task: ParsedTask) {
+  console.log(`==== Start prebundle "${task.depName}" ====`);
+  fs.ensureDirSync(dirname(task.distPath));
+  const staging = fs.mkdtempSync(`${task.distPath}-`);
+  try {
+    if (!task.clear && fs.existsSync(task.distPath)) {
+      fs.copySync(task.distPath, staging);
+    }
+    await build({ ...task, distPath: staging });
+    fs.moveSync(staging, task.distPath, { overwrite: true });
+  } finally {
+    fs.removeSync(staging);
+  }
   console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }

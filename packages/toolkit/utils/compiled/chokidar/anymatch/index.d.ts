@@ -10,6 +10,7 @@ type PicomatchOptions = {dot: boolean};
 
 declare const anymatch: {
   (matchers: AnymatchMatcher): AnymatchTester;
+  (matchers: AnymatchMatcher, testString: null, returnIndex: true | PicomatchOptions): AnymatchTester;
   (matchers: AnymatchMatcher, testString: string|any[], returnIndex: true | PicomatchOptions): number;
   (matchers: AnymatchMatcher, testString: string|any[]): boolean;
 }

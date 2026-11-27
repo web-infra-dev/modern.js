@@ -14,6 +14,7 @@ const dependencies = [
   'import-lazy',
   'dotenv',
   'dotenv-expand',
+  'dotenv-expand-v5',
   'url-join',
   'slash',
   {
@@ -42,6 +43,7 @@ const dependencies = [
     },
   },
   // some dependencies
+  'glob-v7',
   'glob',
   'chalk',
   'webpack-chain',

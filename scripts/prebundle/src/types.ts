@@ -17,7 +17,7 @@ export type DependencyConfig = {
   /** Whether to ignore type definitions */
   ignoreDts?: boolean;
   /** Whether to emit type definitions */
-  emitDts?: boolean;
+  emitDts?: boolean | ((task: ParsedTask) => void);
   /** Whether to clear distPath */
   clear?: boolean;
   /* Callback before bundle. */
@@ -40,7 +40,7 @@ export type ParsedTask = {
   importPath: string;
   packageDir: string;
   ignoreDts?: boolean;
-  emitDts?: boolean;
+  emitDts?: boolean | ((task: ParsedTask) => void);
   clear?: boolean;
   packagePath: string;
   packageName: string;
