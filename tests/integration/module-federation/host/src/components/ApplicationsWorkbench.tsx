@@ -13,6 +13,8 @@ interface PlatformAppConfig {
   version?: string;
   manifestUrl: string;
   expose: string;
+  /** Optional render protocol hint for legacy producers lacking manifest render metadata. */
+  render?: 'bridge' | 'component';
   childrenMode: 'dynamic' | 'none';
   childrenSource?: string;
   childrenDelivery?: 'full' | 'layered';
@@ -28,7 +30,7 @@ interface InspectedManifest {
   manifestUrl: string;
   name: string;
   buildVersion?: string;
-  exposes: Array<{ path: string; name: string; render: string }>;
+  exposes: Array<{ path: string; name: string; render?: string }>;
 }
 
 interface PortalPlatformConfig {
@@ -129,6 +131,7 @@ interface RouteEditorTarget {
     version: string;
     manifestUrl: string;
     expose: string;
+    render?: 'bridge' | 'component';
     stationProp: string;
   };
 }
@@ -297,6 +300,7 @@ function RouteEditorModal({
     version: string;
     manifestUrl: string;
     expose: string;
+    render?: 'bridge' | 'component';
     stationProp: string;
   }) => void;
 }) {
@@ -308,6 +312,9 @@ function RouteEditorModal({
   const [version, setVersion] = useState(target.initial.version);
   const [manifestUrl, setManifestUrl] = useState(target.initial.manifestUrl);
   const [expose, setExpose] = useState(target.initial.expose);
+  const [renderHint, setRenderHint] = useState<'bridge' | 'component'>(
+    target.initial.render || 'bridge',
+  );
   const [stationProp, setStationProp] = useState(target.initial.stationProp);
 
   const [inspecting, setInspecting] = useState(false);
@@ -410,6 +417,9 @@ function RouteEditorModal({
           ? `添加子路由（/${target.parentRoutePrefix}/...）`
           : `编辑子路由（/${target.parentRoutePrefix}/...）`;
 
+  const selectedExposeMeta = inspected?.exposes.find(e => e.path === expose);
+  const manifestDeclaresRender = Boolean(selectedExposeMeta?.render);
+
   const handleSubmit = () => {
     if (!canSubmit || !inspected) return;
     const cleanRoute = route.trim().replace(/^\/+/, '');
@@ -424,6 +434,9 @@ function RouteEditorModal({
         sourceKind === 'registry' ? selectedVersionObj?.version || 'v1' : 'url',
       manifestUrl: effectiveManifestUrl,
       expose,
+      // Only send explicit render hint when the producer's manifest omits
+      // `exposes[i].render` (legacy Bridge / Vmok compatibility).
+      ...(!manifestDeclaresRender ? { render: renderHint } : {}),
       stationProp: stationProp.trim(),
     });
   };
@@ -648,6 +661,39 @@ function RouteEditorModal({
               </select>
             </div>
           </div>
+
+          {/* 4. Legacy render protocol hint (shown ONLY when manifest omits exposes[i].render) */}
+          {inspected && expose && !manifestDeclaresRender && (
+            <div
+              className="jo-form-group"
+              data-testid="modal-render-hint-group"
+            >
+              <span className="jo-form-label">
+                <span>渲染协议（老版本兼容）</span>
+                <span style={{ color: '#71717a', fontWeight: 500 }}>
+                  Manifest 未声明 render 字段
+                </span>
+              </span>
+              <div className="jo-segmented" style={{ alignSelf: 'flex-start' }}>
+                <button
+                  type="button"
+                  data-testid="modal-render-bridge"
+                  className={`jo-seg-btn ${renderHint === 'bridge' ? 'active' : ''}`}
+                  onClick={() => setRenderHint('bridge')}
+                >
+                  Bridge 应用
+                </button>
+                <button
+                  type="button"
+                  data-testid="modal-render-component"
+                  className={`jo-seg-btn ${renderHint === 'component' ? 'active' : ''}`}
+                  onClick={() => setRenderHint('component')}
+                >
+                  普通组件
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Optional prop for WindApplication */}
           {expose === './WindApplication' && (
@@ -930,10 +976,13 @@ export function ApplicationsWorkbench() {
     version: string;
     manifestUrl: string;
     expose: string;
+    render?: 'bridge' | 'component';
     stationProp: string;
   }) => {
     if (!editorTarget) return;
-    const props = result.stationProp ? { station: result.stationProp } : {};
+    const props: Record<string, string> = result.stationProp
+      ? { station: result.stationProp }
+      : {};
 
     if (editorTarget.mode === 'add-root') {
       const id = `custom-${Date.now()}`;
@@ -953,6 +1002,7 @@ export function ApplicationsWorkbench() {
                   version: result.version,
                   manifestUrl: result.manifestUrl,
                   expose: result.expose,
+                  ...(result.render ? { render: result.render } : {}),
                   childrenMode: 'none',
                   childrenDelivery: 'full',
                   props,
@@ -969,6 +1019,7 @@ export function ApplicationsWorkbench() {
         version: result.version,
         manifestUrl: result.manifestUrl,
         expose: result.expose,
+        render: result.render,
       });
     } else if (editorTarget.mode === 'add-child' && editorTarget.parentAppId) {
       const parentApp = portalDraft?.applications.find(
@@ -1004,6 +1055,7 @@ export function ApplicationsWorkbench() {
                   version: result.version,
                   manifestUrl: result.manifestUrl,
                   expose: result.expose,
+                  ...(result.render ? { render: result.render } : {}),
                   childrenMode: 'none',
                   props,
                 },
@@ -1035,6 +1087,7 @@ export function ApplicationsWorkbench() {
                     version: result.version,
                     manifestUrl: result.manifestUrl,
                     expose: result.expose,
+                    render: result.render,
                     props: result.stationProp
                       ? { ...c.props, station: result.stationProp }
                       : c.props,
@@ -1802,6 +1855,7 @@ export function ApplicationsWorkbench() {
                                 version: app.version || 'v1',
                                 manifestUrl: app.manifestUrl,
                                 expose: app.expose,
+                                render: app.render,
                                 stationProp: app.props?.station || '',
                               },
                             })
@@ -1905,6 +1959,7 @@ export function ApplicationsWorkbench() {
                                     version: child.version || 'v1',
                                     manifestUrl: child.manifestUrl,
                                     expose: child.expose,
+                                    render: child.render,
                                     stationProp: child.props?.station || '',
                                   },
                                 })

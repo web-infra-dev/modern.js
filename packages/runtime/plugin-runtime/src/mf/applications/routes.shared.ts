@@ -1,3 +1,4 @@
+import { helpers } from '@module-federation/enhanced/runtime';
 import type {
   LoaderFunctionArgs,
   RouteObject,
@@ -164,6 +165,53 @@ export function tagDynamicRoute(route: RouteObject): RouteObject {
     configurable: true,
   });
   return route;
+}
+
+/**
+ * Detect pure CSR producers (e.g. legacy browser-only MF / Vmok manifests)
+ * whose global snapshot has a browser `remoteEntry` but neither a Node
+ * `ssrRemoteEntry` nor a Service App endpoint (`serviceBaseUrl` / `servicePath`).
+ * Passing `noSSR: true` on both server and browser ensures SSR skips executing
+ * browser-only entries on Node (`window is not defined`) and browser hydration
+ * matches the server placeholder without hydration mismatches.
+ */
+export function isClientOnlyRemoteSnapshot(route: RemoteRoute): boolean {
+  try {
+    const globalSnapshot = helpers.global.getGlobalSnapshot() as Record<
+      string,
+      Record<string, unknown> | undefined
+    >;
+    if (!globalSnapshot || typeof globalSnapshot !== 'object') return false;
+    const entry =
+      globalSnapshot[`${route.moduleName}:${route.versionOrUrl}`] ??
+      globalSnapshot[route.moduleName];
+    if (!entry || typeof entry !== 'object') return false;
+
+    const hasBrowserEntry =
+      typeof entry.remoteEntry === 'string' && entry.remoteEntry.length > 0;
+    if (!hasBrowserEntry) return false;
+
+    const hasSsrEntry =
+      typeof entry.ssrRemoteEntry === 'string' &&
+      entry.ssrRemoteEntry.length > 0;
+    if (hasSsrEntry) return false;
+
+    const hasServiceBaseUrl =
+      typeof entry.serviceBaseUrl === 'string' &&
+      entry.serviceBaseUrl.length > 0;
+    if (hasServiceBaseUrl) return false;
+
+    if (Array.isArray(entry.modules)) {
+      const hasServicePath = (
+        entry.modules as Array<Record<string, unknown>>
+      ).some(mod => typeof mod?.servicePath === 'string' && mod.servicePath);
+      if (hasServicePath) return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export type DynamicRouteBuilder = (

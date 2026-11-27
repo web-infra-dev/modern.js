@@ -228,6 +228,8 @@ export function createLabDeploymentPlatform({ root, ports }) {
         ...(app.props && Object.keys(app.props).length
           ? { props: { ...app.props } }
           : {}),
+        // Forward optional render hint for legacy producers lacking manifest render metadata.
+        ...(app.render ? { render: app.render } : {}),
       });
 
       if (hasEnabledChildren && childSourceName) {
@@ -442,7 +444,9 @@ export function createLabDeploymentPlatform({ root, ports }) {
         const exposes = (manifest.exposes || []).map(item => ({
           path: normalizeExpose(item.path || item.name || ''),
           name: item.name || item.path || '',
-          render: item.render || 'component',
+          // Preserve undefined when legacy manifests omit `render` metadata so the UI
+          // can prompt the user to choose Bridge vs ordinary component.
+          ...(item.render ? { render: item.render } : {}),
         }));
         json({
           manifestUrl: manifestUrl.trim(),

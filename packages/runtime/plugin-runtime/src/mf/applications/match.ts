@@ -115,6 +115,17 @@ export function validateRemoteRoutes(
       );
     }
 
+    if (
+      candidate.render !== undefined &&
+      candidate.render !== 'bridge' &&
+      candidate.render !== 'component'
+    ) {
+      throw new ApplicationsDiscoveryError(
+        `Discovered route "${candidate.route}" render hint must be "bridge" or "component".`,
+        { code: 'INVALID_ROUTE', consumer, mountId, target },
+      );
+    }
+
     const normalizedPattern = normalizeRoutePattern(candidate.route);
     if (seenRoutes.has(normalizedPattern)) {
       throw new ApplicationsDiscoveryError(
@@ -143,6 +154,9 @@ export function validateRemoteRoutes(
       discoverChildren: candidate.discoverChildren,
       ...(candidate.props
         ? { props: { ...(candidate.props as Record<string, unknown>) } }
+        : {}),
+      ...(candidate.render
+        ? { render: candidate.render as 'bridge' | 'component' }
         : {}),
     });
   }

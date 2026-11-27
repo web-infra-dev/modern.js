@@ -3,7 +3,7 @@ import { getInstance } from '@module-federation/enhanced/runtime';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import { createModernReactRemote, useRemoteBasename } from '../remote';
 import { composeRemoteId, deriveMountId, normalizeRoutePattern } from './match';
-import { tagDynamicRoute } from './routes.shared';
+import { isClientOnlyRemoteSnapshot, tagDynamicRoute } from './routes.shared';
 import {
   INTERNAL_CONSUMER_KEY,
   INTERNAL_MOUNT_ID_KEY,
@@ -19,8 +19,15 @@ function createDynamicRouteComponent(
 ): React.ComponentType {
   const requestId = composeRemoteId(route.moduleName, route.expose);
   const resolvedInstance = store?.getFederationInstance?.() ?? undefined;
+  const noSSR = isClientOnlyRemoteSnapshot(route);
   const Remote = createModernReactRemote({
     ...(resolvedInstance ? { instance: resolvedInstance } : {}),
+    // Forward optional render hint so legacy Bridge producers lacking
+    // manifest `exposes[i].render` metadata are still mounted via Bridge.
+    ...(route.render ? { render: route.render } : {}),
+    // Match server-side noSSR placeholder for pure CSR producers to avoid
+    // hydration mismatches on initial SSR documents.
+    ...(noSSR ? { noSSR: true } : {}),
     remote: () => {
       const instance = store?.getFederationInstance?.() ?? getInstance();
       if (!instance) {
@@ -63,7 +70,7 @@ export function createBrowserDynamicRoutesBuilder(store?: ApplicationsStore) {
   ): RouteObject[] =>
     routes.map(route => {
       const normalizedPath = normalizeRoutePattern(route.route) || '/';
-      const cacheKey = `${parentMountId}::${normalizedPath}::${route.moduleName}::${route.expose}::${route.versionOrUrl}::${JSON.stringify(route.props || null)}`;
+      const cacheKey = `${parentMountId}::${normalizedPath}::${route.moduleName}::${route.expose}::${route.versionOrUrl}::${route.render || ''}::${JSON.stringify(route.props || null)}`;
       let Component = componentCache.get(cacheKey);
       if (!Component) {
         Component = createDynamicRouteComponent(route, parentMountId, store);

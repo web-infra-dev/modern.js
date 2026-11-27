@@ -3,7 +3,7 @@ import { getInstance } from '@module-federation/enhanced/runtime';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import { createModernReactRemote, useRemoteBasename } from '../remote.node';
 import { composeRemoteId, deriveMountId, normalizeRoutePattern } from './match';
-import { tagDynamicRoute } from './routes.shared';
+import { isClientOnlyRemoteSnapshot, tagDynamicRoute } from './routes.shared';
 import {
   INTERNAL_CONSUMER_KEY,
   INTERNAL_MOUNT_ID_KEY,
@@ -19,8 +19,14 @@ function createDynamicRouteComponent(
 ): React.ComponentType {
   const requestId = composeRemoteId(route.moduleName, route.expose);
   const resolvedInstance = store?.getFederationInstance?.() ?? undefined;
+  const noSSR = isClientOnlyRemoteSnapshot(route);
   const Remote = createModernReactRemote({
     ...(resolvedInstance ? { instance: resolvedInstance } : {}),
+    // Forward optional render hint for legacy Bridge producers lacking
+    // manifest `exposes[i].render` metadata.
+    ...(route.render ? { render: route.render } : {}),
+    // Skip Node execution for pure CSR producers without an `ssrRemoteEntry`.
+    ...(noSSR ? { noSSR: true } : {}),
     remote: () => {
       const instance = store?.getFederationInstance?.() ?? getInstance();
       if (!instance) {

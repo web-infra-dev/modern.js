@@ -22,6 +22,12 @@ export interface RemoteRoute {
   versionOrUrl: string;
   discoverChildren: boolean;
   props?: Record<string, unknown>;
+  /**
+   * Optional rendering protocol hint passed to `createModernReactRemote`.
+   * Required only for legacy producers (e.g. older Bridge/Vmok builds) whose
+   * manifest does not emit `exposes[i].render` metadata.
+   */
+  render?: 'bridge' | 'component';
 }
 
 export type ApplicationRef = Pick<
