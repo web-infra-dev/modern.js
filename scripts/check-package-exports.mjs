@@ -36,7 +36,7 @@ function nodeEntry(value, condition, explicit = false) {
   const fallback = nodeEntry(value.default, condition, explicit);
   for (const [key, branch] of Object.entries(value)) {
     if (key !== 'node' && key !== condition) continue;
-    const entry = nodeEntry(branch, condition, explicit || key === condition);
+    const entry = nodeEntry(branch, condition, true);
     if (entry?.check === 'file' && fallback?.check === 'load') {
       // A Node fallback must not shadow a Web import. Resolve, but never load it.
       return { ...entry, check: 'resolve' };
@@ -49,10 +49,13 @@ function nodeEntry(value, condition, explicit = false) {
 function inspectPackage({ directory, manifest }, errors) {
   const entries = { esm: [], cjs: [] };
   const paths = new Map();
-  function checkFiles(subpath, value, conditions) {
+  function checkFiles(subpath, value, conditions, requireDotSlash = true) {
     if (typeof value === 'string') {
       const target = resolve(directory, value);
       try {
+        if (requireDotSlash && !value.startsWith('./')) {
+          throw new Error('export target must start with "./"');
+        }
         if (!statSync(target).isFile()) throw new Error('not a file');
         paths.set(value, realpathSync(target));
       } catch (error) {
@@ -61,10 +64,12 @@ function inspectPackage({ directory, manifest }, errors) {
         );
       }
     } else if (Array.isArray(value)) {
-      for (const branch of value) checkFiles(subpath, branch, conditions);
+      for (const branch of value) {
+        checkFiles(subpath, branch, conditions, requireDotSlash);
+      }
     } else if (value) {
       for (const [key, branch] of Object.entries(value)) {
-        checkFiles(subpath, branch, [...conditions, key]);
+        checkFiles(subpath, branch, [...conditions, key], requireDotSlash);
       }
     }
   }
@@ -90,7 +95,7 @@ function inspectPackage({ directory, manifest }, errors) {
       }
     }
   }
-  if (manifest.main) checkFiles('.', manifest.main, ['main']);
+  if (manifest.main) checkFiles('.', manifest.main, ['main'], false);
   return Object.entries(entries)
     .filter(([, specs]) => specs.length)
     .map(([mode, specs]) => ({ directory, mode, specs }));
@@ -106,7 +111,7 @@ async function load({ directory, mode }, specs) {
       if (actual !== expected) throw new Error(spec + ': expected ' + expected + ', but Node resolved ' + actual);
       if (execute) ${esm ? 'await import(spec)' : 'require(spec)'};
     }
-    console.log('${completion}');`;
+    console.log('\\n${completion}');`;
   const { stdout } = await exec(
     process.execPath,
     [
