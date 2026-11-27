@@ -336,6 +336,7 @@ export function validatePackageSet(plan, workspaces) {
 
 export function validateDependencies(json, plan, { packed = false } = {}) {
   const versions = new Map(plan.packages.map(pkg => [pkg.name, pkg.version]));
+  const stable = planChannel(plan).scheme === 'stable';
   for (const field of [...dependencyFields, 'devDependencies']) {
     for (const [name, spec] of Object.entries(json[field] ?? {})) {
       assert.equal(typeof spec, 'string', 'Invalid dependency spec');
@@ -346,13 +347,23 @@ export function validateDependencies(json, plan, { packed = false } = {}) {
         );
       if (!dependencyFields.includes(field)) continue;
       if (versions.has(name)) {
+        const version = versions.get(name);
+        if (field === 'peerDependencies' && stable) {
+          // A stable peer is a caret range on the released version, exactly
+          // as `pnpm run bump` writes it; pnpm packs `workspace:^x` as `^x`.
+          assert.equal(
+            spec,
+            packed ? `^${version}` : `workspace:^${version}`,
+            `Stable peer must be a caret range on the release: ${json.name} -> ${name}`,
+          );
+          continue;
+        }
         // `workspace:*` packs as the exact version of that workspace, which
         // is the planned one, so in the source it is as exact as the pin.
         assert(
           packed
-            ? spec === versions.get(name)
-            : spec === `workspace:${versions.get(name)}` ||
-                spec === 'workspace:*',
+            ? spec === version
+            : spec === `workspace:${version}` || spec === 'workspace:*',
           `Non-exact canary dependency: ${json.name} -> ${name}`,
         );
       } else if (name.startsWith('@modern-js/')) {

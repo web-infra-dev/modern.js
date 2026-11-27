@@ -42,6 +42,11 @@ function fixture(t, { changeset = true, baseline = '3.10.0' } = {}) {
     fixed: [['@modern-js/*']],
     linked: [],
     updateInternalDependencies: 'patch',
+    // As in the repository: without it a fixed-group bump turns every peer
+    // dependent into a major release.
+    ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+      onlyUpdatePeerDependentsWhenOutOfRange: true,
+    },
     ignore: [],
   });
   if (changeset)
@@ -53,6 +58,8 @@ function fixture(t, { changeset = true, baseline = '3.10.0' } = {}) {
     name: '@modern-js/a',
     version: baseline,
     dependencies: { '@modern-js/b': 'workspace:*' },
+    // What `pnpm run bump` leaves on an internal peer.
+    peerDependencies: { '@modern-js/b': 'workspace:^3.6.0' },
   });
   writeJson(path.join(root, 'packages/b/package.json'), {
     name: '@modern-js/b',
@@ -503,6 +510,13 @@ test('a stable release keeps what the bump produced and publishes that version',
       '@modern-js/b'
     ],
     'workspace:3.11.0',
+  );
+  // A stable peer keeps its caret on the released version.
+  assert.equal(
+    readJson(path.join(root, 'packages/a/package.json')).peerDependencies[
+      '@modern-js/b'
+    ],
+    'workspace:^3.11.0',
   );
   assert.equal(
     result.planHash,

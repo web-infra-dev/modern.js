@@ -277,7 +277,15 @@ export function prepare(
         for (const [name, spec] of Object.entries(pkg.json[field] ?? {})) {
           if (!versions.has(name)) continue;
           if (!stable && spec === 'workspace:*') continue;
-          pkg.json[field][name] = `workspace:${versions.get(name)}`;
+          // A stable peer keeps the caret `pnpm run bump` gives it
+          // (scripts/check-changeset requires `workspace:^<version>`): an exact
+          // peer would make every consumer that moves the host package one
+          // patch ahead report a peer conflict. A snapshot pins peers exactly,
+          // because no caret range of a stable version matches a snapshot.
+          pkg.json[field][name] =
+            stable && field === 'peerDependencies'
+              ? `workspace:^${versions.get(name)}`
+              : `workspace:${versions.get(name)}`;
           changed = true;
         }
       }

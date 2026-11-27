@@ -191,6 +191,45 @@ test('consumer internal dependencies must be exact canary, never workspace range
   }
 });
 
+test('a stable release keeps internal peers as a caret range on the release, and only peers', () => {
+  const stable = {
+    ...makePlan(),
+    channel: 'latest',
+    tag: 'latest',
+    version: '3.13.0',
+  };
+  stable.packages = stable.packages.map(pkg => ({ ...pkg, version: '3.13.0' }));
+  const peer = spec => ({
+    name: '@modern-js/a',
+    peerDependencies: { '@modern-js/b': spec },
+  });
+  validateDependencies(peer('workspace:^3.13.0'), stable);
+  validateDependencies(peer('^3.13.0'), stable, { packed: true });
+  for (const spec of ['workspace:3.13.0', 'workspace:*', 'workspace:^3.12.0'])
+    assert.throws(
+      () => validateDependencies(peer(spec), stable),
+      /caret range/,
+    );
+  for (const spec of ['3.13.0', '^3.12.0', '>=3.13.0'])
+    assert.throws(
+      () => validateDependencies(peer(spec), stable, { packed: true }),
+      /caret range/,
+    );
+  // Ordinary dependencies of a stable release stay exact.
+  validateDependencies(
+    { name: '@modern-js/a', dependencies: { '@modern-js/b': '3.13.0' } },
+    stable,
+    { packed: true },
+  );
+  assert.throws(() =>
+    validateDependencies(
+      { name: '@modern-js/a', dependencies: { '@modern-js/b': '^3.13.0' } },
+      stable,
+      { packed: true },
+    ),
+  );
+});
+
 test('legacy dependency is limited to the exact consumer, name and existing range', () => {
   const json = {
     name: '@modern-js/plugin-polyfill',
