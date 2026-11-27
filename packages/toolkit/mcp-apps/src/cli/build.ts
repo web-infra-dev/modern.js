@@ -152,6 +152,7 @@ export function createUiManifest(
     if (typeof source !== 'string' && 'entry' in source) {
       manifest.views[name] = {
         entry: source.entry,
+        ...(source.url !== undefined ? { url: source.url } : {}),
         ui: viewUi,
         ...resourceFields,
       };

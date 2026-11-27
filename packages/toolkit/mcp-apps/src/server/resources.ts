@@ -90,6 +90,8 @@ export interface RegisterUiOptions {
   manifest?: string | URL;
   /** Public deployment root, including any path prefix. */
   assetBase?: string;
+  /** Public application origin for view URLs, separate from the static asset CDN. */
+  publicBaseUrl?: string;
 }
 
 function publicBase(manifest: UiManifest, options: RegisterUiOptions): URL {
@@ -129,6 +131,8 @@ function escapeAttribute(value: string) {
 export interface ResolvedUiView {
   /** Existing application entry. URL-only, served by the application router. */
   entry?: string;
+  /** Absolute page URL, resolved on access. Requires an entry URL and an application origin for relative paths. */
+  readonly url: string;
   ui: UiMetadata;
   resource?: UiResourceConfig;
   render: (signal?: AbortSignal) => Promise<string>;
@@ -168,7 +172,9 @@ export async function resolveUiViews(
       : undefined;
   if (devSocket)
     devSocket.protocol = devSocket.protocol === 'https:' ? 'wss:' : 'ws:';
-  const views: Record<string, ResolvedUiView> = Object.create(null);
+  const views: Record<string, Omit<ResolvedUiView, 'url'>> = Object.create(
+    null,
+  );
   for (const [name, view] of Object.entries(manifest.views)) {
     const configuredUi = mergeUiMetadata(view.ui, view.resource?._meta?.ui);
     const resourceFields = view.resource
@@ -263,7 +269,35 @@ export async function resolveUiViews(
       },
     };
   }
-  return views;
+  for (const [name, view] of Object.entries(manifest.views)) {
+    Object.defineProperty(views[name], 'url', {
+      enumerable: true,
+      get: () => {
+        const source =
+          'entry' in view
+            ? view.url
+            : `${UI_VIEW_PATH}${encodeURIComponent(name)}`;
+        if (source === undefined)
+          throw new Error(`Entry view ${name} requires a configured URL`);
+        if (!source.startsWith('/')) return assertHttpUrl(source).href;
+        let origin: string;
+        if (options.publicBaseUrl !== undefined) {
+          const base = assertHttpUrl(options.publicBaseUrl);
+          if (base.pathname !== '/' || base.search || base.hash)
+            throw new Error(
+              'publicBaseUrl must be an application origin without a path, query or fragment',
+            );
+          origin = base.origin;
+        } else if (options.request) {
+          origin = requestOrigin(options.request);
+        } else {
+          throw new Error('View URLs require a request or publicBaseUrl');
+        }
+        return new URL(source, origin).href;
+      },
+    });
+  }
+  return views as Record<string, ResolvedUiView>;
 }
 
 export async function registerUiResources(

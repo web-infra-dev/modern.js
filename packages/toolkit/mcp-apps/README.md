@@ -128,7 +128,16 @@ Standalone Fetch services can use `createUiViewHandler({ manifest, assetBase })`
 Call the returned handler with a `Request`. It returns a `Response` for the
 `/mcp-views/` route, or `undefined` for other paths so the service can continue routing.
 `resolveUiViews({ request, manifest })` returns each view's resolved `ui` metadata
-and `render(signal?)` function for host-specific adapters.
+and `render(signal?)` function for host-specific adapters. It also exposes a `url`
+property for use in tool metadata. Component and expose views use
+`/mcp-views/<encoded-view-name>`. Entry views use their configured `url` path or
+absolute HTTP(S) URL. Relative paths resolve against `publicBaseUrl`, when supplied,
+or the request origin, honoring a sanitized `x-forwarded-proto`. `publicBaseUrl`
+must be an HTTP(S) origin without a path, query or fragment. Static `assetBase`
+may point to a CDN and is never used as the application origin. The URL resolves
+when read, so resource-only services do not need an application origin. Reading an
+entry URL without a configured `url`, or a relative URL without an application
+origin, throws an error.
 
 URL loading still requires an MCP Apps host that supports URL sources and establishes
 the official App bridge. Opening the page directly does not supply tool results.
@@ -237,13 +246,36 @@ Use `{ "entry": "main" }` to reference a normal application entry. The name must
 ```json
 {
   "views": {
-    "home": { "entry": "main" },
+    "home": { "entry": "main", "url": "/" },
     "todos": { "component": "./Todos.tsx" }
   }
 }
 ```
 
-The selected entry keeps its normal HTML, React root and application routes. Its browser bundle connects to an MCP host when embedded. Top-level browser visits render normally. Register the tool with `doubao/ui.url` pointing to the application's actual public URL, such as `https://app.example.com/home`. Entry names do not determine URL paths. Entry views are excluded from MCP resource registration and return 404 under `/mcp-views/`. Component views keep that route.
+The selected entry keeps its normal HTML, React root and application routes. Its browser bundle connects to an MCP host when embedded. Top-level browser visits render normally. Declare the application's route once in the view's `url` field, then reference `views.home.url` in the tool metadata. Entry names do not determine URL paths. Entry views are excluded from MCP resource registration and return 404 under `/mcp-views/`. Component views keep that route.
+
+```ts
+const views = await resolveUiViews({ request });
+server.registerTool(
+  'open_home',
+  {
+    title: 'Home',
+    inputSchema: {},
+    _meta: {
+      'doubao/ui': {
+        url: views.home.url,
+        entrypoints: [{ type: 'global' }],
+        csp: views.home.ui.csp,
+        permissions: views.home.ui.permissions,
+      },
+    },
+  },
+  async () => ({ content: [] }),
+);
+```
+
+Verify that `tools/list` contains the complete application URL and that opening the
+tool in the host displays the expected application route.
 
 The bootstrap emits `mcp-app-connected` (detail: App), `mcp-app-tool-result` (detail: tool result), and `mcp-app-error` browser events. Register listeners before connection completes when consuming these events. CSP and browser permissions remain declarations for the host, and belong in the URL tool's `doubao/ui` metadata.
 

@@ -11,7 +11,7 @@ export type McpViewSource =
   | string
   | ((
       | { component: string }
-      | { entry: string }
+      | { entry: string; url?: string }
       | { expose: string; remote?: string }
     ) & {
       resource?: UiResourceConfig;
@@ -32,7 +32,7 @@ export interface UiManifest {
     string,
     (
       | { html: string; inline?: boolean }
-      | { entry: string }
+      | { entry: string; url?: string }
       | { remote: string; expose: string }
     ) & { ui: UiMetadata; resource?: UiResourceConfig }
   >;
@@ -170,7 +170,14 @@ export function validateViewsConfig(
     if (typeof view === 'string' && view.trim()) continue;
     if (isRecord(view)) {
       validateResourceConfig(view.resource);
-      const keys = Object.keys(view).filter(key => key !== 'resource');
+      if (view.url !== undefined) {
+        if (!('entry' in view))
+          throw new Error('Only entry views support a configured URL');
+        validateViewUrl(view.url);
+      }
+      const keys = Object.keys(view).filter(
+        key => key !== 'resource' && key !== 'url',
+      );
       if (
         typeof view.entry === 'string' &&
         view.entry.trim() &&
@@ -214,6 +221,18 @@ export function assertRemoteManifest(remote: string) {
       `Invalid MF remote: ${remote}. Use https://host/mf-manifest.json`,
     );
 }
+/** Application routes must be root-relative paths or complete HTTP(S) URLs. */
+export function validateViewUrl(value: unknown): asserts value is string {
+  if (
+    typeof value !== 'string' ||
+    !value ||
+    /[\u0000-\u0020\u007f\\]/.test(value) ||
+    value.startsWith('//')
+  )
+    throw new Error('View URL must be an application path or an HTTP(S) URL');
+  if (!value.startsWith('/')) assertHttpUrl(value);
+}
+
 export function assertHttpUrl(source: string): URL {
   const url = new URL(source);
   if (
@@ -263,6 +282,11 @@ export function validateUiManifest(
       throw new Error('UI manifest views do not support tool configuration');
     validateUiMetadata(view.ui, true);
     validateResourceConfig(view.resource);
+    if (view.url !== undefined) {
+      if (!('entry' in view))
+        throw new Error('Only entry views support a configured URL');
+      validateViewUrl(view.url);
+    }
     if (
       typeof view.entry === 'string' &&
       view.entry.trim() &&
