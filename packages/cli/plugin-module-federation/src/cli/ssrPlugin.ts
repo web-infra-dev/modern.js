@@ -32,7 +32,11 @@ import {
   DEV_MANIFEST_WAIT_TIMEOUT,
   anyAbortSignal,
 } from '../ssr-runtime/devManifestWait';
-import { debugMFSSR, logMFSSR } from '../server/ssrLogger';
+import {
+  createWindowedThrottle,
+  debugMFSSR,
+  logMFSSR,
+} from '../server/ssrLogger';
 
 export function setEnv() {
   process.env['MF_SSR_PRJ'] = 'true';
@@ -419,11 +423,36 @@ export const moduleFederationSSRPlugin = (
       }
     });
     const hotUpdateCache = isDev() ? createDevHotUpdateCache() : undefined;
-    const MANIFEST_503_WARN_WINDOW_MS = 5_000;
-    const manifest503State = new Map<
-      string,
-      { lastLoggedAt: number; suppressed: number }
-    >();
+    const manifest503Throttle = createWindowedThrottle<{
+      pathname: string;
+      reason: 'wait-timeout' | 'ssr-not-ready' | 'not-ready';
+      waitedMs: number | undefined;
+      buildReady: boolean;
+      ssrReady: boolean | undefined;
+      waitHeader: boolean;
+    }>({
+      windowMs: 5_000,
+      onEmit: (info, suppressed) => {
+        logMFSSR(
+          'warn',
+          'Manifest 503',
+          {
+            path: info.pathname,
+            reason: info.reason,
+            waitedMs:
+              info.waitedMs !== undefined
+                ? Math.round(info.waitedMs)
+                : undefined,
+            buildReady: info.buildReady,
+            ssrReady: info.ssrReady,
+            waitHeader: info.waitHeader ? 1 : 0,
+            suppressed: suppressed > 0 ? suppressed : undefined,
+          },
+          undefined,
+          { mode: 'dev' },
+        );
+      },
+    });
     const reportManifest503 = (
       pathname: string,
       reason: 'wait-timeout' | 'ssr-not-ready' | 'not-ready',
@@ -442,30 +471,14 @@ export const moduleFederationSSRPlugin = (
         }));
         return;
       }
-      const key = `${pathname}|${reason}`;
-      const now = Date.now();
-      const entry = manifest503State.get(key);
-      if (entry && now - entry.lastLoggedAt < MANIFEST_503_WARN_WINDOW_MS) {
-        entry.suppressed++;
-        return;
-      }
-      const suppressed = entry?.suppressed || 0;
-      manifest503State.set(key, { lastLoggedAt: now, suppressed: 0 });
-      logMFSSR(
-        'warn',
-        'Manifest 503',
-        {
-          path: pathname,
-          reason,
-          waitedMs: waitedMs !== undefined ? Math.round(waitedMs) : undefined,
-          buildReady,
-          ssrReady,
-          waitHeader: waitHeader ? 1 : 0,
-          suppressed: suppressed > 0 ? suppressed : undefined,
-        },
-        undefined,
-        { mode: 'dev' },
-      );
+      manifest503Throttle.record(`${pathname}|${reason}`, {
+        pathname,
+        reason,
+        waitedMs,
+        buildReady,
+        ssrReady,
+        waitHeader,
+      });
     };
     const serveCachedHotUpdate = (req: any, res: any) => {
       if (
@@ -609,8 +622,8 @@ export const moduleFederationSSRPlugin = (
                         res.end('Federation build is not ready');
                         return;
                       }
-                    } else if (manifest503State.size) {
-                      manifest503State.clear();
+                    } else if (manifest503Throttle.size()) {
+                      manifest503Throttle.clear();
                     }
                     fs.statSync(filepath);
                     res.setHeader('Cache-Control', 'no-store');

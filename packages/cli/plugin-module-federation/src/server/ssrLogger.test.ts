@@ -1,5 +1,6 @@
 import { debug, logger } from '@modern-js/utils';
 import {
+  createWindowedThrottle,
   debugMFSSR,
   debugMFSSRVerbose,
   extractTargetVersion,
@@ -190,6 +191,50 @@ describe('ssrLogger', () => {
       expect(emitted[1]).toContain('check-noop key=verbose');
     } finally {
       debug.log = originalLog;
+    }
+  });
+
+  it('bounds windowed throttle entries and evicts expired keys after flush', () => {
+    rs.useFakeTimers();
+    try {
+      const emitted: Array<{ payload: number; suppressed: number }> = [];
+      const throttle = createWindowedThrottle<number>({
+        windowMs: 5_000,
+        autoFlush: true,
+        onEmit: (payload, suppressed) => {
+          emitted.push({ payload, suppressed });
+        },
+      });
+
+      // Burst on a single key emits immediately then summarizes and deletes the key
+      throttle.record('k1', 1);
+      throttle.record('k1', 2);
+      throttle.record('k1', 3);
+      expect(emitted).toEqual([{ payload: 1, suppressed: 0 }]);
+      expect(throttle.size()).toBe(1);
+
+      rs.advanceTimersByTime(5_000);
+      expect(emitted).toEqual([
+        { payload: 1, suppressed: 0 },
+        { payload: 3, suppressed: 2 },
+      ]);
+      expect(throttle.size()).toBe(0);
+
+      // Single event without follow-up is also evicted after the window expires
+      throttle.record('k2', 10);
+      expect(throttle.size()).toBe(1);
+      rs.advanceTimersByTime(5_000);
+      expect(throttle.size()).toBe(0);
+      expect(emitted).toHaveLength(3);
+
+      // Force flush emits pending suppressed events and clears all keys immediately
+      throttle.record('k3', 20);
+      throttle.record('k3', 21);
+      throttle.flush();
+      expect(throttle.size()).toBe(0);
+      expect(emitted.at(-1)).toEqual({ payload: 21, suppressed: 1 });
+    } finally {
+      rs.useRealTimers();
     }
   });
 });

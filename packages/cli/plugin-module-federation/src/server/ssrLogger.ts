@@ -211,3 +211,89 @@ export function debugMFSSRVerbose(
   const formattedFields = formatLogFields(resolved);
   mfSSRVerboseDebug(formattedFields ? `${event} ${formattedFields}` : event);
 }
+
+export interface WindowedThrottle<T> {
+  record(key: string, payload: T): void;
+  flush(): void;
+  clear(): void;
+  size(): number;
+}
+
+export function createWindowedThrottle<T>(options: {
+  windowMs: number;
+  onEmit: (payload: T, suppressed: number) => void;
+  autoFlush?: boolean;
+}): WindowedThrottle<T> {
+  const windows = new Map<
+    string,
+    { lastLoggedAt: number; suppressed: number; latest: T }
+  >();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  const clearTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = undefined;
+    }
+  };
+
+  const flushInternal = (force: boolean) => {
+    clearTimer();
+    const now = Date.now();
+    let hasActive = false;
+    for (const [key, state] of windows) {
+      if (state.suppressed > 0) {
+        const { latest, suppressed } = state;
+        windows.delete(key);
+        options.onEmit(latest, suppressed);
+      } else if (force || now - state.lastLoggedAt >= options.windowMs) {
+        windows.delete(key);
+      } else {
+        hasActive = true;
+      }
+    }
+    if (!force && options.autoFlush && hasActive) {
+      scheduleFlush();
+    }
+  };
+
+  const scheduleFlush = () => {
+    if (timer) return;
+    timer = setTimeout(() => {
+      timer = undefined;
+      flushInternal(false);
+    }, options.windowMs);
+    timer.unref?.();
+  };
+
+  return {
+    record(key: string, payload: T) {
+      const now = Date.now();
+      const existing = windows.get(key);
+      if (existing && now - existing.lastLoggedAt < options.windowMs) {
+        existing.suppressed++;
+        existing.latest = payload;
+        if (options.autoFlush) scheduleFlush();
+        return;
+      }
+      const suppressed = existing?.suppressed || 0;
+      windows.set(key, {
+        lastLoggedAt: now,
+        suppressed: 0,
+        latest: payload,
+      });
+      if (options.autoFlush) scheduleFlush();
+      options.onEmit(payload, suppressed);
+    },
+    flush() {
+      flushInternal(true);
+    },
+    clear() {
+      clearTimer();
+      windows.clear();
+    },
+    size() {
+      return windows.size;
+    },
+  };
+}

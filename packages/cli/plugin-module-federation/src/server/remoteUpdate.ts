@@ -715,6 +715,7 @@ export function createRemoteUpdateController<
         ? application.defer!(execute).completed
         : Promise.resolve().then(execute);
     } catch (error) {
+      reportReject(error, captured, operation.operationId, revision);
       if (input.defer) throw error;
       return Promise.reject(error);
     }

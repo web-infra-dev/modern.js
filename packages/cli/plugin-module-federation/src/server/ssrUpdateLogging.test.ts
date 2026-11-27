@@ -336,4 +336,101 @@ describe('MF SSR update logging', () => {
       debug.log = originalLog;
     }
   });
+
+  it('bounds admission throttle across generations and reports synchronous defer() failures', async () => {
+    rs.useFakeTimers();
+    try {
+      const warnSpy = rs.spyOn(logger, 'warn').mockImplementation(() => {});
+      const errorSpy = rs.spyOn(logger, 'error').mockImplementation(() => {});
+      const context: any = {
+        dev: true,
+        routes: [{ isSSR: true, entryName: 'main' }],
+      };
+      const plugin = createSSRUpdateServerPlugin({ name: 'host' });
+      let prepareCb: (() => void) | undefined;
+      plugin.setup!({
+        onPrepare(cb: () => void) {
+          prepareCb = cb;
+        },
+        getServerContext: () => context,
+        updateServerContext(patch: Record<string, unknown>) {
+          Object.assign(context, patch);
+        },
+      } as any);
+      prepareCb!();
+
+      const onEvent = context.ssrApplication.onEvent as (
+        event: SSRCoordinatorEvent,
+      ) => void;
+
+      // Cross-generation rejections share one bounded throttle key (phase|decision|reason)
+      for (let gen = 1; gen <= 25; gen++) {
+        onEvent({
+          type: 'admission',
+          decision: 'reject',
+          reason: 'unavailable',
+          phase: 'unavailable',
+          generation: gen,
+          entryName: 'main',
+          waitedMs: 0,
+          activeRequests: 0,
+          pendingRequests: 0,
+        });
+      }
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(warnSpy.mock.calls[0][0]).toContain('gen=1');
+
+      // After 5s window, summary flushes with latest generation and clears state
+      rs.advanceTimersByTime(5_000);
+      expect(warnSpy).toHaveBeenCalledTimes(2);
+      expect(warnSpy.mock.calls[1][0]).toContain('gen=25');
+      expect(warnSpy.mock.calls[1][0]).toContain('suppressed=24');
+
+      // No lingering timer or phantom flush after window is evicted
+      rs.advanceTimersByTime(10_000);
+      expect(warnSpy).toHaveBeenCalledTimes(2);
+
+      // Synchronous application.defer() rejection emits [MF SSR] Failed with stage=queue
+      const entry = 'http://provider.test/static/mf-manifest.json';
+      const adapter = createSSRUpdateAdapter({
+        name: 'host',
+        mode: 'prod',
+        entries: ['main'],
+        remotes: [
+          {
+            name: 'provider',
+            entry,
+            manifest: manifest('provider', 'v1', entry),
+          },
+        ],
+      });
+      const deferErr = new Error('defer queue rejected');
+      const deferApp = {
+        status: { phase: 'serving', generation: 1 },
+        defer() {
+          throw deferErr;
+        },
+      };
+      expect(() =>
+        adapter.updateRemotes(
+          deferApp as any,
+          [
+            {
+              name: 'provider',
+              entry,
+              manifest: manifest('provider', 'v2', entry),
+            },
+          ],
+          { defer: 'after-response', trigger: 'webhook' },
+        ),
+      ).toThrow('defer queue rejected');
+      expect(errorSpy).toHaveBeenCalledTimes(1);
+      expect(errorSpy.mock.calls[0][0]).toContain(
+        '[MF SSR] Failed remotes=provider mode=prod stage=queue mutationStarted=false phase=serving app=host',
+      );
+      expect(errorSpy.mock.calls[0][1]).toBe(deferErr);
+    } finally {
+      rs.useRealTimers();
+    }
+  });
 });
