@@ -5,12 +5,12 @@ import {
   type SchemaCtorInput,
   Struct,
   toSchemaCtor,
-} from 'farrow-schema/dist/schema.js';
+} from 'farrow-schema';
 import {
   type ValidationError,
   type Validator,
   createSchemaValidator,
-} from 'farrow-schema/validator.js';
+} from 'farrow-schema/validator';
 import type { TypeOfRouterRequestField } from './types';
 
 import type {

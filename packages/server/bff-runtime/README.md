@@ -12,6 +12,10 @@
 
 Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
 
+## Node.js exports
+
+Node.js `import` and `require` both load the CommonJS entry. In ES modules, `match`, `isHandler`, and `isSchemaHandler` are available as named imports. Use `import schema from '@modern-js/bff-runtime'` to access the full schema API. CommonJS callers can access the same API with `require('@modern-js/bff-runtime')`.
+
 ## Documentation
 
 - [English Documentation](https://modernjs.dev/en/)

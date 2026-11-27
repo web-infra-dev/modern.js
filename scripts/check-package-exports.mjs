@@ -12,58 +12,88 @@ const exec = promisify(execFile);
 const usage =
   'Usage: pnpm check-package-exports [--filter <package>] [package ...]';
 
-// JS defaults are not necessarily Node APIs (some start a CLI or need a DOM).
-// Only probe explicit Node import/require contracts and prebundled CJS fallbacks.
-function nativeMode(conditions, target) {
-  if (target.startsWith('./dist/esm/')) return;
-  if (
-    conditions.some(
-      key => !['node', 'import', 'require', 'default'].includes(key),
-    )
-  )
+function nodeEntry(value, condition, explicit = false) {
+  if (value == null) return value;
+  if (typeof value === 'string') {
+    // Other JS defaults can start a CLI or require a DOM.
+    const load =
+      !value.startsWith('./dist/esm/') &&
+      (explicit ||
+        value.endsWith('.cjs') ||
+        value.startsWith('./dist/cjs/') ||
+        value.startsWith('./dist/compiled/'));
+    return { target: value, check: load ? 'load' : 'file' };
+  }
+  if (Array.isArray(value)) {
+    for (const branch of value) {
+      const entry = nodeEntry(branch, condition, explicit);
+      if (entry != null) return entry;
+    }
     return;
-  if (conditions.includes('import')) return 'esm';
-  if (conditions.includes('require')) return 'cjs';
-  if (conditions.includes('default') && target.startsWith('./dist/compiled/'))
-    return 'cjs';
+  }
+  // Prefer the declared mode over its fallback. The child checks that Node's
+  // actual key order doesn't accidentally shadow that explicit entry.
+  const fallback = nodeEntry(value.default, condition, explicit);
+  for (const [key, branch] of Object.entries(value)) {
+    if (key !== 'node' && key !== condition) continue;
+    const entry = nodeEntry(branch, condition, explicit || key === condition);
+    if (entry?.check === 'file' && fallback?.check === 'load') {
+      // A Node fallback must not shadow a Web import. Resolve, but never load it.
+      return { ...entry, check: 'resolve' };
+    }
+    if (entry !== undefined) return entry;
+  }
+  return fallback;
 }
 
 function inspectPackage({ directory, manifest }, errors) {
-  const entries = { esm: new Map(), cjs: new Map() };
-  function visit(subpath, value, conditions) {
+  const entries = { esm: [], cjs: [] };
+  const paths = new Map();
+  function checkFiles(subpath, value, conditions) {
     if (typeof value === 'string') {
-      const mode = nativeMode(conditions, value);
-      let target = resolve(directory, value);
+      const target = resolve(directory, value);
       try {
         if (!statSync(target).isFile()) throw new Error('not a file');
-        if (mode) target = realpathSync(target);
+        paths.set(value, realpathSync(target));
       } catch (error) {
         errors.push(
-          `${manifest.name} ${subpath} [${mode ?? (conditions.join('.') || 'file')}] ${value}: ${error.message}`,
+          `${manifest.name} ${subpath} [${conditions.join('.') || 'file'}] ${value}: ${error.message}`,
         );
       }
-      const spec = manifest.name + subpath.slice(1);
-      if (mode && !entries[mode].has(spec)) entries[mode].set(spec, target);
     } else if (Array.isArray(value)) {
-      for (const branch of value) visit(subpath, branch, conditions);
+      for (const branch of value) checkFiles(subpath, branch, conditions);
     } else if (value) {
-      for (const [condition, branch] of Object.entries(value)) {
-        visit(subpath, branch, [...conditions, condition]);
+      for (const [key, branch] of Object.entries(value)) {
+        checkFiles(subpath, branch, [...conditions, key]);
       }
     }
   }
 
   const exports = manifest.exports;
-  if (Object.keys(exports).some(key => key.startsWith('.'))) {
-    for (const [subpath, value] of Object.entries(exports))
-      visit(subpath, value, []);
-  } else {
-    visit('.', exports, []);
+  const subpaths = Object.keys(exports).some(key => key.startsWith('.'))
+    ? exports
+    : { '.': exports };
+  for (const [subpath, value] of Object.entries(subpaths)) {
+    checkFiles(subpath, value, []);
+    const spec = manifest.name + subpath.slice(1);
+    for (const [mode, condition] of [
+      ['esm', 'import'],
+      ['cjs', 'require'],
+    ]) {
+      const entry = nodeEntry(value, condition);
+      if (entry && entry.check !== 'file') {
+        entries[mode].push([
+          spec,
+          paths.get(entry.target) ?? resolve(directory, entry.target),
+          entry.check === 'load',
+        ]);
+      }
+    }
   }
-  if (manifest.main) visit('.', manifest.main, ['main']);
+  if (manifest.main) checkFiles('.', manifest.main, ['main']);
   return Object.entries(entries)
-    .filter(([, specs]) => specs.size)
-    .map(([mode, specs]) => ({ directory, mode, specs: [...specs] }));
+    .filter(([, specs]) => specs.length)
+    .map(([mode, specs]) => ({ directory, mode, specs }));
 }
 
 const completion = '::exports-loaded::';
@@ -71,10 +101,10 @@ async function load({ directory, mode }, specs) {
   const esm = mode === 'esm';
   const source = `
     ${esm ? "import { fileURLToPath } from 'node:url';" : ''}
-    for (const [spec, expected] of JSON.parse(process.argv[1])) {
+    for (const [spec, expected, execute] of JSON.parse(process.argv[1])) {
       const actual = ${esm ? 'fileURLToPath(import.meta.resolve(spec))' : 'require.resolve(spec)'};
       if (actual !== expected) throw new Error(spec + ': expected ' + expected + ', but Node resolved ' + actual);
-      ${esm ? 'await import(spec)' : 'require(spec)'};
+      if (execute) ${esm ? 'await import(spec)' : 'require(spec)'};
     }
     console.log('${completion}');`;
   const { stdout } = await exec(
@@ -169,11 +199,19 @@ async function main() {
   const count = mode =>
     jobs
       .filter(job => job.mode === mode)
-      .reduce((sum, job) => sum + job.specs.length, 0);
+      .reduce(
+        (sum, job) => sum + job.specs.filter(([, , execute]) => execute).length,
+        0,
+      );
   console.log(
     `Checked ${packages.length} package${packages.length === 1 ? '' : 's'} (${count('esm')} ESM, ${count('cjs')} CJS exports).`,
   );
-  if (errors.length) process.exitCode = 1;
+  if (errors.length) {
+    console.error(
+      'Check the declared exports and build outputs. For CommonJS-only dependencies, prefer a working CommonJS entry over deep imports of upstream build files.',
+    );
+    process.exitCode = 1;
+  }
 }
 
 main().catch(error => {
