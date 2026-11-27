@@ -104,24 +104,25 @@ export function pack(root, output, expectedPlanHash, { staging = false } = {}) {
 
 const BUILD_WORKFLOW = 'release-build.yml';
 const SHA = /^[0-9a-f]{40}$/;
+const HASH = /^[0-9a-f]{64}$/;
 const REPOSITORY = /^[\w.-]+\/[\w.-]+$/;
 
-/**
- * The build run that packed this very commit.
- *
- * Publishing no longer builds: it takes the tarballs release-build.yml made
- * on the staging branch, which are the bytes every downstream repository was
- * tested against. Identifying that run by commit rather than by a value
- * passed in means there is nothing to get wrong between the two halves - the
- * artifacts either came from this source or they are not accepted.
- */
-export async function locateBuild({
-  sha = process.env.GITHUB_SHA,
-  repository = process.env.GITHUB_REPOSITORY,
-  token = process.env.GITHUB_TOKEN,
-  branch,
-  fetchImpl = fetch,
-} = {}) {
+/** The tag the release pipeline writes when a release passes its gate. */
+export const approvalTag = plan => `release-approval/${plan.releaseId}`;
+
+async function getJson(fetchImpl, token, url, what) {
+  const response = await fetchImpl(url, {
+    headers: {
+      authorization: `Bearer ${token}`,
+      accept: 'application/vnd.github+json',
+      'x-github-api-version': '2022-11-28',
+    },
+  });
+  assert(response.ok, `${what} returned HTTP ${response.status}`);
+  return response.json();
+}
+
+function assertLookup({ sha, repository, token }) {
   assert(
     SHA.test(sha ?? ''),
     'A full commit SHA is required to find its build',
@@ -134,40 +135,159 @@ export async function locateBuild({
     typeof token === 'string' && token.length > 0,
     'A token that may read Actions runs is required',
   );
-  // Listed by commit rather than through /actions/workflows/<file>/runs: that
-  // endpoint answers 404 for a workflow that is not on the default branch,
-  // which is exactly the situation while this machinery lives on a branch.
-  // The general listing carries each run's workflow path, so the filtering is
-  // the same and the lookup works either way.
-  const url =
-    `https://api.github.com/repos/${repository}/actions/runs` +
-    `?head_sha=${sha}&status=success&per_page=100`;
-  const response = await fetchImpl(url, {
-    headers: {
-      authorization: `Bearer ${token}`,
-      accept: 'application/vnd.github+json',
-      'x-github-api-version': '2022-11-28',
-    },
-  });
-  assert(response.ok, `Listing build runs returned HTTP ${response.status}`);
-  const body = await response.json();
-  const runs = (body.workflow_runs ?? []).filter(
-    run =>
-      run.head_sha === sha &&
-      run.conclusion === 'success' &&
-      run.path === `.github/workflows/${BUILD_WORKFLOW}` &&
-      (branch === undefined || run.head_branch === branch),
+}
+
+/**
+ * Which build the release was approved with.
+ *
+ * The same commit can be built more than once - anyone with write access can
+ * re-run the build - and a second build is not guaranteed to produce the same
+ * bytes. So "the newest successful build of this commit" is not necessarily
+ * what downstream repositories were tested against. The release pipeline
+ * records the build it tested in an annotated tag before it creates the
+ * release branch, and this side publishes that build or nothing.
+ *
+ * The tag is an annotated tag pointing at the release commit; its message is
+ * the approval as JSON. Only the release App may create release-approval/
+ * tags (repository ruleset), which is what makes its contents trustworthy.
+ */
+export async function readApproval({
+  plan,
+  sha = process.env.GITHUB_SHA,
+  repository = process.env.GITHUB_REPOSITORY,
+  token = process.env.GITHUB_TOKEN,
+  fetchImpl = fetch,
+} = {}) {
+  assertLookup({ sha, repository, token });
+  const name = approvalTag(plan);
+  const api = `https://api.github.com/repos/${repository}/git`;
+  const ref = await getJson(
+    fetchImpl,
+    token,
+    `${api}/ref/tags/${name}`,
+    `Reading the approval tag ${name}`,
   );
-  assert(runs.length > 0, `No successful ${BUILD_WORKFLOW} run packed ${sha}`);
-  const run = runs.reduce((latest, candidate) =>
-    candidate.run_number > latest.run_number ? candidate : latest,
+  assert.equal(ref.ref, `refs/tags/${name}`, 'Unexpected approval ref');
+  assert.equal(
+    ref.object?.type,
+    'tag',
+    'The approval must be an annotated tag written by the release pipeline',
   );
-  assert(Number.isSafeInteger(run.id) && run.id > 0, 'Unexpected build run id');
+  const tag = await getJson(
+    fetchImpl,
+    token,
+    `${api}/tags/${ref.object.sha}`,
+    `Reading the approval tag object ${ref.object.sha}`,
+  );
+  assert.equal(tag.tag, name, 'Unexpected approval tag name');
+  assert.equal(tag.object?.type, 'commit', 'The approval must tag a commit');
+  assert.equal(
+    tag.object?.sha,
+    sha,
+    'The approval was given for another commit',
+  );
+  let approval;
+  try {
+    approval = JSON.parse(tag.message);
+  } catch {
+    throw new Error('The approval tag message is not JSON');
+  }
+  assert.deepEqual(
+    Object.keys(approval ?? {}).sort(),
+    [
+      'buildRunAttempt',
+      'buildRunId',
+      'manifestSha256',
+      'releaseId',
+      'schemaVersion',
+    ],
+    'Unexpected approval fields',
+  );
+  assert.equal(approval.schemaVersion, 1, 'Unsupported approval schema');
+  assert.equal(
+    approval.releaseId,
+    plan.releaseId,
+    'The approval belongs to another release',
+  );
   assert(
-    Number.isSafeInteger(run.run_attempt) && run.run_attempt > 0,
+    Number.isSafeInteger(approval.buildRunId) && approval.buildRunId > 0,
+    'Unexpected approved build run id',
+  );
+  assert(
+    Number.isSafeInteger(approval.buildRunAttempt) &&
+      approval.buildRunAttempt > 0,
+    'Unexpected approved build run attempt',
+  );
+  assert(HASH.test(approval.manifestSha256), 'Unexpected approved manifest');
+  return approval;
+}
+
+/**
+ * The approved build, checked against this very commit.
+ *
+ * The run is fetched by the id and attempt the approval names - never "the
+ * newest one" - so a later run or a re-run attempt of the same commit cannot
+ * take its place. The approval's manifest digest is checked again after the
+ * artifacts are downloaded, before anything is published.
+ */
+export async function locateBuild({
+  approval,
+  sha = process.env.GITHUB_SHA,
+  repository = process.env.GITHUB_REPOSITORY,
+  token = process.env.GITHUB_TOKEN,
+  branch,
+  fetchImpl = fetch,
+} = {}) {
+  assertLookup({ sha, repository, token });
+  assert(approval, 'An approval is required to find the build to publish');
+  const run = await getJson(
+    fetchImpl,
+    token,
+    `https://api.github.com/repos/${repository}/actions/runs/${approval.buildRunId}/attempts/${approval.buildRunAttempt}`,
+    `Reading approved build run ${approval.buildRunId} attempt ${approval.buildRunAttempt}`,
+  );
+  assert.equal(run.id, approval.buildRunId, 'Unexpected build run');
+  assert.equal(
+    run.run_attempt,
+    approval.buildRunAttempt,
     'Unexpected build run attempt',
   );
-  return { id: run.id, attempt: run.run_attempt, branch: run.head_branch, sha };
+  assert.equal(run.head_sha, sha, 'The approved build packed another commit');
+  assert.equal(
+    run.path,
+    `.github/workflows/${BUILD_WORKFLOW}`,
+    `The approved run is not a ${BUILD_WORKFLOW} run`,
+  );
+  if (branch !== undefined)
+    assert.equal(
+      run.head_branch,
+      branch,
+      'The approved build ran on another branch',
+    );
+  assert.equal(run.status, 'completed', 'The approved build has not finished');
+  assert.equal(run.conclusion, 'success', 'The approved build did not succeed');
+  return {
+    id: run.id,
+    attempt: run.run_attempt,
+    branch: run.head_branch,
+    sha,
+    manifestSha256: approval.manifestSha256,
+  };
+}
+
+/** Hold the downloaded manifest to the digest the release was approved with. */
+export function assertApprovedManifest(directory, manifestSha256) {
+  assert(
+    HASH.test(manifestSha256 ?? ''),
+    'An approved manifest digest is required',
+  );
+  const manifest = readJson(path.join(directory, 'manifest.json'));
+  assert.equal(
+    planHash(manifest),
+    manifestSha256,
+    'The downloaded artifacts are not the build this release was approved with',
+  );
+  return manifest;
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -198,6 +318,8 @@ export async function main(argv = process.argv.slice(2)) {
       artifacts: { type: 'string', default: '.release/artifacts' },
       'receipt-dir': { type: 'string', default: '.release/receipts' },
       'expected-plan-hash': { type: 'string' },
+      // The digest of the approved build's manifest, from the approval tag.
+      'manifest-sha256': { type: 'string' },
       // Finishes a release whose publish stopped part way: the registry is
       // asked which versions it already serves and only the rest are sent.
       reconcile: { type: 'boolean', default: false },
@@ -272,15 +394,22 @@ export async function main(argv = process.argv.slice(2)) {
     const plan = validatePlan(
       readJson(path.join(root, '.release/canary-plan.json')),
     );
-    const build = await locateBuild({ branch: stagingBranch(plan) });
+    const approval = await readApproval({ plan });
+    const build = await locateBuild({ approval, branch: stagingBranch(plan) });
     if (process.env.GITHUB_OUTPUT) {
       fs.appendFileSync(
         process.env.GITHUB_OUTPUT,
-        `build_run_id=${build.id}\nbuild_run_attempt=${build.attempt}\n`,
+        `build_run_id=${build.id}\nbuild_run_attempt=${build.attempt}\nmanifest_sha256=${build.manifestSha256}\n`,
       );
     }
     console.log(JSON.stringify(build));
   } else if (command === 'publish') {
+    // Before anything else: these must be the bytes the release was approved
+    // with, not merely bytes this commit produced.
+    assertApprovedManifest(
+      path.resolve(root, values.artifacts),
+      values['manifest-sha256'],
+    );
     await publish(root, {
       artifacts: values.artifacts,
       receiptDir: values['receipt-dir'],

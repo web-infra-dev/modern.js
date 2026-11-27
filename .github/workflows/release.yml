@@ -53,6 +53,13 @@ jobs:
     if: startsWith(github.ref, 'refs/heads/release-') && !endsWith(github.ref, '-bump')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    # npm trusts this job only inside this environment, and the repository
+    # lets only release-<channel>/ branches deploy to it. Those branches can
+    # be created by the release App alone (repository ruleset), so a branch
+    # pushed by anyone else - with an edited copy of this file or of the
+    # scripts - gets no identity npm accepts. The checks in release.mjs remain
+    # as well; this is the part GitHub and npm enforce on their own.
+    environment: npm-release
     permissions:
       contents: read
       actions: read
@@ -79,7 +86,9 @@ jobs:
         env:
           EXPECTED_PLAN_HASH: ${{ inputs.expected_plan_hash }}
         run: node scripts/canary-release/release.mjs verify --expected-plan-hash "$EXPECTED_PLAN_HASH"
-      - name: Find the build that packed this exact commit
+      - name: Find the build this release was approved with
+        # Not the newest build of the commit: the one named by the
+        # release-approval/<release id> tag the pipeline wrote at its gate.
         id: build
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -105,12 +114,13 @@ jobs:
       - name: Verify all artifacts and publish through OIDC
         env:
           EXPECTED_PLAN_HASH: ${{ steps.plan.outputs.plan_hash }}
+          MANIFEST_SHA256: ${{ steps.build.outputs.manifest_sha256 }}
           RECONCILE: ${{ inputs.reconcile }}
         run: |
           if [ "${RECONCILE:-false}" = "true" ]; then
-            node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH" --reconcile
+            node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH" --manifest-sha256 "$MANIFEST_SHA256" --reconcile
           else
-            node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH"
+            node scripts/canary-release/release.mjs publish --expected-plan-hash "$EXPECTED_PLAN_HASH" --manifest-sha256 "$MANIFEST_SHA256"
           fi
       - name: Persist publish receipts even on partial failure
         if: always()
