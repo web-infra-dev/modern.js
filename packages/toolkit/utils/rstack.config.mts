@@ -43,7 +43,6 @@ const dependencies = [
     },
   },
   // some dependencies
-  'glob-v7',
   'glob',
   'chalk',
   'webpack-chain',

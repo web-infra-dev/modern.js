@@ -132,7 +132,7 @@ function renameDistFolder(task: ParsedTask) {
   const pkgJson = fs.readJsonSync(pkgPath, 'utf-8');
 
   ['types', 'typing', 'typings'].forEach(key => {
-    if (/^(\.\/)?dist\//.test(pkgJson[key])) {
+    if (pkgJson[key]?.startsWith('dist/')) {
       pkgJson[key] = pkgJson[key].replace('dist/', 'types/');
 
       const distFolder = join(task.distPath, 'dist');

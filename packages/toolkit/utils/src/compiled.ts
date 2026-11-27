@@ -5,7 +5,7 @@ import { Import } from './import';
 
 export { default as fs } from '../compiled/fs-extra';
 export { default as ora } from '../compiled/ora';
-export { default as glob } from '../compiled/glob-v7';
+export { default as glob } from '../compiled/glob';
 export { default as yaml } from '../compiled/js-yaml';
 export { default as chalk } from '../compiled/chalk';
 export { default as debug } from '../compiled/debug';
@@ -40,7 +40,7 @@ import _signale from '../compiled/signale';
 export const { Signale } = _signale;
 
 export type { SignaleOptions } from '../compiled/signale';
-export type { IOptions as GlobOptions } from '../compiled/glob-v7';
+export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 export type { ExecaError } from '../compiled/execa';

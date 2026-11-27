@@ -50,12 +50,7 @@
       "default": "./dist/compiled/commander/index.js"
     },
     "./ora": "./dist/compiled/ora/index.js",
-    "./glob": "./dist/compiled/glob-v7/index.js",
-    "./glob/v14": {
-      "types": "./dist/compiled/glob/types/commonjs/index.d.ts",
-      "import": "./dist/compiled/glob/index.mjs",
-      "default": "./dist/compiled/glob/index.js"
-    },
+    "./glob": "./dist/compiled/glob/index.js",
     "./chalk": "./dist/compiled/chalk/index.js",
     "./execa": "./dist/compiled/execa/index.js",
     "./json5": "./dist/compiled/json5/index.js",
@@ -93,10 +88,7 @@
         "./dist/compiled/execa/index.d.ts"
       ],
       "glob": [
-        "./dist/compiled/glob-v7/index.d.ts"
-      ],
-      "glob/v14": [
-        "./dist/compiled/glob/types/commonjs/index.d.ts"
+        "./dist/compiled/glob/index.d.ts"
       ],
       "chalk": [
         "./dist/compiled/chalk/index.d.ts"

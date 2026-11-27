@@ -84,6 +84,7 @@ export const TASKS: TaskConfig[] = [
         },
       },
       // some dependencies
+      // Resolve minimatch from @types/glob so the v7 declarations use its v3 types.
       { name: 'glob', emitDts: copyDeclarations },
       'chalk',
       {

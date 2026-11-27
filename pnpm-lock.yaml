@@ -2277,6 +2277,9 @@ importers:
       '@types/fs-extra':
         specifier: 9.0.13
         version: 9.0.13
+      '@types/glob':
+        specifier: 7.2.0
+        version: 7.2.0
       '@types/inquirer':
         specifier: 8.2.13
         version: 8.2.13
@@ -2350,8 +2353,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       glob:
-        specifier: 14.0.6
-        version: 14.0.6
+        specifier: 7.2.0
+        version: 7.2.0
       globby:
         specifier: 11.1.0
         version: 11.1.0
@@ -9564,6 +9567,9 @@ packages:
 
   '@types/glob@5.0.38':
     resolution: {integrity: sha512-rTtf75rwyP9G2qO5yRpYtdJ6aU1QqEhWbtW55qEgquEDa6bXW0s2TWZfDm02GuppjEozOWG/F2UnPq5hAQb+gw==}
+
+  '@types/glob@7.2.0':
+    resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
@@ -24058,6 +24064,11 @@ snapshots:
     dependencies:
       '@types/minimatch': 6.0.0
       '@types/node': 22.20.5
+
+  '@types/glob@7.2.0':
+    dependencies:
+      '@types/minimatch': 3.0.5
+      '@types/node': 20.19.43
 
   '@types/hast@3.0.4':
     dependencies:

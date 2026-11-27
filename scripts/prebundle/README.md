@@ -166,8 +166,5 @@ When rebuilding `chokidar` on Linux or Windows, first run
 `pnpm --filter @scripts/prebundle install --force --frozen-lockfile --ignore-scripts`
 to include the optional macOS `fsevents` binary in the bundle.
 
-The `glob` task produces the versioned `@modern-js/utils/glob/v14` entry.
-The separate `compiled/glob-v7` directory contains the original v3 bundle and
-its declarations for callback and event-based consumers of the existing exports.
-Likewise, `compiled/dotenv-expand-v5` backs the v3 callable `dotenvExpand(config)`
+The `compiled/dotenv-expand-v5` directory backs the v3 callable `dotenvExpand(config)`
 export. The server uses the v11 `dotenvExpand.expand(config)` method.

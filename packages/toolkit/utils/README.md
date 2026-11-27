@@ -21,14 +21,6 @@ Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-sta
 
 Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
-## Glob
-
-The v3 `glob` export from `@modern-js/utils` and the default export of
-`@modern-js/utils/glob` support glob 7 callbacks, events and synchronous
-matching. Import `glob`, `globSync` and the `GlobOptions` type from
-`@modern-js/utils/glob/v14` to use glob 14. For example,
-`await glob('**/*.ts', { cwd: 'src' })` resolves to the matching source files.
-
 ## Environment variable expansion
 
 Use `dotenvExpand.expand(config)` from `@modern-js/utils` for dotenv-expand 11.
