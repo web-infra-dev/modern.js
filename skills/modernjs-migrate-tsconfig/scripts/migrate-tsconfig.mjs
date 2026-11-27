@@ -203,6 +203,28 @@ function findBaseUrlImport(dir, baseUrlDir, pathsKeys) {
   return undefined;
 }
 
+const DYNAMIC_IMPORT_RE = /\bimport\s*\(\s*(['"])([^'"\n]+)\1/g;
+const RUNTIME_EXT_RE = /\.(?:[cm]?js|json|node)$/;
+const MAX_REPORTED_IMPORTS = 20;
+
+// NodeNext 下 CommonJS 文件里的 import() 保留为原生 ESM 导入，相对路径必须带扩展名（否则 TS2835，运行时找不到模块）
+function findExtensionlessDynamicImports(dir) {
+  const found = [];
+  for (const sub of ['api', 'server', 'shared']) {
+    const subDir = path.join(dir, sub);
+    if (!fs.existsSync(subDir)) continue;
+    for (const file of listSourceFiles(subDir)) {
+      const code = stripComments(fs.readFileSync(file, 'utf8'));
+      for (const [, , specifier] of code.matchAll(DYNAMIC_IMPORT_RE)) {
+        if (/^\.\.?\//.test(specifier) && !RUNTIME_EXT_RE.test(specifier)) {
+          found.push({ file: path.relative(dir, file), specifier });
+        }
+      }
+    }
+  }
+  return found;
+}
+
 // 沿相对路径的 extends 链向上找，返回最近一个声明了 compilerOptions[key] 的父配置（相对 dir 的路径）
 function inheritedOptionFile(dir, config, key, seen = new Set()) {
   const parents = Array.isArray(config.extends)
@@ -381,6 +403,17 @@ export function migrateTsconfig(dir) {
     changed.push(
       '新增 tsconfig.server.json（NodeNext，CommonJS 项目的 api/server/shared 编译配置）',
     );
+    const imports = findExtensionlessDynamicImports(dir);
+    for (const { file, specifier } of imports.slice(0, MAX_REPORTED_IMPORTS)) {
+      manual.push(
+        `${file}：import('${specifier}') 在 tsconfig.server.json（NodeNext）下保留为原生 ESM 导入，需写成带 .js 后缀的路径（如 import('${specifier}.js')），否则 tsc 报 TS2835、运行时找不到模块`,
+      );
+    }
+    if (imports.length > MAX_REPORTED_IMPORTS) {
+      manual.push(
+        `还有 ${imports.length - MAX_REPORTED_IMPORTS} 处不带扩展名的相对 import() 未列出，按上一条同样处理`,
+      );
+    }
   }
 
   return { changed, manual };

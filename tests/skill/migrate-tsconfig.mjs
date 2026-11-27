@@ -321,6 +321,26 @@ try {
       r5.manual.some(m => /@api\/\*/.test(m)),
   );
 
+  console.log('== 5b. 不带扩展名的相对 import() ==');
+  const dynamic = prepare(p => {
+    p.write(
+      'api/lambda/lazy.ts',
+      [
+        "export const load = () => import('../../shared/util');",
+        "export const loadJs = () => import('../../shared/util.js');",
+        "// import('./commented')",
+      ].join('\n'),
+    );
+  });
+  const r5b = dynamic.run();
+  check(
+    '[dynamic] 不带扩展名的 import() 列入人工清单，带 .js 的和注释里的不列',
+    r5b.manual.length === 1 &&
+      /api\/lambda\/lazy\.ts：import\('\.\.\/\.\.\/shared\/util'\).*TS2835/.test(
+        r5b.manual[0],
+      ),
+  );
+
   console.log('== 6. 已有 server.tsconfigPath / tsconfig.server.json ==');
   const explicit = prepare(p => {
     p.write(

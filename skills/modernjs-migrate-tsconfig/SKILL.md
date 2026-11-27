@@ -36,6 +36,7 @@ node scripts/migrate-tsconfig.mjs <projectDir>
 | `tsconfig.json` 含注释或尾逗号                                      | 脚本不改写该文件，按 `manual` 中列出的每项手动修改                                                                                                                                                                    |
 | `baseUrl` 写在 `extends` 的父配置里                                 | 在父配置中按上表同样规则改写                                                                                                                                                                                          |
 | `paths` 写在 `extends` 的父配置里、`tsconfig.json` 自身没有 `paths` | `paths` 是整项覆盖，脚本不在子文件里新写 `paths`（否则父配置的别名全部失效）：需要补 `"*"` 或 `@api/*`、或要删除子文件的 `baseUrl` 时，按 `manual` 的提示在父配置中修改，或把 `paths` 复制到 `tsconfig.json` 后再改写 |
+| `api/`、`server/`、`shared/` 里有不带扩展名的相对 `import('./x')`   | 生成的 `tsconfig.server.json` 是 NodeNext，`import()` 会保留为原生 ESM 导入：按 `manual` 列出的位置改成 `import('./x.js')`，否则 tsc 报 TS2835、运行时找不到模块                                                      |
 
 ## 验证
 

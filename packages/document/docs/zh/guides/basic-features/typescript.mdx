@@ -58,7 +58,7 @@ Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一�
 
 ## 没有 `tsconfig.server.json` 会怎样
 
-框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。按约定使用 `tsconfig.server.json` 时，启动会打印一行日志说明实际使用的文件。回退到 `tsconfig.json` 时，产物照样跟随 `package.json#type`（CommonJS 项目仍是 `require`），不会打印提示；只有它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，类型检查改用 `module: NodeNext` + `moduleResolution: NodeNext`。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
+框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。按约定使用 `tsconfig.server.json` 时，启动会打印一行日志说明实际使用的文件。回退到 `tsconfig.json` 时，产物照样跟随 `package.json#type`（CommonJS 项目仍是 `require`），不会打印提示；只有它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，服务端代码改用 `module: CommonJS` 编译，与旧版 base 预设一致。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
 
 ## 迁移存量项目
 
@@ -81,6 +81,7 @@ node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
 | 有 `baseUrl`                                                                                                   | `paths` 每一项加上原 `baseUrl` 前缀，改成相对 `tsconfig.json` 所在目录；源码中有靠 `baseUrl` 解析的裸导入时补 `"*"` 映射；然后删除 `baseUrl` |
 | 有 `api/lambda`，`paths` 缺少 `@api/*`                                                                         | 补充 `"@api/*": ["./api/lambda/*"]`                                                                                                          |
 | 项目不是 `type: module`，有 `api/` 或 `server/`，没有 `tsconfig.server.json`，也没有配置 `server.tsconfigPath` | 写入上文的 `tsconfig.server.json`                                                                                                            |
+| 写入了 `tsconfig.server.json`，且 `api/`、`server/`、`shared/` 中有不带扩展名的相对 `import()`                 | 逐处列入人工清单：NodeNext 下 `import()` 保留为原生 ESM 导入，需要补上 `.js` 后缀，否则 tsc 报 TS2835、运行时找不到模块                      |
 | `tsconfig.json` 含注释或尾逗号                                                                                 | 不改写该文件，把上述改写列入人工清单                                                                                                         |
 | `baseUrl` 写在 `extends` 的父配置中                                                                            | 不改写父配置，列入人工清单                                                                                                                   |
 
