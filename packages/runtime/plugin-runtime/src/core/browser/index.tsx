@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
+import type { MemoryRouterConfig } from '../../router/runtime/types';
 import type { SSRContainer } from '../types';
 import { hydrateRoot, hydrateWithReact } from './hydrate';
 
@@ -67,7 +68,10 @@ function isClientArgs(id: unknown): id is HTMLElement | string {
 export type RenderFunc = typeof render;
 
 export async function render(
-  App: React.ReactElement<{ basename: string }>,
+  App: React.ReactElement<{
+    basename?: string;
+    memoryRoute?: MemoryRouterConfig;
+  }>,
   id?: HTMLElement | string,
 ) {
   const context: TRuntimeContext = getInitialContext();
@@ -86,6 +90,7 @@ export async function render(
     Object.assign(context, {
       // garfish plugin params
       _internalRouterBaseName: App.props.basename,
+      _internalMemoryRoute: App.props.memoryRoute,
       ssrContext: ssrData.context,
       initialData: ssrData.data?.initialData,
     });

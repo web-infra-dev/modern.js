@@ -1,4 +1,9 @@
 import type { RouterConfig } from './router/internal';
+import type {
+  MemoryRouteEntry,
+  MemoryRouterConfig,
+  MemoryRouterOptions,
+} from './router/runtime/types';
 
 export type { RuntimePlugin } from './core';
 export type { RuntimeConfig } from './common';
@@ -12,4 +17,9 @@ export { setHeaders, setStatus, redirect } from './core/context/response';
 
 export { RuntimeContext, defineRuntimeConfig, useRuntimeContext } from './core';
 
-export type { RouterConfig };
+export type {
+  MemoryRouteEntry,
+  MemoryRouterConfig,
+  MemoryRouterOptions,
+  RouterConfig,
+};

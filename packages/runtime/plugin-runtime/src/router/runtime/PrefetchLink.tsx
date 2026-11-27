@@ -8,6 +8,7 @@ import {
   type NavLinkProps as RouterNavLinkProps,
   matchRoutes,
   useHref,
+  useLocation,
   useMatches,
   useResolvedPath,
 } from '@modern-js/runtime-utils/router';
@@ -211,6 +212,7 @@ const PrefetchDataLinks: React.FC<{
 }> = ({ matches, path, routeManifest }) => {
   const { pathname, search, hash } = path;
   const currentMatches = useMatches();
+  const currentLocation = useLocation();
   const basename = useHref('/');
   const dataHrefs = useMemo(() => {
     return matches
@@ -225,7 +227,9 @@ const PrefetchDataLinks: React.FC<{
 
         if (match.route.shouldRevalidate) {
           const currentUrl = new URL(
-            location.pathname + location.search + location.hash,
+            currentLocation.pathname +
+              currentLocation.search +
+              currentLocation.hash,
             window.origin,
           );
           const nextUrl = new URL(pathname + search + hash, window.origin);

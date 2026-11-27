@@ -38,6 +38,33 @@ title: router
 
 :::
 
+## memory
+
+- **类型：** `boolean | string | MemoryRouterOptions`
+- **默认值：** `undefined`
+
+开启内存路由，将路由状态保存在内存中，跳转时不会修改浏览器地址栏。
+
+- `true`：以当前路径（默认 `'/'`）作为初始路由。
+- `string`：以指定路径作为初始路由，例如 `'/dashboard'`。
+- `MemoryRouterOptions`：对象配置，支持 `entryPath`、`initialEntries`、`initialIndex`、`initialState` 和 `basename`。
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    memory: {
+      initialEntries: ['/', '/detail/42?tab=info'],
+      initialIndex: 1,
+      basename: '/shop',
+    },
+  },
+});
+```
+
+多实例用法与组件 API 见 [内存路由](/guides/basic-features/routes/memory-route) 和 [Memory Route API](/apis/app/runtime/router/memory-route)。
+
 ## useTransitions
 
 - **类型：** `boolean`

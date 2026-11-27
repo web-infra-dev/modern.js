@@ -34,14 +34,18 @@ import {
   handleRSCRedirect,
   prepareRSCRoutes,
 } from './rsc-router';
+import {
+  ActiveMemoryRouteContext,
+  normalizeMemoryRouterConfig,
+} from './memory';
 import type { RouterConfig } from './types';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
-function createRemixRequest(request: Request) {
+function createRemixRequest(request: Request, overrideUrl?: string) {
   const method = 'GET';
   const { headers } = request;
 
-  return new Request(request.url, {
+  return new Request(overrideUrl ?? request.url, {
     method,
     headers,
     signal: request.signal,
@@ -66,9 +70,10 @@ export const routerPlugin = (
         const pluginConfig: Record<string, any> = api.getRuntimeConfig();
         const {
           basename = '',
+          memory,
           routesConfig,
           createRoutes,
-        } = merge(pluginConfig.router || {}, userConfig);
+        } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
         finalRouteConfig = {
           routes: getGlobalRoutes(),
           globalApp: getGlobalLayoutApp(),
@@ -92,8 +97,22 @@ export const routerPlugin = (
           loaderFailureMode = 'errorBoundary',
           baseUrl,
         } = context.ssrContext!;
-        const _basename =
+        const defaultBasename =
           baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+        const normalizedMemory = normalizeMemoryRouterConfig(
+          context._internalMemoryRoute ?? memory,
+          context.ssrContext!.request.raw.url,
+          defaultBasename,
+        );
+        const _basename = normalizedMemory?.basename ?? defaultBasename;
+        context._internalMemoryRouteState = normalizedMemory
+          ? {
+              enabled: true,
+              initialEntries: normalizedMemory.initialEntries,
+              initialIndex: normalizedMemory.initialIndex,
+              basename: _basename,
+            }
+          : { enabled: false };
 
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
@@ -104,11 +123,12 @@ export const routerPlugin = (
 
         let routes: RouteObject[] = [];
         if (enableRsc) {
-          routes = createRoutes
-            ? createRoutes()
-            : createRouteObjectsFromConfig({
-                routesConfig: finalRouteConfig,
-              });
+          routes =
+            (createRoutes
+              ? createRoutes()
+              : createRouteObjectsFromConfig({
+                  routesConfig: finalRouteConfig,
+                })) || [];
         } else {
           routes = createRoutes
             ? createRoutes()
@@ -131,8 +151,12 @@ export const routerPlugin = (
 
         // We can't pass post request to query,due to post request would trigger react-router submit action.
         // But user maybe do not define action for page.
+        const rawRequest = context.ssrContext!.request.raw;
         const remixRequest = createRemixRequest(
-          context.ssrContext!.request.raw,
+          rawRequest,
+          normalizedMemory?.hasExplicitInitialEntry
+            ? new URL(normalizedMemory.activePath, rawRequest.url).toString()
+            : undefined,
         );
 
         const end = time();
@@ -173,6 +197,19 @@ export const routerPlugin = (
         ) {
           routerContext.statusCode = 200;
           throw errors[0];
+        }
+        const activeMemoryEntry =
+          normalizedMemory?.initialEntries[normalizedMemory.initialIndex];
+        if (
+          activeMemoryEntry &&
+          typeof activeMemoryEntry === 'object' &&
+          'state' in activeMemoryEntry &&
+          activeMemoryEntry.state !== undefined
+        ) {
+          routerContext.location = {
+            ...routerContext.location,
+            state: activeMemoryEntry.state,
+          };
         }
         context.routerContext = routerContext;
 
@@ -216,9 +253,12 @@ export const routerPlugin = (
             const { basename } = routerContext!;
 
             const remixRouter = createStaticRouter(routes!, routerContext!);
+            const memoryState = context._internalMemoryRouteState ?? {
+              enabled: false,
+            };
             if (!enableRsc) {
               const routerWrapper = (
-                <>
+                <ActiveMemoryRouteContext.Provider value={memoryState}>
                   <StaticRouterProvider
                     router={remixRouter!}
                     context={routerContext!}
@@ -234,7 +274,7 @@ export const routerPlugin = (
                       useJsonScript={useJsonScript}
                     />
                   )}
-                </>
+                </ActiveMemoryRouteContext.Provider>
               );
               return App ? <App>{routerWrapper}</App> : routerWrapper;
             } else {

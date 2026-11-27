@@ -6,6 +6,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   createHashRouter,
+  createMemoryRouter,
   createRoutesFromElements,
   useHref,
   useLocation,
@@ -27,8 +28,14 @@ import {
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
+import {
+  ActiveMemoryRouteContext,
+  MemoryRouteContext,
+  type MemoryRouteState,
+  normalizeMemoryRouterConfig,
+} from './memory';
 import { createClientRouterFromPayload } from './rsc-router';
-import type { RouterConfig, Routes } from './types';
+import type { MemoryRouterConfig, RouterConfig, Routes } from './types';
 import {
   createRouteObjectsFromConfig,
   deserializeErrors,
@@ -62,6 +69,7 @@ interface UseRouterCreationOptions {
   api: RouterPluginAPI;
   createRoutes?: RouterConfig['createRoutes'];
   supportHtml5History: boolean;
+  memory?: MemoryRouterConfig;
   selectBasePath: (pathname: string) => string;
   basename: string;
 }
@@ -83,9 +91,20 @@ export const routerPlugin = (
       };
 
       api.onBeforeRender(context => {
+        const mergedRouterConfig = merge(
+          api.getRuntimeConfig().router || {},
+          userConfig,
+        ) as RouterConfig;
+        const isMemoryRouter = Boolean(
+          context._internalMemoryRoute ?? mergedRouterConfig.memory,
+        );
         // In some scenarios, the initial pathname and the current pathname do not match.
         // We add a configuration to support the page to reload.
-        if (window._SSR_DATA && userConfig.unstable_reloadOnURLMismatch) {
+        if (
+          !isMemoryRouter &&
+          window._SSR_DATA &&
+          userConfig.unstable_reloadOnURLMismatch
+        ) {
           const { ssrContext } = context;
           const currentPathname = normalizePathname(window.location.pathname);
           const initialPathname =
@@ -124,6 +143,7 @@ export const routerPlugin = (
         const {
           serverBase = [],
           supportHtml5History = true,
+          memory,
           basename = '',
           routesConfig,
           createRoutes,
@@ -149,7 +169,7 @@ export const routerPlugin = (
           return match || '/';
         };
 
-        // Cache router instance in closure to avoid recreating on parent re-render
+        // Cache non-memory router instance in closure to avoid recreating on parent re-render
         let cachedRouter: any = null;
 
         const RouterWrapper = (props: any) => {
@@ -164,13 +184,18 @@ export const routerPlugin = (
               api: api as any,
               createRoutes,
               supportHtml5History,
+              memory,
               selectBasePath,
               basename,
             },
           );
 
-          // Only cache router instance, routes are always from routerResult
+          // Memory routers stay isolated per mounted instance; browser/hash
+          // routers keep the existing closure cache.
           const router = useMemo(() => {
+            if (routerResult.memoryState.enabled) {
+              return routerResult.router;
+            }
             if (cachedRouter) {
               return cachedRouter;
             }
@@ -178,7 +203,7 @@ export const routerPlugin = (
             cachedRouter = routerResult.router;
             return cachedRouter;
           }, []);
-          const { routes } = routerResult;
+          const { routes, memoryState } = routerResult;
 
           routesContainer.current = routes;
 
@@ -188,11 +213,11 @@ export const routerPlugin = (
           // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
           // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
           const RouterContent = () => (
-            <>
+            <ActiveMemoryRouteContext.Provider value={memoryState}>
               <RouterProvider router={router} useTransitions={useTransitions} />
               <EmptyComponent />
               <EmptyComponent />
-            </>
+            </ActiveMemoryRouteContext.Provider>
           );
 
           return App ? (
@@ -233,18 +258,47 @@ function isSegmentPrefix(pathname: string, base: string) {
 }
 
 function useRouterCreation(props: any, options: UseRouterCreationOptions) {
-  const { api, createRoutes, supportHtml5History, selectBasePath, basename } =
-    options;
+  const {
+    api,
+    createRoutes,
+    supportHtml5History,
+    memory,
+    selectBasePath,
+    basename,
+  } = options;
   const runtimeContext = useContext(InternalRuntimeContext);
+  const memoryRouteContext = useContext(MemoryRouteContext);
+
+  const memoryInput: MemoryRouterConfig | undefined =
+    props?.memoryRoute ??
+    memoryRouteContext ??
+    runtimeContext._internalMemoryRoute ??
+    memory;
 
   const baseUrl = selectBasePath(location.pathname).replace(/^\/*/, '/');
-  const _basename =
+  const defaultBasename =
     baseUrl === '/'
       ? urlJoin(
           baseUrl,
           runtimeContext._internalRouterBaseName || basename || '',
         )
       : baseUrl;
+
+  const currentBrowserPath = `${location.pathname}${location.search}${location.hash}`;
+  const normalizedMemory = normalizeMemoryRouterConfig(
+    memoryInput,
+    currentBrowserPath,
+    defaultBasename,
+  );
+  const _basename = normalizedMemory?.basename ?? defaultBasename;
+  const memoryState: MemoryRouteState = normalizedMemory
+    ? {
+        enabled: true,
+        initialEntries: normalizedMemory.initialEntries,
+        initialIndex: normalizedMemory.initialIndex,
+        basename: _basename,
+      }
+    : { enabled: false };
 
   const { unstable_getBlockNavState: getBlockNavState } = runtimeContext;
   // Keep the define expression inline at every RSC branch. Rspack can then
@@ -301,6 +355,7 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
         return {
           router,
           routes: router.routes || [],
+          memoryState,
         };
       } catch (e) {
         console.error('Failed to create router from RSC payload:', e);
@@ -309,15 +364,22 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
 
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
 
-    const router = supportHtml5History
-      ? createBrowserRouter(modifiedRoutes, {
+    const router = normalizedMemory
+      ? createMemoryRouter(modifiedRoutes, {
           basename: _basename,
+          initialEntries: normalizedMemory.initialEntries,
+          initialIndex: normalizedMemory.initialIndex,
           hydrationData,
         })
-      : createHashRouter(modifiedRoutes, {
-          basename: _basename,
-          hydrationData,
-        });
+      : supportHtml5History
+        ? createBrowserRouter(modifiedRoutes, {
+            basename: _basename,
+            hydrationData,
+          })
+        : createHashRouter(modifiedRoutes, {
+            basename: _basename,
+            hydrationData,
+          });
 
     const originSubscribe = router.subscribe;
     router.subscribe = (listener: RouterSubscriber) => {
@@ -334,6 +396,14 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     return {
       router,
       routes: modifiedRoutes,
+      memoryState,
     };
-  }, [finalRouteConfig, props, _basename, hydrationData, getBlockNavState]);
+  }, [
+    finalRouteConfig,
+    props,
+    _basename,
+    hydrationData,
+    getBlockNavState,
+    memoryInput,
+  ]);
 }

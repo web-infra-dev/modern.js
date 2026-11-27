@@ -5,6 +5,21 @@ import type {
   RouteProps,
 } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
+import type {
+  MemoryRouteEntry,
+  MemoryRouteProviderProps,
+  MemoryRouteState,
+  MemoryRouterConfig,
+  MemoryRouterOptions,
+} from './memory';
+
+export type {
+  MemoryRouteEntry,
+  MemoryRouteProviderProps,
+  MemoryRouteState,
+  MemoryRouterConfig,
+  MemoryRouterOptions,
+};
 
 export type SingleRouteConfig = RouteProps & {
   redirect?: string;
@@ -33,6 +48,12 @@ export type RouterConfig = {
   oldVersion?: boolean;
   serverBase?: string[];
   supportHtml5History?: boolean;
+  /**
+   * Enable memory routing (`createMemoryRouter`) instead of browser/hash history.
+   * Accepts `true`, an initial path string (e.g. `'/dashboard'`), or full options
+   * (`{ entryPath, initialEntries, initialIndex, initialState, basename }`).
+   */
+  memory?: MemoryRouterConfig;
   basename?: string;
   createRoutes?: () => RouteObject[];
   /**

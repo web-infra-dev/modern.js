@@ -1,0 +1,98 @@
+---
+sidebar_position: 4
+---
+
+# Memory Route
+
+Memory Route keeps navigation history in memory without modifying the browser URL. It is useful for micro-frontends, embedded widgets, modals, or rendering multiple independent instances of an app on the same page.
+
+## Basic usage
+
+For conventional (`routes/`) and config (`modern.routes.ts`) routes, enable `router.memory` in `src/modern.runtime.ts`:
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    memory: '/dashboard',
+  },
+});
+```
+
+To configure an initial history stack, `initialIndex`, `state`, or `basename`, pass an options object:
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    memory: {
+      initialEntries: [
+        '/',
+        {
+          pathname: '/detail/42',
+          search: '?tab=info',
+          state: { from: 'card' },
+        },
+      ],
+      initialIndex: 1,
+      basename: '/shop',
+    },
+  },
+});
+```
+
+In multi-entry applications, use the function form `defineRuntimeConfig(entryName => ...)` to enable Memory Route only for specific entries.
+
+## Multiple instances
+
+When mounting multiple root instances on the same page, configure each instance independently via `<MemoryRouteProvider>` or the `memoryRoute` prop:
+
+```tsx
+import { MemoryRouteProvider } from '@modern-js/runtime/router';
+
+export function Panels({
+  ModernRoot,
+}: {
+  ModernRoot: React.ComponentType<any>;
+}) {
+  return (
+    <>
+      <MemoryRouteProvider entryPath="/alpha">
+        <ModernRoot />
+      </MemoryRouteProvider>
+      <ModernRoot memoryRoute="/beta" />
+    </>
+  );
+}
+```
+
+## Working with routes, Data Loaders, and SSR
+
+Inside route components, existing APIs such as `<Link>`, `useNavigate`, `useLocation`, `useParams`, `useLoaderData`, and `<Outlet>` work as usual. Data Loaders and SSR are supported without extra changes.
+
+If a component needs to check whether Memory Route is active, use `useMemoryRoute()`.
+
+## Self-controlled routes
+
+In self-controlled entries (`src/App.tsx` without `routes/`), `router.memory` does not apply. Use `createMemoryRouter` or `<MemoryRouter>` exported from `@modern-js/runtime/router` directly:
+
+```tsx title="src/App.tsx"
+import { RouterProvider, createMemoryRouter } from '@modern-js/runtime/router';
+
+const router = createMemoryRouter(
+  [
+    { path: '/', element: <div>Home</div> },
+    { path: '/about', element: <div>About</div> },
+  ],
+  { initialEntries: ['/about'] },
+);
+
+export default () => <RouterProvider router={router} />;
+```
+
+## Related
+
+- [`router.memory` configuration](/configure/app/runtime/router#memory)
+- [Memory Route API](/apis/app/runtime/router/memory-route)

@@ -22,7 +22,11 @@ export default {
     withTestPreset({
       name: 'plugin-runtime-node',
       testEnvironment: 'node',
-      exclude: ['tests/router/prefetch.test.tsx'],
+      exclude: [
+        'tests/router/prefetch.test.tsx',
+        'tests/router/memoryRouter.test.tsx',
+        'tests/router/memoryRouter.node.test.tsx',
+      ],
       extends: commonConfig,
       plugins: [
         {
@@ -44,9 +48,40 @@ export default {
       ],
     }),
     withTestPreset({
+      name: 'plugin-runtime-node-router',
+      testEnvironment: 'node',
+      output: {
+        bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
+      },
+      include: ['tests/router/memoryRouter.node.test.tsx'],
+      extends: commonConfig,
+      tools: {
+        rspack: config => {
+          config.resolve = config.resolve || {};
+          config.resolve.extensions = [
+            '.node.tsx',
+            '.node.ts',
+            ...(config.resolve.extensions || [
+              '.tsx',
+              '.ts',
+              '.jsx',
+              '.js',
+              '.json',
+            ]),
+          ];
+        },
+      },
+    }),
+    withTestPreset({
       name: 'plugin-runtime-client',
       testEnvironment: 'happy-dom',
-      include: ['tests/router/prefetch.test.tsx'],
+      output: {
+        bundleDependencies: ['@modern-js/render', 'react-server-dom-rspack'],
+      },
+      include: [
+        'tests/router/prefetch.test.tsx',
+        'tests/router/memoryRouter.test.tsx',
+      ],
       extends: commonConfig,
       plugins: [
         {

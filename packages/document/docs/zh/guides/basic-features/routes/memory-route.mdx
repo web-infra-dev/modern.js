@@ -1,0 +1,98 @@
+---
+sidebar_position: 4
+---
+
+# 内存路由
+
+内存路由将路由历史保存在内存中，跳转时不会修改浏览器地址栏，适用于微前端、嵌入式卡片、弹窗流程或多实例同屏展示等场景。
+
+## 基本用法
+
+在约定式路由（`routes/`）或配置式路由（`modern.routes.ts`）中，可通过 `src/modern.runtime.ts` 的 `router.memory` 开启：
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    memory: '/dashboard',
+  },
+});
+```
+
+如需配置初始历史栈、激活索引、`state` 或 `basename`，可传入配置对象：
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    memory: {
+      initialEntries: [
+        '/',
+        {
+          pathname: '/detail/42',
+          search: '?tab=info',
+          state: { from: 'card' },
+        },
+      ],
+      initialIndex: 1,
+      basename: '/shop',
+    },
+  },
+});
+```
+
+多入口应用中，可通过 `defineRuntimeConfig(entryName => ...)` 仅为指定入口开启内存路由。
+
+## 多实例隔离
+
+同一页面需要挂载多个独立的根实例时，可通过 `<MemoryRouteProvider>` 或 `memoryRoute` 属性分别为每个实例指定路由：
+
+```tsx
+import { MemoryRouteProvider } from '@modern-js/runtime/router';
+
+export function Panels({
+  ModernRoot,
+}: {
+  ModernRoot: React.ComponentType<any>;
+}) {
+  return (
+    <>
+      <MemoryRouteProvider entryPath="/alpha">
+        <ModernRoot />
+      </MemoryRouteProvider>
+      <ModernRoot memoryRoute="/beta" />
+    </>
+  );
+}
+```
+
+## 路由能力、Data Loader 与 SSR
+
+开启内存路由后，页面内原有的 `<Link>`、`useNavigate`、`useLocation`、`useParams`、`useLoaderData`、`<Outlet>` 等路由 API 均可照常使用，Data Loader 与 SSR 也正常生效。
+
+如需在组件内判断当前是否处于内存路由模式，可调用 `useMemoryRoute()`。
+
+## 自控式路由
+
+自控式路由入口（`src/App.tsx`）不适用 `router.memory` 配置，可直接从 `@modern-js/runtime/router` 导入 `createMemoryRouter` 或 `<MemoryRouter>` 使用：
+
+```tsx title="src/App.tsx"
+import { RouterProvider, createMemoryRouter } from '@modern-js/runtime/router';
+
+const router = createMemoryRouter(
+  [
+    { path: '/', element: <div>Home</div> },
+    { path: '/about', element: <div>About</div> },
+  ],
+  { initialEntries: ['/about'] },
+);
+
+export default () => <RouterProvider router={router} />;
+```
+
+## 相关文档
+
+- [`router.memory` 配置](/configure/app/runtime/router#memory)
+- [Memory Route API](/apis/app/runtime/router/memory-route)
