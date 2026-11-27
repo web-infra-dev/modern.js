@@ -1,0 +1,130 @@
+---
+title: resourceStages
+---
+
+# performance.resourceStages
+
+- **Type:** `ResourceStagesConfig`
+- **Default:** `undefined`
+
+Configures [staged resource loading](/guides/advanced-features/page-performance/resource-stages), which downloads the code split out by `import()` early at a given stage of the page, such as the first screen, after the page becomes interactive, or when it is idle.
+
+:::tip Works without configuration
+With built-in stages only (`critical`, `visible`, `interactive`, `idle`, `viewport`, `interaction`), writing `stagedImport` declarations in code is enough; this option is not needed.
+:::
+
+:::warning Experimental
+Staged resource loading is experimental. Its options may change in later versions.
+:::
+
+| Need                                                                    | Option                                            |
+| ----------------------------------------------------------------------- | ------------------------------------------------- |
+| Load on your app's own timeline, such as "after adding to cart"         | [`stages`](#stages)                               |
+| Limit the size of each stage and warn when it is exceeded               | [`budget`](#budget)                               |
+| Download the JS of the matched routes with the entry JS (streaming SSR) | [`streamingRoutePreload`](#streamingroutepreload) |
+| Download declarations in `node_modules` early as well                   | [`include`](#include)                             |
+
+## Example
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      stages: {
+        addedToCart: { after: 'interactive', timeout: 10000 },
+      },
+      budget: {
+        critical: { size: '200kB', requests: 6 },
+      },
+      streamingRoutePreload: true,
+    },
+  },
+});
+```
+
+## Options
+
+### stages
+
+- **Type:** `Record<string, { after?: string; timeout?: number; manual?: boolean }>`
+- **Default:** `undefined`
+
+Adds custom stages, or makes a built-in stage wait for the application to mark it.
+
+**Add a custom stage**: the key is the stage name; `after` and `timeout` are required.
+
+| Field     | Description                                                                                                                              |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `after`   | The stage this one comes after: a built-in stage or another custom stage                                                                 |
+| `timeout` | Fallback in milliseconds. If the app has not called `mark()` within this time after the previous stage arrived, the stage arrives anyway |
+
+```ts
+stages: {
+  addedToCart: { after: 'interactive', timeout: 10000 },
+}
+```
+
+The application calls `stagedImport.addedToCart.mark()` at the right moment. The build generates `modern-resource-stages.d.ts` in the source directory, which types `stagedImport.addedToCart`.
+
+**Let the application mark a built-in stage**: only `visible`, `interactive` and `idle`, with `manual: true`. Set a `timeout` as well; otherwise later stages wait forever if the application never calls `mark()`.
+
+```ts
+stages: {
+  interactive: { manual: true, timeout: 3000 },
+}
+```
+
+### budget
+
+- **Type:** `Record<string, { size?: string | number; requests?: number; depth?: number }>`
+- **Default:** about 675 KB and 8 files for `critical`; other stages are not limited
+
+Upper limits per stage, keyed by stage name. Exceeding one is a build warning; the build does not fail.
+
+| Field      | Description                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `size`     | Total size after gzip, in bytes or as a string such as `'200kB'`                                              |
+| `requests` | Number of files                                                                                               |
+| `depth`    | How many levels of `import()` lie between the entry and the declared code; the deeper, the later it can start |
+
+```ts
+budget: {
+  critical: { size: '200kB', requests: 6 },
+  interactive: { size: '600kB' },
+}
+```
+
+The `critical` files of a page are counted together as "entry + every layout + page". Files over the limit download at the `visible` stage instead, with a warning.
+
+### streamingRoutePreload
+
+- **Type:** `boolean | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>`
+- **Default:** `false`
+
+Streaming SSR only. When enabled, the JS of the matched routes is written into the HTML as low-priority preloads and downloads together with the entry JS; what exceeds the `critical` limit goes to the `visible` stage. String SSR already outputs the JS of the matched routes, and client rendering is not affected.
+
+```ts
+streamingRoutePreload: true,
+```
+
+You can also set the stage per route id, or leave a route out with `false`:
+
+```ts
+streamingRoutePreload: {
+  'product/[id]/page': 'visible',
+  'settings/page': false,
+}
+```
+
+### include
+
+- **Type:** `Array<string | RegExp>`
+- **Default:** `undefined`
+
+`node_modules` is not scanned by default, so `stagedImport` declarations in it are not downloaded early. List the packages to scan here: a string matches paths that contain it, or use a regular expression.
+
+```ts
+include: ['@my-org/product-widgets'],
+```
+
+Workspace packages linked in a monorepo are scanned directly without configuration.

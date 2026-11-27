@@ -1,3 +1,7 @@
+import {
+  hasResourceStages,
+  setResourceStageRoutes,
+} from '../../core/resources/bridge';
 import type { RuntimePluginAPI } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/router';
@@ -176,6 +180,19 @@ export const routerPlugin = (
             }
 
             cachedRouter = routerResult.router;
+            // Client rendered pages pick the resource stage lists of the
+            // matched routes here; server rendered pages got them in the HTML.
+            const toRouteIds = (state: {
+              matches?: { route: { id: string } }[];
+            }) => (state?.matches ?? []).map(match => match.route.id);
+            setResourceStageRoutes(toRouteIds(cachedRouter?.state));
+            // Client side navigations pick the lists of the new routes.
+            if (hasResourceStages()) {
+              cachedRouter?.subscribe?.(
+                (state: Parameters<typeof toRouteIds>[0]) =>
+                  setResourceStageRoutes(toRouteIds(state)),
+              );
+            }
             return cachedRouter;
           }, []);
           const { routes } = routerResult;

@@ -18,6 +18,7 @@ import type {
   TouchEventHandler,
 } from 'react';
 import { InternalRuntimeContext } from '../../core/context';
+import { asRoutePrefetch } from '../../core/resources/requestSource';
 import type { RouteAssets, RouteManifest } from './types';
 
 interface PrefetchHandlers {
@@ -144,10 +145,11 @@ async function loadRouteModule(
 
   try {
     await Promise.all(
-      chunkIds.map(chunkId => {
+      chunkIds.map(chunkId =>
+        // Recorded as a route prefetch, not a request of the application.
         // @ts-ignore
-        return WEBPACK_CHUNK_LOAD?.(chunkId);
-      }),
+        asRoutePrefetch(() => WEBPACK_CHUNK_LOAD?.(chunkId)),
+      ),
     );
   } catch (error) {
     console.error(error);

@@ -1,0 +1,130 @@
+---
+title: resourceStages
+---
+
+# performance.resourceStages
+
+- **类型：** `ResourceStagesConfig`
+- **默认值：** `undefined`
+
+[按阶段加载](/guides/advanced-features/page-performance/resource-stages)的配置。按阶段加载让 `import()` 拆出的代码在页面的某个阶段（首屏、可交互后、空闲时等）提前下载。
+
+:::tip 不配置也能用
+只用内置阶段（`critical`、`visible`、`interactive`、`idle`、`viewport`、`interaction`）时，在代码里写 `stagedImport` 声明即可，不需要这个配置。
+:::
+
+:::warning 实验性
+按阶段加载目前是实验性功能，配置项在后续版本中可能调整。
+:::
+
+| 需求                                          | 配置项                                            |
+| --------------------------------------------- | ------------------------------------------------- |
+| 按应用自己的时机加载，如「加入购物车后」      | [`stages`](#stages)                               |
+| 限制每个阶段的体积，超出时告警                | [`budget`](#budget)                               |
+| 流式 SSR 下让命中路由的 JS 和入口 JS 同时下载 | [`streamingRoutePreload`](#streamingroutepreload) |
+| 让 `node_modules` 中的声明也提前下载          | [`include`](#include)                             |
+
+## 示例
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  performance: {
+    resourceStages: {
+      stages: {
+        addedToCart: { after: 'interactive', timeout: 10000 },
+      },
+      budget: {
+        critical: { size: '200kB', requests: 6 },
+      },
+      streamingRoutePreload: true,
+    },
+  },
+});
+```
+
+## 选项
+
+### stages
+
+- **类型：** `Record<string, { after?: string; timeout?: number; manual?: boolean }>`
+- **默认值：** `undefined`
+
+新增自定义阶段，或把内置阶段改为由应用通知。
+
+**新增自定义阶段**：键名是阶段名，`after` 和 `timeout` 必填。
+
+| 字段      | 说明                                                                                      |
+| --------- | ----------------------------------------------------------------------------------------- |
+| `after`   | 排在哪个阶段之后，可以是内置阶段或另一个自定义阶段                                        |
+| `timeout` | 兜底时间（毫秒）。前一个阶段到来后，应用超过这个时间还没有调用 `mark()`，这个阶段自动到来 |
+
+```ts
+stages: {
+  addedToCart: { after: 'interactive', timeout: 10000 },
+}
+```
+
+应用在对应时机调用 `stagedImport.addedToCart.mark()`。配置后构建会在源码目录生成 `modern-resource-stages.d.ts`，为 `stagedImport.addedToCart` 提供类型提示。
+
+**由应用通知内置阶段**：只能配置 `visible`、`interactive`、`idle`，设置 `manual: true`。建议同时设置 `timeout`，否则应用一直不调用 `mark()` 时，后面的阶段会一直等待。
+
+```ts
+stages: {
+  interactive: { manual: true, timeout: 3000 },
+}
+```
+
+### budget
+
+- **类型：** `Record<string, { size?: string | number; requests?: number; depth?: number }>`
+- **默认值：** `critical` 约 675 KB、8 个文件，其他阶段不限制
+
+每个阶段的上限，键名是阶段名。超出时构建告警，不会让构建失败。
+
+| 字段       | 说明                                                                |
+| ---------- | ------------------------------------------------------------------- |
+| `size`     | gzip 后的总体积，可以写字节数或 `'200kB'` 这样的字符串              |
+| `requests` | 文件数                                                              |
+| `depth`    | 从入口到声明的代码之间隔了几层 `import()`，层数越多越晚才能开始下载 |
+
+```ts
+budget: {
+  critical: { size: '200kB', requests: 6 },
+  interactive: { size: '600kB' },
+}
+```
+
+一个页面的 `critical` 按「入口 + 各级 layout + page」合在一起计算，超出上限的文件改到 `visible` 阶段下载，并给出告警。
+
+### streamingRoutePreload
+
+- **类型：** `boolean | Record<string, 'critical' | 'visible' | 'interactive' | 'idle' | false>`
+- **默认值：** `false`
+
+只对流式 SSR 生效。开启后，命中路由的 JS 以低优先级 preload 写进 HTML，和入口 JS 同时下载；超出 `critical` 上限的部分放到 `visible` 阶段。字符串 SSR 已经会输出命中路由的 JS，客户端渲染不受影响。
+
+```ts
+streamingRoutePreload: true,
+```
+
+也可以按路由 id 指定阶段，或用 `false` 排除某个路由：
+
+```ts
+streamingRoutePreload: {
+  'product/[id]/page': 'visible',
+  'settings/page': false,
+}
+```
+
+### include
+
+- **类型：** `Array<string | RegExp>`
+- **默认值：** `undefined`
+
+默认不扫描 `node_modules`，其中的 `stagedImport` 声明不会提前下载。需要扫描的包在这里列出：字符串表示路径包含该字符串，也可以用正则。
+
+```ts
+include: ['@my-org/product-widgets'],
+```
+
+monorepo 中通过软链引用的工作区包会直接扫描，不需要配置。

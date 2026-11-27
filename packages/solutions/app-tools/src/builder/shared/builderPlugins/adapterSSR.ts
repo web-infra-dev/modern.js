@@ -11,6 +11,7 @@ import {
   isUseSSRBundle,
   logger,
 } from '@modern-js/utils';
+import { getResourceStagesBundleId } from '@modern-js/utils/universal';
 import {
   type RsbuildPlugin,
   type RspackChain,
@@ -20,7 +21,11 @@ import { getServerCombinedModuleFile } from '../../../plugins/analyze/utils';
 import type { AppNormalizedConfig, ServerUserConfig } from '../../../types';
 import type { AppToolsContext } from '../../../types/plugin';
 import { isMainEntry } from '../../../utils/routes';
-import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
+import {
+  HtmlAsyncChunkPlugin,
+  ResourceStagesPlugin,
+  RouterPlugin,
+} from '../bundlerPlugins';
 import {
   aggregateEagerRouteComponentFiles,
   planSSRLazyCompilation,
@@ -92,6 +97,14 @@ export const builderPluginAdapterSSR = (
 
         const isServiceWorker =
           environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+
+        if (!isHtmlDisabled(builderConfig, target)) {
+          applyResourceStagesPlugin(
+            chain,
+            options,
+            HtmlBundlerPlugin as unknown as typeof Rspack.HtmlRspackPlugin,
+          );
+        }
 
         if (target === 'node' || isServiceWorker) {
           applyFilterEntriesBySSRConfig({
@@ -288,6 +301,78 @@ function applyRouterPlugin(
       },
     ]);
   }
+}
+
+function applyResourceStagesPlugin(
+  chain: RspackChain,
+  options: Readonly<BuilderOptions>,
+  HtmlBundlerPlugin: typeof Rspack.HtmlRspackPlugin,
+) {
+  const { appContext, normalizedConfig } = options;
+  const { server, source } = normalizedConfig;
+  // Read again from the compilation by the plugin; `tools.rspack` and the
+  // Subresource Integrity plugin can still change it.
+  const crossOriginLoading = chain.output.get('crossOriginLoading');
+  // Adds the declaration key to element stage declarations, so the runtime
+  // prefetches their mapped files instead of calling the loader. Same files
+  // as the plugin scans: application code, and packages listed in `include`.
+  const include = normalizedConfig.performance?.resourceStages?.include ?? [];
+  const depExt = process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';
+  chain.module
+    .rule('resource-stages-element-key')
+    .test(/\.[cm]?[jt]sx?$/)
+    .exclude.add(
+      (resource: string) =>
+        /[\\/]node_modules[\\/]/.test(resource) &&
+        !include.some(pattern =>
+          typeof pattern === 'string'
+            ? resource.includes(pattern)
+            : pattern.test(resource),
+        ),
+    )
+    .end()
+    .enforce('pre')
+    .use('resource-stages-element-key')
+    .loader(
+      path.join(
+        __dirname,
+        `../loaders/resourceStagesElementKeyLoader.${depExt}`,
+      ),
+    )
+    .options({ appDirectory: appContext.appDirectory });
+  chain.plugin('resource-stages-plugin').use(ResourceStagesPlugin, [
+    {
+      HtmlBundlerPlugin,
+      config: normalizedConfig.performance?.resourceStages,
+      appDirectory: appContext.appDirectory,
+      distDirectory: appContext.distDirectory,
+      srcDirectory: appContext.srcDirectory,
+      internalDirectory: appContext.internalDirectory,
+      isServerRendered: (entryName: string) =>
+        Boolean(
+          getEntryOptions(
+            entryName,
+            isMainEntry(entryName, source?.mainEntryName),
+            server?.ssr,
+            server?.ssrByEntries,
+            appContext.packageName,
+          ),
+        ),
+      isStreaming: (entryName: string) =>
+        isStreamingSSR(normalizedConfig, entryName, appContext),
+      bundleId: getResourceStagesBundleId(
+        appContext.packageName || appContext.appDirectory,
+      ),
+      staticJsDir: normalizedConfig.output?.distPath?.js,
+      disableFilenameHash: normalizedConfig.output?.filenameHash === false,
+      nonce: normalizedConfig.security?.nonce,
+      crossOriginLoading:
+        crossOriginLoading === 'anonymous' ||
+        crossOriginLoading === 'use-credentials'
+          ? crossOriginLoading
+          : undefined,
+    },
+  ]);
 }
 
 function applyFilterEntriesBySSRConfig({
