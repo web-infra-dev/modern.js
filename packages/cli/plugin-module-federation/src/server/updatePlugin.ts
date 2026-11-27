@@ -13,7 +13,7 @@ import {
   startDevRemoteUpdates,
   DevRemoteUnavailableError,
 } from './devRemoteUpdates';
-import { logger } from '@modern-js/utils';
+import { createMFSSRLogger } from './ssrLogger';
 
 /** Development subscriptions and request fallback share the production update owner. */
 export default function updatePlugin(
@@ -42,7 +42,7 @@ export default function updatePlugin(
           const origin = request.headers.get('origin');
           if (origin && origin !== new URL(request.url).origin)
             return new Response(null, { status: 403 });
-          await watcher.notify();
+          await watcher.notify('hmr-check');
           return new Response(null, {
             status: 204,
             headers: { 'Cache-Control': 'no-store' },
@@ -69,6 +69,11 @@ export default function updatePlugin(
       ),
     onReady(manager, context) {
       if (!context.dev) return;
+      const ssrLog = createMFSSRLogger({
+        app: options.name,
+        mode: 'dev',
+        logger: options.logger,
+      });
       const owner = getSSRUpdateOwner(context.ssrUpdateOwnerId)!;
       const remotes = () => {
         const registered = [...owner.instances].flatMap(
@@ -132,21 +137,17 @@ export default function updatePlugin(
           manager.shouldUpdateRemote(remote, input),
         updateRemotes: (remotes, input) =>
           manager.updateRemotes(remotes, input),
-        onUpdating: remotes =>
-          logger.info(
-            `[MF SSR] Updating ${remotes.map(remote => remote.name).join(', ')}`,
-          ),
-        onApplied: remotes =>
-          logger.info(
-            `[MF SSR] Ready ${remotes.map(remote => remote.name).join(', ')}`,
-          ),
-        onError: error =>
-          logger.error(
-            error instanceof Error ? error : new Error(String(error)),
-          ),
+        onError: (error, phase) => {
+          if (phase === 'update') return;
+          ssrLog.updateFailed({
+            mode: 'dev',
+            stage: 'check',
+            error,
+          });
+        },
       });
       options.devBuild?.registerRecover?.(async () => {
-        await watcher?.notify();
+        await watcher?.notify('recover');
       });
       return () => {
         options.devBuild?.registerRecover?.(undefined);

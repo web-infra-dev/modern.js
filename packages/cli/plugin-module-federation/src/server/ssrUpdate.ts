@@ -39,6 +39,13 @@ import {
   releaseSSRUpdateOwner,
   type SSRUpdateOwner,
 } from './ssrUpdateOwner';
+import {
+  createMFSSRLogger,
+  debugMFSSR,
+  extractTargetVersion,
+  isMFSSRDebugEnabled,
+  type MFSSRLogger,
+} from './ssrLogger';
 
 /** This protocol is owned by the Modern adapter, not the generic MF runtime. */
 export interface SSREntryRecord {
@@ -91,6 +98,8 @@ export interface SSRUpdateOptions extends RemoteCheckOptions {
   revision?: number;
   /** Submit from SSR without waiting for the response that must drain first. */
   defer?: 'after-response';
+  /** Diagnostic metadata identifying what initiated this update. */
+  trigger?: string;
 }
 export interface SSRUpdateReceipt {
   operationId: string;
@@ -107,6 +116,10 @@ export function createSSRUpdateAdapter(options: {
   name: string;
   entries: string[];
   owner?: SSRUpdateOwner;
+  /** Diagnostic mode tag used for structured SSR update logs. */
+  mode?: 'dev' | 'prod';
+  /** Optional custom logger for SSR update logs; pass `false` to disable. */
+  logger?: MFSSRLogger | false;
   /** Immutable public entries paired with the initial server release. */
   hydration?: { remotes: SSRClientRemote[] };
   remotes?: SSRRemoteReplacement[];
@@ -114,6 +127,33 @@ export function createSSRUpdateAdapter(options: {
   invalidate?: (remotes: SSRRemoteReplacement[]) => Promise<void>;
 }) {
   options = { ...options, entries: [...options.entries] };
+  const logMode = options.mode ?? 'prod';
+  const ssrLog = createMFSSRLogger({
+    app: options.name,
+    mode: logMode,
+    logger: options.logger,
+  });
+  const describeRemoteTransition = (
+    name: string,
+    previous:
+      { entry?: string; manifest?: unknown; moduleInfo?: unknown } | undefined,
+    next: {
+      entry: string;
+      manifest?: unknown;
+      moduleInfo?: unknown;
+      dependencies?: unknown[];
+    },
+  ) => {
+    const fromVersion = extractTargetVersion(previous);
+    const toVersion = extractTargetVersion(next);
+    const note =
+      !toVersion && previous?.entry && previous.entry !== next.entry
+        ? 'url-changed'
+        : !toVersion && next.dependencies?.length
+          ? 'deps-changed'
+          : undefined;
+    return { name, fromVersion, toVersion, note };
+  };
   const owner =
     options.owner || createSSRUpdateOwner(options.name, options.entries);
   for (const entry of options.entries) {
@@ -332,6 +372,7 @@ export function createSSRUpdateAdapter(options: {
     changes: Change[],
     onMutation: () => void,
     onStage: (stage: string) => void,
+    operationId?: string,
   ) {
     let selected: SSRUpdatePlan = { mode: 'application', reasons: [] };
     let recovering = false;
@@ -669,6 +710,11 @@ export function createSSRUpdateAdapter(options: {
         // Modern keeps a failed scope closed and widens its next update to the
         // whole application. Retry once using the same intended remote targets.
         onStage('fallback');
+        ssrLog.updateFallback({
+          remotes: changes.map(({ name }) => canonicalName(name)),
+          error,
+          operationId,
+        });
         try {
           generation = await authorized();
         } catch (recoveryError) {
@@ -861,6 +907,18 @@ export function createSSRUpdateAdapter(options: {
         return Promise.reject(new Error('Stale SSR update revision'));
       state.phase = 'pending';
       onStage('queue');
+      ssrLog.updateStart({
+        trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
+        operationId: state.operationId,
+        remotes: captured.map(({ name, replacement }) => {
+          const canonical = canonicalName(name);
+          return describeRemoteTransition(
+            canonical,
+            controller.getApplied(application, canonical),
+            replacement,
+          );
+        }),
+      });
       return performUpdate(
         application,
         captured,
@@ -889,6 +947,7 @@ export function createSSRUpdateAdapter(options: {
           }
         },
         onStage,
+        state.operationId,
       );
     };
     let operation: Promise<Awaited<ReturnType<typeof performUpdate>>>;
@@ -916,6 +975,7 @@ export function createSSRUpdateAdapter(options: {
       }
       operation = Promise.reject(error);
     }
+    const remoteNames = captured.map(({ name }) => canonicalName(name));
     state.promise = operation.then(
       result => {
         onStage('applied');
@@ -926,6 +986,15 @@ export function createSSRUpdateAdapter(options: {
           latest.appliedRevision ?? 0,
           revision,
         );
+        ssrLog.updateReady({
+          remotes: remoteNames,
+          planMode: result.mode,
+          entries: result.entries,
+          reasons: result.reasons,
+          generation: result.generation,
+          timingsMs: state.timingsMs,
+          operationId: state.operationId,
+        });
         return {
           ...result,
           revision,
@@ -955,6 +1024,23 @@ export function createSSRUpdateAdapter(options: {
           },
         );
         state.error = failure;
+        if (input?.signal?.aborted) {
+          ssrLog.updateAborted({
+            remotes: remoteNames,
+            stage: failedStage,
+            operationId: state.operationId,
+          });
+        } else {
+          ssrLog.updateFailed({
+            remotes: remoteNames,
+            stage: failedStage,
+            mutationStarted: state.mutationStarted,
+            phase: application.status?.phase,
+            timingsMs: state.timingsMs,
+            operationId: state.operationId,
+            error: failure,
+          });
+        }
         throw failure;
       },
     );
@@ -1000,7 +1086,18 @@ export function createSSRUpdateAdapter(options: {
       }
       return undefined;
     },
-    apply(application, targets, onMutation, onStage) {
+    apply(application, targets, onMutation, onStage, meta) {
+      ssrLog.updateStart({
+        trigger: meta.trigger,
+        operationId: meta.operationId,
+        remotes: targets.map(target =>
+          describeRemoteTransition(
+            target.name,
+            meta.previousTargets.get(target.name),
+            target,
+          ),
+        ),
+      });
       // Native graph keys are declared aliases; preserve them for scope planning.
       const changes = targets.map(({ name, ...replacement }) => {
         let registered = instances()
@@ -1026,7 +1123,38 @@ export function createSSRUpdateAdapter(options: {
           }
         },
         onStage,
+        meta.operationId,
       );
+    },
+    onApplied({ targets, result, operationId, timingsMs }) {
+      ssrLog.updateReady({
+        remotes: targets.map(target => target.name),
+        planMode: result.mode,
+        entries: result.entries,
+        reasons: result.reasons,
+        generation: result.generation,
+        timingsMs,
+        operationId,
+      });
+    },
+    onError({
+      application,
+      targets,
+      operationId,
+      failedStage,
+      mutationStarted,
+      timingsMs,
+      error,
+    }) {
+      ssrLog.updateFailed({
+        remotes: targets.map(target => target.name),
+        stage: failedStage,
+        mutationStarted,
+        phase: application.status?.phase,
+        timingsMs,
+        operationId,
+        error,
+      });
     },
   });
   function collectExtraRemotes(): RegisteredRemoteDescriptor[] {
@@ -1134,18 +1262,22 @@ export function createSSRUpdateAdapter(options: {
         const snapshotCopy = structuredClone(remotes);
         const revision = input?.revision ?? ++globalSequence;
         const operationId = `global:${revision}:${++globalSequence}`;
-        const executeGlobal = async () => {
-          const started = performance.now();
-          const timingsMs: Record<string, number> = {};
-          let currentStage = 'check';
-          let stageStarted = started;
-          const onStage = (nextStage: string) => {
-            const now = performance.now();
-            timingsMs[currentStage] =
-              (timingsMs[currentStage] || 0) + now - stageStarted;
-            stageStarted = now;
-            currentStage = nextStage;
-          };
+        let started = 0;
+        const timingsMs: Record<string, number> = {};
+        let currentStage = 'check';
+        let stageStarted = 0;
+        let mutationStarted = false;
+        let activeRemoteNames: string[] = [];
+        const onStage = (nextStage: string) => {
+          const now = performance.now();
+          timingsMs[currentStage] =
+            (timingsMs[currentStage] || 0) + now - stageStarted;
+          stageStarted = now;
+          currentStage = nextStage;
+        };
+        const runGlobal = async () => {
+          started = performance.now();
+          stageStarted = started;
           input?.signal?.throwIfAborted();
           const { diff, hosts, extraRemotes } = computeGlobalDiff(
             application,
@@ -1247,6 +1379,15 @@ export function createSSRUpdateAdapter(options: {
             }
             onStage('applied');
             timingsMs.total = performance.now() - started;
+            if (diff.changed) {
+              ssrLog.updateReady({
+                mode: 'global',
+                remotes: diff.unloadedRemotes.map(item => item.name),
+                planMode: 'snapshot',
+                timingsMs,
+                operationId,
+              });
+            }
             return {
               changed: diff.changed,
               ...(diff.changed ? { mode: 'snapshot' as const } : {}),
@@ -1258,6 +1399,23 @@ export function createSSRUpdateAdapter(options: {
               timingsMs,
             };
           }
+
+          activeRemoteNames = activeLoaded.map(item => item.name);
+          ssrLog.updateStart({
+            mode: 'global',
+            trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
+            operationId,
+            remotes: activeLoaded.map(item => {
+              const previous = controller.getApplied(application, item.name);
+              return {
+                name: item.name,
+                fromVersion: extractTargetVersion(previous),
+                toVersion: extractTargetVersion({
+                  moduleInfo: item.moduleInfo,
+                }),
+              };
+            }),
+          });
 
           const changes: Change[] = activeLoaded.map(item => {
             const hasClient =
@@ -1284,6 +1442,7 @@ export function createSSRUpdateAdapter(options: {
             application,
             changes,
             () => {
+              mutationStarted = true;
               applyNodeGlobalModuleInfo(snapshotCopy, {
                 instances: instances(),
                 remotes: collectExtraRemotes(),
@@ -1313,6 +1472,7 @@ export function createSSRUpdateAdapter(options: {
               }
             },
             onStage,
+            operationId,
           );
           controller.recordApplied(
             application,
@@ -1332,6 +1492,16 @@ export function createSSRUpdateAdapter(options: {
           );
           onStage('applied');
           timingsMs.total = performance.now() - started;
+          ssrLog.updateReady({
+            mode: 'global',
+            remotes: activeRemoteNames,
+            planMode: result.mode,
+            entries: result.entries,
+            reasons: result.reasons,
+            generation: result.generation,
+            timingsMs,
+            operationId,
+          });
           return {
             ...result,
             changed: true,
@@ -1341,6 +1511,31 @@ export function createSSRUpdateAdapter(options: {
             timingsMs,
           };
         };
+        const executeGlobal = () =>
+          runGlobal().catch(error => {
+            const failedStage = currentStage;
+            onStage('failed');
+            timingsMs.total = performance.now() - started;
+            if (input?.signal?.aborted) {
+              ssrLog.updateAborted({
+                remotes: activeRemoteNames,
+                stage: failedStage,
+                operationId,
+              });
+            } else {
+              ssrLog.updateFailed({
+                mode: 'global',
+                remotes: activeRemoteNames,
+                stage: failedStage,
+                mutationStarted,
+                phase: application.status?.phase,
+                timingsMs,
+                operationId,
+                error,
+              });
+            }
+            throw error;
+          });
 
         const runPromise = controller.runExternal(
           application,
@@ -1517,6 +1712,7 @@ export function createSSRUpdateAdapter(options: {
       // A retained provider can itself consume another retiring provider. Once it
       // survives this update, propagate its ownership through that dependency
       // graph until no additional runtime needs to survive.
+      const retainedProviders: string[] = [];
       let retained = true;
       while (retained) {
         retained = false;
@@ -1558,6 +1754,15 @@ export function createSSRUpdateAdapter(options: {
           );
           if (externallyUsed || externallyLoaded) {
             providers.delete(provider);
+            if (isMFSSRDebugEnabled()) {
+              const reason =
+                externallyUsed && externallyLoaded
+                  ? 'shared+loaded'
+                  : externallyUsed
+                    ? 'shared'
+                    : 'loaded';
+              retainedProviders.push(`${provider.name}(${reason})`);
+            }
             retained = true;
           }
         }
@@ -1581,6 +1786,14 @@ export function createSSRUpdateAdapter(options: {
           failures.map(result => result.reason),
           'SSR instance disposal failed',
         );
+      if (hosts.length || providers.size || retainedProviders.length) {
+        debugMFSSR('dispose', () => ({
+          app: options.name,
+          hostsDisposed: hosts.length,
+          providersDisposed: providers.size,
+          providersRetained: retainedProviders,
+        }));
+      }
       for (const record of owned) owner.entries.delete(record.entry);
       for (const host of hosts) owner.instances.delete(host);
       retiringProviders.clear();

@@ -33,6 +33,7 @@ import {
   getSSRUpdateOwner,
   runWithSSRUpdateOwner,
 } from './ssrUpdateOwner';
+import { debugMFSSR, isMFSSRDebugEnabled } from './ssrLogger';
 
 export interface BridgeServiceMiddlewareOptions {
   ownerId?: string;
@@ -327,7 +328,9 @@ export function createBridgeServiceIngressMiddleware(
   let scope: DiscoveryScope | undefined;
   let selections: Promise<unknown> = Promise.resolve();
   let disposal: Promise<void> | undefined;
+  let lastResolvedVersions: Map<string, string> | undefined;
   const releaseScope = async (current: DiscoveryScope) => {
+    lastResolvedVersions?.clear();
     current.closing = true;
     await Promise.allSettled([...current.pending]);
     const instance = current.runtime;
@@ -433,8 +436,22 @@ export function createBridgeServiceIngressMiddleware(
         throw Error(`Module '${id}' is not a Service Bridge application.`);
       if (!snapshot?.buildVersion)
         throw Error(`Service '${id}' has no build identity.`);
+      const url = getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!);
+      if (isMFSSRDebugEnabled()) {
+        lastResolvedVersions ||= new Map();
+        const previousVersion = lastResolvedVersions.get(id);
+        if (previousVersion !== snapshot.buildVersion) {
+          lastResolvedVersions.set(id, snapshot.buildVersion);
+          debugMFSSR('service-ingress-resolved', () => ({
+            module: id,
+            fromVer: previousVersion,
+            buildVersion: snapshot.buildVersion,
+            serviceUrl: url,
+          }));
+        }
+      }
       return {
-        url: getServiceUrl(snapshot.serviceBaseUrl, metadata.servicePath!),
+        url,
         buildVersion: snapshot.buildVersion,
       };
     } finally {
@@ -516,6 +533,7 @@ export function createBridgeServiceIngressMiddleware(
   return Object.assign(middleware, {
     dispose() {
       if (disposal) return disposal;
+      lastResolvedVersions?.clear();
       // Updates release the current discovery generation but keep the HTTP
       // middleware. Later requests queue behind cleanup and create a new scope.
       const release = selections.then(async () => {

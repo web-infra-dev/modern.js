@@ -610,11 +610,15 @@ for (const scenario of scenarios.filter(
             evidence.phase = 'complete';
           } catch (error) {
             evidence.error = String(error);
-            await captureFailure(page, directory, evidence.phase, error).catch(
-              captureError => {
-                evidence.captureError = String(captureError);
-              },
-            );
+            await captureFailure(
+              page,
+              directory,
+              evidence.phase,
+              error,
+              lab.logs,
+            ).catch(captureError => {
+              evidence.captureError = String(captureError);
+            });
             throw error;
           } finally {
             // The temporary source belongs to this test. Preserve evidence
@@ -910,6 +914,7 @@ for (const scenario of scenarios.filter(
                 directory,
                 evidence.phase,
                 error,
+                lab.logs,
               ).catch(captureError => {
                 evidence.captureError = String(captureError);
               });

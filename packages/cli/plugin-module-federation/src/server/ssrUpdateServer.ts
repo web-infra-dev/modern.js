@@ -1,8 +1,8 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { logger } from '@modern-js/utils';
 import type { ServerPlugin, ServerContext } from '@modern-js/server-core';
 import type {
   SSRApplication,
+  SSRCoordinatorEvent,
   SSRResourceApplicationOptions,
   SSRRequestCoordinatorOptions,
   SSRApplicationOptions,
@@ -17,6 +17,7 @@ import {
 import type { RemoteCheckOptions } from './remoteUpdate';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { anyAbortSignal } from '../ssr-runtime/devManifestWait';
+import { createMFSSRLogger } from './ssrLogger';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
 type Registry = {
@@ -90,9 +91,16 @@ export function createSSRUpdateServerPlugin(
         const lifetime = new AbortController();
         const owner = createSSRUpdateOwner(options.name);
         api.updateServerContext({ ssrUpdateOwnerId: owner.id });
+        const logMode = options.mode ?? (context.dev ? 'dev' : 'prod');
+        const ssrLog = createMFSSRLogger({
+          app: options.name,
+          mode: logMode,
+          logger: options.logger,
+        });
         const adapter = createSSRUpdateAdapter({
           ...options,
           owner,
+          mode: logMode,
           maxPendingUpdates: options.application?.maxPendingUpdates,
           entries: options.entries || [
             ...new Set<string>(
@@ -117,6 +125,16 @@ export function createSSRUpdateServerPlugin(
           adapter.run(() =>
             manager ? registry().context.run(manager, operation) : operation(),
           );
+        const onCoordinatorEvent = (event: SSRCoordinatorEvent) => {
+          ssrLog.coordinatorEvent(event);
+          if (options.application?.onEvent) {
+            try {
+              options.application.onEvent(event);
+            } catch {
+              // Isolate user observer errors from internal coordination logging.
+            }
+          }
+        };
         const resourceOptions: SSRResourceApplicationOptions & {
           run: typeof run;
         } = {
@@ -124,8 +142,15 @@ export function createSSRUpdateServerPlugin(
           requestTimeoutMs: 30_000,
           drainTimeoutMs: 30_000,
           ...options.application,
+          onEvent: onCoordinatorEvent,
           onInitialError: context.dev
-            ? error => logger.error(error)
+            ? error =>
+                ssrLog.updateFailed({
+                  mode: 'dev',
+                  stage: 'init',
+                  phase: 'unavailable',
+                  error,
+                })
             : undefined,
           onAvailabilityChange: options.onAvailabilityChange,
           beforeRequest: options.beforeRequest,
@@ -184,6 +209,7 @@ export function createSSRUpdateServerPlugin(
               close() {
                 if (closing) return closing;
                 closed = true;
+                ssrLog.dispose();
                 lifetime.abort(new Error('SSR update manager is closed'));
                 closing = (async () => {
                   const errors: unknown[] = [];

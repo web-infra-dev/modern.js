@@ -8,6 +8,7 @@ import type { Manifest } from '@module-federation/sdk';
 import type { BridgeServiceCacheOptions } from '@module-federation/bridge-react/service-node';
 import { serviceProviderRoutes } from '../serviceProvider';
 import type { createBridgeServiceMiddleware } from './service';
+import { debugMFSSR } from './ssrLogger';
 
 interface Options {
   manifestFileName: string;
@@ -91,6 +92,12 @@ export default (options: Options): ServerPlugin => ({
           }
           handlers = nextHandlers;
           modified = file.mtimeMs;
+          if (routes.length) {
+            debugMFSSR('service-provider-ready', () => ({
+              buildVersion: (manifest.metaData as any)?.buildInfo?.buildVersion,
+              routes: routes.map(route => route.path),
+            }));
+          }
         })().finally(() => {
           loading = undefined;
         }));

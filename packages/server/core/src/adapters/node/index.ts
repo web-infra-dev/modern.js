@@ -26,6 +26,7 @@ export {
 
 export { createSSRRequestCoordinator } from './requestCoordinator';
 export type {
+  SSRCoordinatorEvent,
   SSRRequestCoordinatorOptions,
   SSRRequestScope,
   SSRRequestWork,

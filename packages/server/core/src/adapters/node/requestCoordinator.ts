@@ -2,6 +2,26 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import type { SSRRequestWork } from '../../types/requestHandler';
 export type { SSRRequestWork } from '../../types/requestHandler';
 
+export type SSRCoordinatorEvent =
+  | {
+      type: 'admission';
+      decision: 'csr' | 'reject';
+      reason: SSRRequestPolicyReason;
+      phase: SSRUpdatePhase;
+      generation: number;
+      entryName?: string;
+      waitedMs: number;
+      activeRequests: number;
+      pendingRequests: number;
+    }
+  | {
+      type: 'drain-timeout';
+      drainTimeoutMs: number;
+      activeRequests: number;
+      closedScope: readonly string[] | undefined;
+      generation: number;
+    };
+
 export interface SSRRequestCoordinatorOptions {
   maxPendingRequests: number;
   requestTimeoutMs: number;
@@ -12,6 +32,12 @@ export interface SSRRequestCoordinatorOptions {
   maxResumeConcurrency?: number;
   /** Bounds deferred submissions, including those awaiting response completion. Defaults to 32. */
   maxPendingUpdates?: number;
+  /**
+   * Optional observer for admission decisions (CSR fallback, reject) and drain
+   * timeouts. Invoked synchronously on request/drain paths; observers must not
+   * perform per-request synchronous I/O (aggregate or throttle instead).
+   */
+  onEvent?: (event: SSRCoordinatorEvent) => void;
 }
 
 export type SSRUpdatePhase =
@@ -181,6 +207,15 @@ export function createSSRRequestCoordinator(
       signal.addEventListener('abort', abort, { once: true });
     });
 
+  const emitEvent = (event: SSRCoordinatorEvent) => {
+    if (!options.onEvent) return;
+    try {
+      options.onEvent(event);
+    } catch {
+      // Diagnostic observers must never interfere with SSR admission or drain.
+    }
+  };
+
   const drain = () =>
     new Promise<void>((resolve, reject) => {
       const drained = () =>
@@ -196,6 +231,13 @@ export function createSSRRequestCoordinator(
       };
       const timer = setTimeout(() => {
         drainListeners.delete(finish);
+        emitEvent({
+          type: 'drain-timeout',
+          drainTimeoutMs,
+          activeRequests: active,
+          closedScope: closedScope && [...closedScope],
+          generation,
+        });
         reject(new Error('SSR drain timed out before mutation'));
       }, drainTimeoutMs);
       drainListeners.add(finish);
@@ -322,6 +364,22 @@ export function createSSRRequestCoordinator(
       const deadline = started + requestTimeoutMs;
       let releaseAdmission: (() => void) | undefined;
       const policyEntry = () => resolvePolicyEntry?.(request);
+      const emitAdmission = (
+        decision: 'csr' | 'reject',
+        policyContext: SSRRequestPolicyContext,
+      ) => {
+        emitEvent({
+          type: 'admission',
+          decision,
+          reason: policyContext.update.reason,
+          phase: policyContext.update.phase,
+          generation: policyContext.update.generation,
+          entryName: policyContext.entryName,
+          waitedMs: policyContext.update.waitedMs,
+          activeRequests: policyContext.update.activeRequests,
+          pendingRequests: policyContext.update.pendingRequests,
+        });
+      };
       const respond = (reason: SSRRequestPolicyReason, message: string) => {
         const { decision, policyContext } = decide(
           request,
@@ -329,9 +387,12 @@ export function createSSRRequestCoordinator(
           reason,
           policyEntry(),
         );
-        return decision === 'csr' && renderCSR
-          ? renderCSR(policyContext)
-          : rejectRequest(message);
+        if (decision === 'csr' && renderCSR) {
+          emitAdmission('csr', policyContext);
+          return renderCSR(policyContext);
+        }
+        emitAdmission('reject', policyContext);
+        return rejectRequest(message);
       };
       try {
         request.signal.throwIfAborted();
@@ -344,9 +405,14 @@ export function createSSRRequestCoordinator(
             reason,
             policyEntry(),
           );
-          if (decision === 'csr' && renderCSR) return renderCSR(policyContext);
-          if (decision !== 'wait' || reason === 'unavailable')
+          if (decision === 'csr' && renderCSR) {
+            emitAdmission('csr', policyContext);
+            return renderCSR(policyContext);
+          }
+          if (decision !== 'wait' || reason === 'unavailable') {
+            emitAdmission('reject', policyContext);
             return rejectRequest('SSR application is unavailable');
+          }
           releaseAdmission = await waitForAdmission(
             request.signal,
             deadline,
