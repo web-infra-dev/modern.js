@@ -12,6 +12,8 @@ export default function ConsumerHomePage() {
     acceptedSids: {},
     registeredRemotes: [],
     globalSnapshotKeys: [],
+    globalModuleInfo: [],
+    bundledChildren: [],
     traces: [],
   });
 

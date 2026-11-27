@@ -85,12 +85,12 @@ export function createLabDeploymentPlatform({ root, ports }) {
       consumer: 'lab_dynamic_consumer',
       applications: [
         {
-          id: 'products',
-          title: 'Producer B · Product App',
+          id: 'air',
+          title: 'Producer B · Air Quality',
           enabled: true,
-          route: 'products/*',
+          route: 'air/*',
           manifestUrl: providerV1Url,
-          expose: './ProductApp',
+          expose: './AirQualityApp',
           delivery: 'full', // 'full' | 'layered'
           childrenMode: 'none',
           props: {},
@@ -129,6 +129,76 @@ export function createLabDeploymentPlatform({ root, ports }) {
         : [],
     },
   });
+
+  const producerCatalog = [
+    {
+      producer: 'lab_provider',
+      label: 'Air Quality (Bridge)',
+      manifestUrl: providerV1Url,
+      expose: './AirQualityApp',
+      defaultRoute: 'air/*',
+    },
+    {
+      producer: 'lab_provider',
+      label: '5-Day Forecast (Bridge)',
+      manifestUrl: providerV1Url,
+      expose: './WeatherForecastApp',
+      defaultRoute: 'forecast/*',
+    },
+    {
+      producer: 'lab_provider',
+      label: 'Current Weather (Bridge)',
+      manifestUrl: providerV1Url,
+      expose: './CurrentWeatherApp',
+      defaultRoute: 'current/*',
+    },
+    {
+      producer: 'lab_provider',
+      label: 'Weather Portal (Bridge)',
+      manifestUrl: providerV1Url,
+      expose: './WeatherApplication',
+      defaultRoute: 'weather/*',
+    },
+    {
+      producer: 'lab_provider',
+      label: 'Product App (Bridge)',
+      manifestUrl: providerV1Url,
+      expose: './ProductApp',
+      defaultRoute: 'products/*',
+    },
+    {
+      producer: 'lab_provider',
+      label: 'Orders App (Bridge)',
+      manifestUrl: providerV1Url,
+      expose: './OrdersApp',
+      defaultRoute: 'orders/*',
+    },
+    {
+      producer: 'lab_provider',
+      label: 'Weather Card (Component)',
+      manifestUrl: providerV1Url,
+      expose: './Weather',
+      defaultRoute: 'card/*',
+    },
+    ...(nestedUrl
+      ? [
+          {
+            producer: 'lab_nested',
+            label: 'Wind App (Bridge)',
+            manifestUrl: nestedUrl,
+            expose: './WindApplication',
+            defaultRoute: 'wind/*',
+          },
+          {
+            producer: 'lab_nested',
+            label: 'Weather Wind (Component)',
+            manifestUrl: nestedUrl,
+            expose: './WeatherWind',
+            defaultRoute: 'wind-card/*',
+          },
+        ]
+      : []),
+  ];
 
   const manifestCache = new Map();
   async function loadManifest(manifestUrl, forceRefresh = false) {
@@ -439,6 +509,7 @@ export function createLabDeploymentPlatform({ root, ports }) {
     const computed = computeEffectiveDelivery();
     return {
       computedDelivery: computed,
+      catalog: producerCatalog,
       presets: {
         providerV1: providerV1Url,
         providerV2: providerV2Url,

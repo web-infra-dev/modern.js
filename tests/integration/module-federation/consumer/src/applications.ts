@@ -65,6 +65,23 @@ export interface ClientTraceEntry {
   error?: string;
 }
 
+export interface GlobalModuleEntryView {
+  key: string;
+  moduleName: string;
+  version?: string;
+  buildVersion?: string;
+  remoteEntry?: string;
+  remotesInfo?: Record<string, { matchedVersion?: string }>;
+  exposes?: string[];
+}
+
+export interface BundledChildPreview {
+  parentKey: string;
+  consumer: string;
+  routes: Array<{ route: string; moduleName: string; expose: string }>;
+  moduleInfoKeys: string[];
+}
+
 export interface ClientRuntimeTelemetry {
   hydratedFromSSR: boolean;
   expiredEvent?: {
@@ -78,6 +95,8 @@ export interface ClientRuntimeTelemetry {
   acceptedSids: Record<string, string>;
   registeredRemotes: Array<{ name: string; entry?: string; version?: string }>;
   globalSnapshotKeys: string[];
+  globalModuleInfo: GlobalModuleEntryView[];
+  bundledChildren: BundledChildPreview[];
   traces: ClientTraceEntry[];
 }
 
@@ -164,17 +183,70 @@ export function getClientTelemetry(): ClientRuntimeTelemetry {
       : {}),
   }));
   let globalSnapshotKeys: string[] = [];
+  const globalModuleInfo: GlobalModuleEntryView[] = [];
   try {
-    globalSnapshotKeys = Object.keys(helpers.global.getGlobalSnapshot() || {});
+    const rawGlobal = (helpers.global.getGlobalSnapshot() || {}) as Record<
+      string,
+      Record<string, unknown> | undefined
+    >;
+    globalSnapshotKeys = Object.keys(rawGlobal);
+    for (const [key, entry] of Object.entries(rawGlobal)) {
+      if (!entry || typeof entry !== 'object') continue;
+      const colonIdx = key.indexOf(':');
+      const moduleName = colonIdx > 0 ? key.slice(0, colonIdx) : key;
+      const rawModules = Array.isArray(entry.modules)
+        ? (entry.modules as Array<{ modulePath?: string; moduleName?: string }>)
+        : [];
+      const exposes = rawModules
+        .map(m => m.modulePath || m.moduleName || '')
+        .filter(Boolean);
+      globalModuleInfo.push({
+        key,
+        moduleName,
+        version: typeof entry.version === 'string' ? entry.version : undefined,
+        buildVersion:
+          typeof entry.buildVersion === 'string'
+            ? entry.buildVersion
+            : undefined,
+        remoteEntry:
+          typeof entry.remoteEntry === 'string' ? entry.remoteEntry : undefined,
+        remotesInfo:
+          entry.remotesInfo && typeof entry.remotesInfo === 'object'
+            ? (entry.remotesInfo as Record<string, { matchedVersion?: string }>)
+            : undefined,
+        ...(exposes.length ? { exposes } : {}),
+      });
+    }
   } catch {
     globalSnapshotKeys = [];
   }
+
+  const bundledChildren: BundledChildPreview[] = [];
+  for (const record of committedMounts.values()) {
+    for (const [parentKey, snap] of Object.entries(
+      record.bundledChildren || {},
+    )) {
+      bundledChildren.push({
+        parentKey,
+        consumer: snap.consumer,
+        routes: (snap.routes || []).map(r => ({
+          route: r.route,
+          moduleName: r.moduleName,
+          expose: r.expose,
+        })),
+        moduleInfoKeys: Object.keys(snap.moduleInfo || {}),
+      });
+    }
+  }
+
   return {
     hydratedFromSSR,
     expiredEvent: lastExpiredEvent,
     acceptedSids: Object.fromEntries(acceptedSids.entries()),
     registeredRemotes,
     globalSnapshotKeys,
+    globalModuleInfo,
+    bundledChildren,
     traces: [...traces],
   };
 }

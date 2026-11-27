@@ -25,6 +25,8 @@ export default function ConsumerLayout() {
     acceptedSids: {},
     registeredRemotes: [],
     globalSnapshotKeys: [],
+    globalModuleInfo: [],
+    bundledChildren: [],
     traces: [],
   });
   const [mounted, setMounted] = useState(false);

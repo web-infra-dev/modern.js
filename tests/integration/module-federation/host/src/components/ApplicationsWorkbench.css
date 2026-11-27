@@ -285,14 +285,14 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* Render Workspace: 72% live preview / 28% quiet trace rail */
+/* Render Workspace: 68% live preview / 32% moduleInfo inspector */
 .jo-apps .jo-render-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 310px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   min-height: 620px;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1120px) {
   .jo-apps .jo-render-grid {
     grid-template-columns: 1fr;
   }
@@ -312,7 +312,7 @@
   background: var(--jo-surface-canvas);
 }
 
-/* Right Trace Rail (single left hairline divider) */
+/* Right Module Info Inspector (single left hairline divider) */
 .jo-apps .jo-trace-rail {
   display: flex;
   flex-direction: column;
@@ -321,7 +321,7 @@
   min-width: 0;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1120px) {
   .jo-apps .jo-trace-rail {
     border-left: 0;
     border-top: 1px solid var(--jo-border-hairline);
@@ -337,82 +337,169 @@
   border-bottom: 1px solid var(--jo-border-hairline);
 }
 
-.jo-apps .jo-metrics-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-bottom: 1px solid var(--jo-border-hairline);
-}
-
-.jo-apps .jo-metric {
-  padding: 10px 12px;
+.jo-apps .jo-section-label {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.jo-apps .jo-metric + .jo-metric {
-  border-left: 1px solid var(--jo-border-hairline);
-}
-
-.jo-apps .jo-metric-label {
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 14px 6px;
   font-size: 11px;
+  font-weight: 600;
   color: var(--jo-text-muted);
+  letter-spacing: 0.01em;
 }
 
-.jo-apps .jo-metric-val {
-  font-size: 17px;
-  font-weight: 650;
-  font-variant-numeric: tabular-nums;
-  color: var(--jo-text-primary);
-  line-height: 1.25;
+.jo-apps .jo-active-box {
+  margin: 0 12px 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--jo-surface-canvas);
+  border: 1px solid var(--jo-border-control);
 }
 
-.jo-apps .jo-trace-list {
-  flex: 1 1 auto;
-  overflow: auto;
-  max-height: 460px;
-}
-
-.jo-apps .jo-trace-row {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--jo-border-hairline);
-  cursor: pointer;
-  transition: background 140ms ease;
-}
-
-.jo-apps .jo-trace-row:hover {
-  background: var(--jo-surface-hover);
-}
-
-.jo-apps .jo-trace-row-top {
+.jo-apps .jo-active-node {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   font-size: 12px;
-  font-weight: 550;
+  font-weight: 600;
   color: var(--jo-text-primary);
 }
 
-.jo-apps .jo-trace-row-sub {
-  margin-top: 3px;
+.jo-apps .jo-active-node.nested {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--jo-border-hairline);
+  padding-left: 10px;
+}
+
+.jo-apps .jo-active-sub {
+  margin-top: 2px;
   font-size: 11px;
   color: var(--jo-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.jo-apps .jo-trace-list {
+  flex: 1 1 auto;
+  overflow: auto;
+  max-height: 450px;
+  border-top: 1px solid var(--jo-border-hairline);
+}
+
+.jo-apps .jo-mod-row {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--jo-border-hairline);
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.jo-apps .jo-mod-row:hover {
+  background: var(--jo-surface-hover);
+}
+
+/* Highlighted: currently rendered module */
+.jo-apps .jo-mod-row.rendering {
+  background: rgba(37, 99, 235, 0.055);
+  box-shadow: inset 2px 0 0 var(--jo-status-info);
+}
+
+/* Highlighted: newly added via layered diff */
+.jo-apps .jo-mod-row.diff-added {
+  background: rgba(22, 163, 74, 0.09);
+  box-shadow: inset 2px 0 0 var(--jo-status-ok);
+  animation: jo-diff-flash 700ms var(--jo-spring);
+}
+
+@keyframes jo-diff-flash {
+  0% {
+    background: rgba(22, 163, 74, 0.24);
+  }
+  100% {
+    background: rgba(22, 163, 74, 0.09);
+  }
+}
+
+.jo-apps .jo-mod-row.nested-preview {
+  padding-left: 24px;
+  background: var(--jo-surface-subtle);
+}
+
+.jo-apps .jo-mod-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--jo-text-primary);
+}
+
+.jo-apps .jo-mod-sub {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--jo-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  word-break: break-all;
+}
+
+.jo-apps .jo-mod-nested-list {
+  margin-top: 6px;
+  padding-left: 10px;
+  border-left: 1px solid var(--jo-border-control);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.jo-apps .jo-mod-nested-item {
+  font-size: 11px;
+  color: var(--jo-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.jo-apps .jo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 19px;
+  padding: 0 7px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.jo-apps .jo-badge.rendering {
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--jo-status-info);
+}
+
+.jo-apps .jo-badge.diff {
+  background: rgba(22, 163, 74, 0.14);
+  color: var(--jo-status-ok);
+}
+
+.jo-apps .jo-badge.muted {
+  background: var(--jo-surface-pill);
+  color: var(--jo-text-muted);
 }
 
 .jo-apps .jo-trace-expand {
   margin-top: 6px;
-  padding: 6px 8px;
+  padding: 7px 9px;
   border-radius: 6px;
   background: var(--jo-surface-subtle);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--jo-text-secondary);
   line-height: 1.5;
+  white-space: pre-wrap;
   word-break: break-all;
 }
 
