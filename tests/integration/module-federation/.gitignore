@@ -1,2 +1,3 @@
 **/dist-v2/
 .artifacts/
+.local-deployments.json

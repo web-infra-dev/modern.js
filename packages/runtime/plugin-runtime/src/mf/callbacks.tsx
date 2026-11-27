@@ -8,7 +8,9 @@ import {
   applicationDefinition,
   applicationProps,
   applicationURL,
+  extractMountMetadata,
 } from './shared';
+import { createChildApplicationsPlugin } from './applications/plugin';
 import type {
   BridgeHydrateInfo,
   BridgeRenderInfo,
@@ -49,6 +51,7 @@ function containerElement(container?: HTMLElement | string): HTMLElement {
 }
 
 function options(info: BridgeRenderInfo) {
+  const { mountId, consumer, applicationsStore } = extractMountMetadata(info);
   return {
     url: applicationURL(info, window.location.href),
     basename: info.memoryRoute ? '/' : info.basename,
@@ -56,6 +59,13 @@ function options(info: BridgeRenderInfo) {
     ...('navigation' in info ? { navigation: info.navigation } : {}),
     identifierPrefix: info.rootOptions?.identifierPrefix,
     props: applicationProps(info),
+    ...(mountId
+      ? {
+          mountId,
+          consumer,
+          plugins: [createChildApplicationsPlugin(mountId, applicationsStore)],
+        }
+      : {}),
     signal: info.signal,
     onRecoverableError: info.rootOptions?.onRecoverableError,
   };
@@ -96,12 +106,22 @@ function initialize(
     if (hydration) {
       if (!hydration.updates)
         throw new Error('Modern Bridge hydration requires a data stream');
-      await app.hydrate(container, hydration.snapshot as ApplicationSnapshot, {
+      const snapshot = hydration.snapshot as ApplicationSnapshot;
+      const meta = extractMountMetadata(info);
+      const effectiveMountId = meta.mountId ?? snapshot?.mountId;
+      await app.hydrate(container, snapshot, {
         signal: info.signal,
         onRecoverableError: info.rootOptions?.onRecoverableError,
         updates: hydration.updates,
         memoryRoute: info.memoryRoute,
         navigation: info.navigation,
+        ...(effectiveMountId
+          ? {
+              mountId: effectiveMountId,
+              consumer: meta.consumer ?? snapshot?.consumer,
+              plugins: [createChildApplicationsPlugin(effectiveMountId)],
+            }
+          : {}),
       });
     } else {
       await app.mount(container, options(info));

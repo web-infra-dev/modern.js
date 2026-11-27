@@ -34,7 +34,13 @@ export interface ApplicationInstance {
     snapshot: ApplicationSnapshot,
     options: Pick<
       ApplicationOptions,
-      'signal' | 'onRecoverableError' | 'memoryRoute' | 'navigation'
+      | 'signal'
+      | 'onRecoverableError'
+      | 'memoryRoute'
+      | 'navigation'
+      | 'mountId'
+      | 'consumer'
+      | 'plugins'
     > & {
       updates: ReadableStream<unknown>;
     },
@@ -195,6 +201,9 @@ export function createApplication(
         options.memoryRoute?.entryPath ??
         `${url.pathname}${url.search}${url.hash}`,
       memory: Boolean(options.memoryRoute),
+      mountId: options.mountId ?? snapshot?.mountId,
+      consumer: options.consumer ?? snapshot?.consumer,
+      plugins: options.plugins,
       observeRouteCommits: Boolean(snapshot),
       onRouteCommit(id, error) {
         committedRoutes.add(`${error ? 'error' : 'route'}:${id}`);

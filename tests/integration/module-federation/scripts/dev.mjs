@@ -33,6 +33,7 @@ if (full) {
     libraryV2: 4305,
     api: 4306,
     hostInternal: 4307,
+    consumer: 4308,
   };
   const devPartialPorts = {
     ...devPorts,
@@ -48,6 +49,7 @@ if (full) {
     libraryV2: 4325,
     api: 4326,
     hostInternal: 4327,
+    consumer: 4328,
   };
   const prodPartialPorts = {
     host: 4330,
@@ -175,5 +177,11 @@ if (full) {
   if (updates === 'all') {
     for (const [scenario, route] of Object.entries(routes))
       console.log(`${scenario}: ${lab.url}${route}`);
-  } else console.log(`Weather Lab: ${lab.url}${routes[updates] || '/'}`);
+  } else {
+    console.log(`Weather Lab: ${lab.url}${routes[updates] || '/'}`);
+    if (lab.ports.consumer) {
+      console.log(`App discovery tab: ${lab.url}/?lab=apps`);
+      console.log(`Dynamic consumer:  http://localhost:${lab.ports.consumer}/`);
+    }
+  }
 }

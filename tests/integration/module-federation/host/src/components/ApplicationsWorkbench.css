@@ -1,0 +1,767 @@
+/* Jo Design System tokens — Zinc Light harmonized with Weather Lab shell */
+.jo-apps {
+  --jo-surface-app: #fafafa;
+  --jo-surface-canvas: #ffffff;
+  --jo-surface-subtle: #f4f4f5;
+  --jo-surface-elevated: #ffffff;
+  --jo-surface-selected: #ffffff;
+  --jo-surface-pill: rgba(9, 9, 11, 0.05);
+  --jo-surface-hover: rgba(9, 9, 11, 0.055);
+  --jo-surface-glass: rgba(250, 250, 250, 0.86);
+  --jo-action-primary: #18181b;
+  --jo-action-on-primary: #ffffff;
+  --jo-border-hairline: rgba(9, 9, 11, 0.08);
+  --jo-border-control: rgba(9, 9, 11, 0.13);
+  --jo-border-strong: rgba(9, 9, 11, 0.24);
+  --jo-text-primary: #18181b;
+  --jo-text-secondary: #52525b;
+  --jo-text-muted: #71717a;
+  --jo-status-ok: #16a34a;
+  --jo-status-info: #2563eb;
+  --jo-status-warn: #d97706;
+  --jo-status-danger: #dc2626;
+  --jo-spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color: var(--jo-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jo-apps[data-jo-theme='dark'] {
+  --jo-surface-app: #0f0f12;
+  --jo-surface-canvas: #0a0a0c;
+  --jo-surface-subtle: #18181c;
+  --jo-surface-elevated: #1e1e23;
+  --jo-surface-selected: #27272d;
+  --jo-surface-pill: #1f1f24;
+  --jo-surface-hover: rgba(39, 39, 45, 0.65);
+  --jo-surface-glass: rgba(17, 17, 20, 0.78);
+  --jo-action-primary: #f4f4f6;
+  --jo-action-on-primary: #09090b;
+  --jo-border-hairline: rgba(255, 255, 255, 0.08);
+  --jo-border-control: rgba(255, 255, 255, 0.13);
+  --jo-border-strong: rgba(255, 255, 255, 0.24);
+  --jo-text-primary: #f4f4f6;
+  --jo-text-secondary: #a1a1aa;
+  --jo-text-muted: #71717a;
+  --jo-status-ok: #4ade80;
+  --jo-status-info: #60a5fa;
+  --jo-status-warn: #fbbf24;
+  --jo-status-danger: #f87171;
+}
+
+/* Unified L0 Surface Shell (draw each border once) */
+.jo-apps .jo-surface {
+  background: var(--jo-surface-canvas);
+  border: 1px solid var(--jo-border-hairline);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(9, 9, 11, 0.04);
+}
+
+/* L2 Translucent Glass Bar */
+.jo-apps .jo-glass-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--jo-surface-glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--jo-border-hairline);
+}
+
+/* Status dot + crisp pill */
+.jo-apps .jo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: var(--jo-surface-pill);
+  color: var(--jo-text-secondary);
+  font-size: 11px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.jo-apps .jo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  flex: none;
+  background: var(--jo-text-muted);
+}
+
+.jo-apps .jo-dot.ok {
+  background: var(--jo-status-ok);
+}
+
+.jo-apps .jo-dot.info {
+  background: var(--jo-status-info);
+}
+
+.jo-apps .jo-dot.warn {
+  background: var(--jo-status-warn);
+}
+
+.jo-apps .jo-dot.danger {
+  background: var(--jo-status-danger);
+}
+
+/* Segmented capsule — higher specificity to beat .lab-layout button */
+.jo-apps .jo-segmented {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  gap: 2px;
+  border-radius: 9px;
+  background: var(--jo-surface-pill);
+}
+
+.jo-apps button.jo-seg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 26px;
+  min-height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--jo-text-muted);
+  font-size: 12px;
+  font-weight: 550;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 160ms var(--jo-spring),
+    color 160ms var(--jo-spring),
+    box-shadow 160ms var(--jo-spring),
+    transform 160ms var(--jo-spring);
+}
+
+.jo-apps button.jo-seg-btn:hover {
+  background: transparent;
+  color: var(--jo-text-primary);
+}
+
+.jo-apps button.jo-seg-btn.active {
+  background: var(--jo-surface-selected);
+  color: var(--jo-text-primary);
+  box-shadow:
+    0 1px 2px rgba(9, 9, 11, 0.08),
+    0 0 0 1px rgba(9, 9, 11, 0.04);
+}
+
+.jo-apps button.jo-seg-btn:active {
+  transform: scale(0.96);
+}
+
+/* Monochrome primary button */
+.jo-apps button.jo-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--jo-action-primary);
+  color: var(--jo-action-on-primary);
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    opacity 150ms ease,
+    transform 180ms var(--jo-spring);
+}
+
+.jo-apps button.jo-btn-primary:hover:not(:disabled) {
+  background: var(--jo-action-primary);
+  opacity: 0.88;
+}
+
+.jo-apps button.jo-btn-primary:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.jo-apps button.jo-btn-primary:disabled {
+  background: var(--jo-surface-pill);
+  color: var(--jo-text-muted);
+  cursor: not-allowed;
+}
+
+/* Ghost & icon buttons */
+.jo-apps button.jo-icon-btn,
+.jo-apps a.jo-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 30px;
+  min-height: 30px;
+  min-width: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--jo-text-secondary);
+  font-size: 12px;
+  font-weight: 550;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    transform 180ms var(--jo-spring);
+}
+
+.jo-apps button.jo-icon-btn:hover:not(:disabled),
+.jo-apps a.jo-icon-btn:hover {
+  background: var(--jo-surface-hover);
+  color: var(--jo-text-primary);
+}
+
+.jo-apps button.jo-icon-btn:active:not(:disabled),
+.jo-apps a.jo-icon-btn:active {
+  transform: scale(0.94);
+}
+
+.jo-apps button.jo-icon-btn.danger:hover:not(:disabled) {
+  color: var(--jo-status-danger);
+}
+
+.jo-apps .jo-icon-btn svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+/* Borderless input inside capsule with soft :focus-within ring */
+.jo-apps .jo-input-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: var(--jo-surface-pill);
+  border: 1px solid transparent;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+.jo-apps .jo-input-capsule:focus-within {
+  background: var(--jo-surface-canvas);
+  border-color: var(--jo-border-strong);
+}
+
+.jo-apps .jo-input-capsule input,
+.jo-apps .jo-input-capsule select {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  color: var(--jo-text-primary);
+  font-size: 12px;
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+}
+
+.jo-apps .jo-input-capsule input.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Render Workspace: 68% live preview / 32% moduleInfo inspector */
+.jo-apps .jo-render-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  min-height: 620px;
+}
+
+@media (max-width: 1120px) {
+  .jo-apps .jo-render-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.jo-apps .jo-preview-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.jo-apps .jo-iframe {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 600px;
+  border: 0;
+  background: var(--jo-surface-canvas);
+}
+
+/* Right Module Info Inspector (single left hairline divider) */
+.jo-apps .jo-trace-rail {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--jo-border-hairline);
+  background: var(--jo-surface-app);
+  min-width: 0;
+}
+
+@media (max-width: 1120px) {
+  .jo-apps .jo-trace-rail {
+    border-left: 0;
+    border-top: 1px solid var(--jo-border-hairline);
+  }
+}
+
+.jo-apps .jo-rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--jo-border-hairline);
+}
+
+.jo-apps .jo-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 14px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--jo-text-muted);
+  letter-spacing: 0.01em;
+}
+
+.jo-apps .jo-active-box {
+  margin: 0 12px 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--jo-surface-canvas);
+  border: 1px solid var(--jo-border-control);
+}
+
+.jo-apps .jo-active-node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--jo-text-primary);
+}
+
+.jo-apps .jo-active-node.nested {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--jo-border-hairline);
+  padding-left: 10px;
+}
+
+.jo-apps .jo-active-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--jo-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.jo-apps .jo-trace-list {
+  flex: 1 1 auto;
+  overflow: auto;
+  max-height: 450px;
+  border-top: 1px solid var(--jo-border-hairline);
+}
+
+.jo-apps .jo-mod-row {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--jo-border-hairline);
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.jo-apps .jo-mod-row:hover {
+  background: var(--jo-surface-hover);
+}
+
+/* Highlighted: currently rendered module */
+.jo-apps .jo-mod-row.rendering {
+  background: rgba(37, 99, 235, 0.055);
+  box-shadow: inset 2px 0 0 var(--jo-status-info);
+}
+
+/* Highlighted: newly added via layered diff */
+.jo-apps .jo-mod-row.diff-added {
+  background: rgba(22, 163, 74, 0.09);
+  box-shadow: inset 2px 0 0 var(--jo-status-ok);
+  animation: jo-diff-flash 700ms var(--jo-spring);
+}
+
+@keyframes jo-diff-flash {
+  0% {
+    background: rgba(22, 163, 74, 0.24);
+  }
+  100% {
+    background: rgba(22, 163, 74, 0.09);
+  }
+}
+
+.jo-apps .jo-mod-row.nested-preview {
+  padding-left: 24px;
+  background: var(--jo-surface-subtle);
+}
+
+.jo-apps .jo-mod-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--jo-text-primary);
+}
+
+.jo-apps .jo-mod-sub {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--jo-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  word-break: break-all;
+}
+
+.jo-apps .jo-mod-nested-list {
+  margin-top: 6px;
+  padding-left: 10px;
+  border-left: 1px solid var(--jo-border-control);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.jo-apps .jo-mod-nested-item {
+  font-size: 11px;
+  color: var(--jo-text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.jo-apps .jo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 19px;
+  padding: 0 7px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.jo-apps .jo-badge.rendering {
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--jo-status-info);
+}
+
+.jo-apps .jo-badge.diff {
+  background: rgba(22, 163, 74, 0.14);
+  color: var(--jo-status-ok);
+}
+
+.jo-apps .jo-badge.muted {
+  background: var(--jo-surface-pill);
+  color: var(--jo-text-muted);
+}
+
+.jo-apps .jo-trace-expand {
+  margin-top: 6px;
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: var(--jo-surface-subtle);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px;
+  color: var(--jo-text-secondary);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.jo-apps .jo-rail-foot {
+  padding: 10px 14px;
+  border-top: 1px solid var(--jo-border-hairline);
+  font-size: 11px;
+  color: var(--jo-text-muted);
+  line-height: 1.5;
+}
+
+/* Route-Centric Deployment Table */
+.jo-apps .jo-route-table-head,
+.jo-apps .jo-route-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.15fr) minmax(260px, 1.75fr) 128px 80px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+@media (max-width: 960px) {
+  .jo-apps .jo-route-table-head {
+    display: none;
+  }
+  .jo-apps .jo-route-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.jo-apps .jo-route-table-head {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--jo-text-muted);
+  background: var(--jo-surface-subtle);
+  border-bottom: 1px solid var(--jo-border-hairline);
+}
+
+.jo-apps .jo-route-row {
+  border-bottom: 1px solid var(--jo-border-hairline);
+  transition: background 140ms ease;
+}
+
+.jo-apps .jo-route-row:last-child {
+  border-bottom: 0;
+}
+
+.jo-apps .jo-route-row:hover {
+  background: var(--jo-surface-hover);
+}
+
+.jo-apps .jo-route-row.nested {
+  background: var(--jo-surface-app);
+}
+
+.jo-apps .jo-route-row.nested:hover {
+  background: var(--jo-surface-hover);
+}
+
+.jo-apps .jo-route-row.removed {
+  opacity: 0.45;
+}
+
+.jo-apps .jo-route-path-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.jo-apps .jo-tree-elbow {
+  color: var(--jo-text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  padding-left: 10px;
+  user-select: none;
+}
+
+.jo-apps .jo-producer-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.jo-apps .jo-actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.jo-apps .jo-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--jo-surface-subtle);
+  border: 1px solid var(--jo-border-hairline);
+  font-size: 12px;
+  color: var(--jo-text-primary);
+}
+
+.jo-apps .jo-toast.error {
+  border-color: rgba(220, 38, 38, 0.25);
+  color: var(--jo-status-danger);
+}
+
+/* L4 Modal Dialog (Jo Design: 20px radius, translucent glass, blurred backdrop) */
+.jo-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 9, 11, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: jo-fade-in 160ms ease;
+}
+
+@keyframes jo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.jo-modal {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(9, 9, 11, 0.12);
+  box-shadow: 0 24px 60px rgba(9, 9, 11, 0.16);
+  overflow: hidden;
+  animation: jo-modal-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes jo-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.jo-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(9, 9, 11, 0.08);
+}
+
+.jo-modal-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  color: #18181b;
+}
+
+.jo-modal-body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.jo-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jo-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: #52525b;
+}
+
+.jo-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 8px;
+}
+
+.jo-form-error {
+  font-size: 11px;
+  color: #dc2626;
+  font-weight: 550;
+}
+
+.jo-form-hint {
+  font-size: 11px;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.jo-apps button.jo-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  min-height: 22px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(9, 9, 11, 0.055);
+  box-shadow: none;
+  color: #52525b;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.jo-apps button.jo-chip-btn:hover {
+  background: rgba(9, 9, 11, 0.1);
+  color: #18181b;
+}
+
+.jo-modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid rgba(9, 9, 11, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jo-modal-backdrop,
+  .jo-modal,
+  .jo-apps button.jo-seg-btn,
+  .jo-apps button.jo-btn-primary,
+  .jo-apps button.jo-icon-btn,
+  .jo-apps a.jo-icon-btn,
+  .jo-apps .jo-input-capsule,
+  .jo-apps .jo-mod-row,
+  .jo-apps .jo-route-row {
+    transition: none;
+    animation: none;
+  }
+}

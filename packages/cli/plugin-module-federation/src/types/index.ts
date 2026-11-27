@@ -4,7 +4,22 @@ import type { BridgeServices } from '@module-federation/bridge-react/service-nod
 import type { ServiceProviderOptions } from '../serviceProvider';
 import type { SSRApplicationOptions } from '@modern-js/server-core/node';
 
+export interface ApplicationsOptions {
+  /** Path to the runtime data hooks module (e.g. './src/applications.ts'). */
+  hooks?: string;
+  /** Automatically install discovered routes into the current consumer Router. @default true */
+  autoGenerateRoute?: boolean;
+  /** Maximum discovery recursion depth. @default 8 */
+  maxDepth?: number;
+  /** Timeout in milliseconds for a discovery run. @default 15000 */
+  timeoutMs?: number;
+}
+
 export interface PluginOptions {
+  /** Optional container name when enabling built-in MF without module-federation.config.ts. */
+  name?: string;
+  /** Enable native micro-frontend dynamic application discovery. */
+  applications?: boolean | ApplicationsOptions;
   /** Automatically publish and serve isService Bridge exposes. */
   serviceProvider?: ServiceProviderOptions;
   /** Public Host origin when a trusted gateway terminates TLS or rewrites Host. */

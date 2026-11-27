@@ -14,6 +14,7 @@ export default (options: {
   name: string;
   services: BridgeServices;
   remotes: ServiceRemote[];
+  allowDynamicRemotes?: boolean;
   origin?: string;
   runtimePluginsFile?: string;
   waitForRuntimePlugins?: () => Promise<void>;
@@ -48,6 +49,7 @@ export default (options: {
         name: options.name,
         ownerId,
         remotes: options.remotes,
+        allowDynamicRemotes: options.allowDynamicRemotes,
         plugins: preparePlugins,
       });
       const participants = (context as any).ssrUpdateParticipants || [];

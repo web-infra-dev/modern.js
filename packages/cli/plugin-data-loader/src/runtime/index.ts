@@ -102,6 +102,34 @@ function getStaticHandler(
   return handler;
 }
 
+function appendDynamicChildForLayout(
+  routes: ReturnType<typeof transformNestedRoutes>,
+  targetRouteId: string,
+): { routes: ReturnType<typeof transformNestedRoutes>; matched: boolean } {
+  let matched = false;
+  const visit = (
+    list: ReturnType<typeof transformNestedRoutes>,
+  ): ReturnType<typeof transformNestedRoutes> =>
+    list.map(route => {
+      if (route.index) return route;
+      const children = Array.isArray(route.children)
+        ? visit(route.children)
+        : undefined;
+      if (route.id === targetRouteId && Array.isArray(children)) {
+        matched = true;
+        return {
+          ...route,
+          children: [
+            ...children,
+            { id: '__modern_dynamic_child__', path: '*' },
+          ],
+        };
+      }
+      return children ? { ...route, children } : route;
+    });
+  return { routes: visit(routes), matched };
+}
+
 export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
   request,
   serverRoutes,
@@ -148,10 +176,34 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
       let response;
 
       try {
-        response = await queryRoute(request, {
-          routeId,
-          requestContext,
-        });
+        try {
+          response = await queryRoute(request, {
+            routeId,
+            requestContext,
+          });
+        } catch (queryError) {
+          // Allow layout loaders of a scoped producer app to resolve when a
+          // host dynamically mounts a nested child application under that layout.
+          if (isRouteErrorResponse(queryError) && queryError.status === 404) {
+            const expanded = appendDynamicChildForLayout(
+              transformNestedRoutes(routesConfig),
+              routeId,
+            );
+            if (expanded.matched) {
+              const fallbackHandler = createStaticHandler(expanded.routes, {
+                basename,
+              });
+              response = await fallbackHandler.queryRoute(request, {
+                routeId,
+                requestContext,
+              });
+            } else {
+              throw queryError;
+            }
+          } else {
+            throw queryError;
+          }
+        }
 
         if (isResponse(response) && isRedirectResponse(response.status)) {
           response = convertModernRedirectResponse(

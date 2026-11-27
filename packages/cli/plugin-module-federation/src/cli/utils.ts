@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 
@@ -31,5 +32,14 @@ export function isDev() {
 // this package rather than the application's dependency tree.
 export function resolveInternalPlugin(relativePath: string): string {
   const extension = process.env.MODERN_LIB_FORMAT === 'esm' ? '.mjs' : '.js';
-  return require.resolve(path.resolve(__dirname, relativePath + extension));
+  const candidate = path.resolve(__dirname, relativePath + extension);
+  try {
+    return require.resolve(candidate);
+  } catch (error) {
+    const tsCandidate = path.resolve(__dirname, `${relativePath}.ts`);
+    if (fs.existsSync(tsCandidate)) {
+      return tsCandidate;
+    }
+    throw error;
+  }
 }

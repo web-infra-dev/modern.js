@@ -1,13 +1,25 @@
 import { spawn } from 'node:child_process';
 import { createServer, request } from 'node:http';
-import { createReadStream } from 'node:fs';
-import { stat } from 'node:fs/promises';
+import { createReadStream, existsSync } from 'node:fs';
+import {
+  cp,
+  mkdir,
+  mkdtemp,
+  readFile,
+  readdir,
+  rm,
+  stat,
+  symlink,
+  writeFile,
+} from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import getPort from 'get-port';
 import treeKill from 'tree-kill';
 import { createResponseGate } from './response-gate.mjs';
+import { createLabDeploymentPlatform } from './deployment-platform.mjs';
 const fixtureRoot = fileURLToPath(new URL('../', import.meta.url));
 const regularNames = [
   'host',
@@ -18,6 +30,7 @@ const regularNames = [
   'libraryV2',
   'api',
   'hostInternal',
+  'consumer',
 ];
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 export async function startLab(
@@ -45,24 +58,6 @@ export async function startLab(
   if (updates && serviceOnly)
     throw new Error('Update scenarios use the Weather Lab host');
   const updateOnly = updates === 'bridge' || updates === 'service';
-  const names = updateOnly
-    ? [
-        'host',
-        'hostInternal',
-        'provider',
-        'api',
-        ...(mode === 'production' ? ['providerV2'] : []),
-      ]
-    : serviceOnly
-      ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
-      : regularNames;
-  const hostRequire = createRequire(path.join(root, 'host/package.json'));
-  const modern = path.resolve(
-    path.dirname(hostRequire.resolve('@modern-js/app-tools')),
-    '../../bin/modern.js',
-  );
-  /** @type {Record<string, number>} */
-  const ports = {};
   const configuredPorts =
     overridePorts ??
     (process.env.MF_LAB_PORTS
@@ -76,6 +71,33 @@ export async function startLab(
   ) {
     throw new Error('MF_LAB_PORTS must be a JSON object of service ports');
   }
+  const includeConsumer =
+    !serviceOnly &&
+    !updateOnly &&
+    !hostOnly &&
+    existsSync(path.join(root, 'consumer/modern.config.ts')) &&
+    (!configuredPorts || Number.isSafeInteger(configuredPorts.consumer));
+  const effectiveRegularNames = includeConsumer
+    ? regularNames
+    : regularNames.filter(name => name !== 'consumer');
+  const names = updateOnly
+    ? [
+        'host',
+        'hostInternal',
+        'provider',
+        'api',
+        ...(mode === 'production' ? ['providerV2'] : []),
+      ]
+    : serviceOnly
+      ? ['provider', 'api', 'serviceSSR', 'serviceCSR']
+      : effectiveRegularNames;
+  const hostRequire = createRequire(path.join(root, 'host/package.json'));
+  const modern = path.resolve(
+    path.dirname(hostRequire.resolve('@modern-js/app-tools')),
+    '../../bin/modern.js',
+  );
+  /** @type {Record<string, number>} */
+  const ports = {};
   const portRangeStart = 12000 + Math.floor(Math.random() * 8000);
   for (const [index, name] of names.entries()) {
     if (configuredPorts) {
@@ -116,6 +138,7 @@ export async function startLab(
   const processes = [];
   const processInfo = [];
   const servers = [];
+  const tempDirs = [];
   const failures = [];
   let stopping = false;
   const logs = new Map();
@@ -173,8 +196,8 @@ export async function startLab(
     NO_COLOR: '1',
     MODERN_SERVER_LOG_LEVEL: 'warn',
   };
-  function launch(name, args, version = 'v1', continuous = false) {
-    const cwd = path.join(root, name);
+  function launch(name, args, version = 'v1', continuous = false, cwdOverride) {
+    const cwd = cwdOverride || path.join(root, name);
     const key = `${name}-${version}`;
     const child = spawn(
       process.execPath,
@@ -303,6 +326,52 @@ export async function startLab(
     servers.push(server);
     await new Promise(resolve => server.listen(port, resolve));
   }
+  async function prepareConsumerDir() {
+    const tempRoot = await mkdtemp(path.join(tmpdir(), 'modern-mf-consumer-'));
+    tempDirs.push(tempRoot);
+    await cp(path.join(root, 'ports.ts'), path.join(tempRoot, 'ports.ts'));
+    const consumerDir = path.join(tempRoot, 'consumer');
+    await cp(path.join(root, 'consumer'), consumerDir, {
+      recursive: true,
+      filter: filename =>
+        !['node_modules', 'dist', '.modern-js', '.rsbuild'].includes(
+          path.basename(filename),
+        ),
+    });
+    const providerPkg = JSON.parse(
+      await readFile(path.join(root, 'provider/package.json'), 'utf8'),
+    );
+    providerPkg.name = 'mf-lab-consumer';
+    await writeFile(
+      path.join(consumerDir, 'package.json'),
+      JSON.stringify(providerPkg, null, 2),
+    );
+    const nodeModulesTarget = path.join(consumerDir, 'node_modules');
+    await mkdir(nodeModulesTarget, { recursive: true });
+    const providerNodeModules = path.join(root, 'provider/node_modules');
+    for (const entry of await readdir(providerNodeModules)) {
+      if (entry.startsWith('.') && !['.bin', '.pnpm'].includes(entry)) continue;
+      const original = path.join(providerNodeModules, entry);
+      const isDir = (await stat(original)).isDirectory();
+      await symlink(
+        original,
+        path.join(nodeModulesTarget, entry),
+        isDir ? (process.platform === 'win32' ? 'junction' : 'dir') : 'file',
+      );
+    }
+    const rootTypes = path.resolve(root, '../../../node_modules/@types');
+    if (
+      existsSync(rootTypes) &&
+      !existsSync(path.join(nodeModulesTarget, '@types'))
+    ) {
+      await symlink(
+        rootTypes,
+        path.join(nodeModulesTarget, '@types'),
+        process.platform === 'win32' ? 'junction' : 'dir',
+      );
+    }
+    return consumerDir;
+  }
   async function stop() {
     stopping = true;
     for (const gate of responseGates) gate.dispose();
@@ -342,6 +411,16 @@ export async function startLab(
               });
             }),
         ),
+    );
+    await Promise.allSettled(
+      tempDirs.map(dir =>
+        rm(dir, {
+          recursive: true,
+          force: true,
+          maxRetries: 5,
+          retryDelay: 100,
+        }),
+      ),
     );
   }
   try {
@@ -440,10 +519,16 @@ export async function startLab(
       }
       return serviceManifests.get(version);
     };
+    const deploymentPlatform = !serviceOnly
+      ? createLabDeploymentPlatform({ root, ports })
+      : null;
     const api = createServer(async (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Cache-Control', 'no-store');
       const url = new URL(req.url, 'http://localhost');
+      if (deploymentPlatform && url.pathname.startsWith('/_lab/deployments/')) {
+        if (await deploymentPlatform.handleRequest(req, res, url)) return;
+      }
       if (
         serviceDeployment &&
         url.pathname === '/service-deployment/select' &&
@@ -757,6 +842,21 @@ export async function startLab(
         `http://localhost:${ports[key]}/${name === 'host' ? (updates ? '_lab/update/state' : hostBase.replace(/^\//, '')) : 'static/mf-manifest.json'}`,
         name !== 'host',
       );
+    }
+    if (includeConsumer) {
+      const consumerCwd = await prepareConsumerDir();
+      if (mode === 'production') {
+        await launch('consumer', [modern, 'build'], 'v1', false, consumerCwd);
+      }
+      await launch(
+        'consumer',
+        [modern, mode === 'production' ? 'serve' : 'dev'],
+        'v1',
+        true,
+        consumerCwd,
+      );
+      await verifyServicePort('consumer', ports.consumer);
+      await wait(`http://localhost:${ports.consumer}/`);
     }
     if (serviceOnly) {
       for (const [name, key] of [

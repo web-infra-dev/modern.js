@@ -56,6 +56,12 @@ export function createScopeRuntime(
   options: Omit<ApplicationEnvironment, 'output'> & {
     basename?: string;
     memory?: boolean;
+    mountId?: string;
+    consumer?: {
+      moduleName: string;
+      expose: string;
+      versionOrUrl: string;
+    };
     observeRouteCommits?: boolean;
     onRouteCommit?: (id: string, error: boolean) => void;
   },
@@ -65,6 +71,8 @@ export function createScopeRuntime(
     onRouteCommit,
     basename = '/',
     memory,
+    mountId,
+    consumer,
     ...environment
   } = options;
   const routeCommits = observeRouteCommits
@@ -144,6 +152,8 @@ export function createScopeRuntime(
   Object.assign(instance.context.application!, {
     basename,
     memory,
+    ...(mountId ? { mountId } : {}),
+    ...(consumer ? { consumer } : {}),
   });
   if (getDataUrl) instance.context.application!.getDataUrl = getDataUrl;
   return Object.assign(instance, { routeCommits });

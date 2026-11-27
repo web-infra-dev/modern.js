@@ -342,6 +342,12 @@ export function createSSRUpdateAdapter(options: {
         application.update(
           async entries => {
             onStage('clear');
+            for (const state of states())
+              if (state) {
+                state.owner = token;
+                state.selective = Boolean(entries);
+                ownedStates.add(state);
+              }
             setSSRUpdateCandidates(
               owner.id,
               changes.map(({ name, replacement }) => ({
@@ -641,12 +647,14 @@ export function createSSRUpdateAdapter(options: {
                   ].sort(),
                   reasons: [],
                 };
-            for (const state of states())
-              if (state) {
-                state.owner = token;
-                state.selective = selected.mode === 'entries';
-                ownedStates.add(state);
-              }
+            if (selected.mode === 'entries') {
+              for (const state of states())
+                if (state) {
+                  state.owner = token;
+                  state.selective = true;
+                  ownedStates.add(state);
+                }
+            }
             onStage('drain');
             return selected.entries;
           },

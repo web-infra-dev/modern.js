@@ -30,6 +30,13 @@ export interface RenderApplicationOptions {
   element?: React.ReactElement;
   basename?: string;
   props?: Record<string, unknown>;
+  mountId?: string;
+  consumer?: {
+    moduleName: string;
+    expose: string;
+    versionOrUrl: string;
+  };
+  plugins?: import('../core/plugin').RuntimePlugin<any>[];
   nonce?: string;
   signal?: AbortSignal;
   loaderContext?: Map<string, unknown>;
@@ -75,8 +82,13 @@ export async function renderApplication(
     basename,
     initialUrl: request.url,
     memory: Boolean(options.memoryRoute),
+    mountId: options.mountId,
+    consumer: options.consumer,
     observeRouteCommits: true,
-    plugins: [cancellationPlugin(signal, options.onError, options.work)],
+    plugins: [
+      cancellationPlugin(signal, options.onError, options.work),
+      ...(options.plugins || []),
+    ],
   });
   const Root = createScopedRoot(options.definition);
 
@@ -105,6 +117,8 @@ export async function renderApplication(
           basename,
           ...(options.memoryRoute ? { memoryRoute: options.memoryRoute } : {}),
           props,
+          ...(options.mountId ? { mountId: options.mountId } : {}),
+          ...(options.consumer ? { consumer: options.consumer } : {}),
           initialData: runtimeContext.initialData,
           i18nData: runtimeContext.__i18nData__,
           routerData: router

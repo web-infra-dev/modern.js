@@ -28,9 +28,27 @@ export function resolveActivation(
     );
   }
   if (!config.config && !fs.existsSync(watchPath)) {
-    throw new Error(
-      `[Modern.js Module Federation] Configuration file not found: ${watchPath}`,
-    );
+    if (config.applications) {
+      if (!config.name) {
+        throw new Error(
+          '[Modern.js Module Federation] moduleFederation.name is required when enabling moduleFederation.applications without module-federation.config.ts.',
+        );
+      }
+      config.config = {
+        name: config.name,
+        dts: false,
+        shared: {
+          react: { singleton: true },
+          'react-dom': { singleton: true },
+        },
+      };
+    } else {
+      throw new Error(
+        `[Modern.js Module Federation] Configuration file not found: ${watchPath}`,
+      );
+    }
+  } else if (config.config && !config.config.name && config.name) {
+    config.config = { ...config.config, name: config.name };
   }
   if (!config.config) config.configPath = watchPath;
   return { enabled, config, watchPath };

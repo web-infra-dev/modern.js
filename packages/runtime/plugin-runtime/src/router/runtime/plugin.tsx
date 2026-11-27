@@ -307,17 +307,20 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
       ? createMemoryRouter(modifiedRoutes, {
           initialEntries: [scope.initialUrl],
           hydrationData,
+          patchRoutesOnNavigation: scope?.patchRoutesOnNavigation,
         })
       : supportHtml5History
         ? createBrowserRouter(modifiedRoutes, {
             basename: _basename,
             hydrationData,
             window: scope?.getWindow?.(),
+            patchRoutesOnNavigation: scope?.patchRoutesOnNavigation,
           })
         : createHashRouter(modifiedRoutes, {
             basename: _basename,
             hydrationData,
             window: scope?.getWindow?.(),
+            patchRoutesOnNavigation: scope?.patchRoutesOnNavigation,
           });
     if (scope) {
       scope.router = router;
