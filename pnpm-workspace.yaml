@@ -16,7 +16,6 @@ packages:
   - 'scripts/*'
   - 'tests'
   - 'tests/integration/**/*'
-  - 'tests/e2e/**/*'
   - 'website/*'
   - 'benchmark/*'
   - 'examples/*'

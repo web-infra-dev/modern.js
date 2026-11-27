@@ -16,7 +16,6 @@
     "setup": "npm run reset && pnpm install",
     "reset": "npx rimraf --glob ./**/node_modules",
     "test:framework": "cd tests && pnpm run test:framework",
-    "test:builder": "cd tests && pnpm run test:builder",
     "test:ut": "rstest run",
     "test:ut:update": "rstest -u",
     "lint:package-json": "cd ./scripts/check-dependencies && pnpm start",
