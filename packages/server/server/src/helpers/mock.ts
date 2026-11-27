@@ -109,7 +109,7 @@ const getMockModule = async (
 
   // Load through compatibleRequire (the same loader BFF API handlers use), not
   // a raw `import()`:
-  // - it resolves `.ts` via the CJS require + ts-node/swc hook, so users can
+  // - it resolves `.ts` via the CJS require + swc hook, so users can
   //   author mocks in TypeScript (a native `import('*.ts')` throws
   //   ERR_UNKNOWN_FILE_EXTENSION);
   // - in dev the runtime reload re-reads the module fresh — the watcher busts

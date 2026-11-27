@@ -1,0 +1,122 @@
+# TypeScript 配置
+
+Modern.js 通过 `@modern-js/tsconfig` 提供共享的 TypeScript 预设。一个项目通常只需要两份文件：主配置 `tsconfig.json`，以及只在有服务端代码时才需要的 `tsconfig.server.json`。
+
+## 预设
+
+| 预设                         | 用途                                                                                                                                                                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@modern-js/tsconfig/base`   | 主配置。`module: ESNext`、`moduleResolution: bundler`、`jsx: react-jsx`、`target: ES2022`、`strict`。供编辑器、Rspack 别名解析与类型检查使用。                                                                                       |
+| `@modern-js/tsconfig/server` | 参考预设，内容是四个服务端产物覆盖项：`module: NodeNext`、`moduleResolution: NodeNext`、`noEmit: false`、`declaration: false`。供支持 `extends` 数组的工具（tsc >= 5.0）使用；推荐的 `tsconfig.server.json` 直接写入同样的四个字段。 |
+| `@modern-js/tsconfig/legacy` | 旧版 `base`（`module: commonjs`、`moduleResolution: node`、`target: ES2015`）。仅用于回退；这些选项在 TypeScript 6 中已被标记为废弃。                                                                                                |
+| `@modern-js/tsconfig/react`  | `base` 的别名，已废弃，请直接使用 `base`。                                                                                                                                                                                           |
+
+## 两份文件的布局
+
+`tsconfig.json` 是唯一的主配置，所有路径别名（`paths`）都写在这里：
+
+```json title="tsconfig.json"
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmitOnError": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["src", "shared", "config", "modern.config.ts"]
+}
+```
+
+`isolatedModules`、`moduleDetection: force` 与 `noEmitOnError` 写在项目文件里而不是 `base` 里，所以升级 `@modern-js/tsconfig` 不会给存量项目新增这些检查。开启 `noEmitOnError: true` 后，`api/` 中的类型错误会让 `modern build` 失败；不开启时，BFF 的类型错误只报告、不中断构建。新项目由模板带上；存量项目准备好处理它们的报错后，再加到自己的 `tsconfig.json`。
+
+项目有 BFF（`api/`）或自定义 Server（`server/`）时，在 `paths` 中追加 `"@api/*": ["./api/lambda/*"]`，并把 `api`、`server` 加入 `include`，然后添加：
+
+```json title="tsconfig.server.json"
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "declaration": false
+  },
+  "include": ["api", "server", "shared"]
+}
+```
+
+框架编译 `api/`、`server/`、`shared/`（调用项目自己的 `tsc` 命令行）以及开发时运行服务端源码都会使用这份文件。这四个 `compilerOptions` 只覆盖各自的键，其余选项（包括 `paths`）全部继承自 `tsconfig.json`。它们与 `@modern-js/tsconfig/server` 的内容一致，直接写在文件内是为了兼容仍在使用 ts-node 10 的工具（它不支持 `extends` 数组）。
+
+## 为什么需要两份文件
+
+打包器希望看到 `module: ESNext`，而服务端代码的类型检查应按 Node 的规则解析模块（`NodeNext`）。同一份 `module` 取值无法同时满足两边，因此服务端单独覆盖模块选项。产物格式由框架按 `package.json#type` 决定，与这两个字段无关。
+
+## 没有 `tsconfig.server.json` 会怎样
+
+框架按「`server.tsconfigPath` → `tsconfig.server.json` → `tsconfig.json`」的顺序解析服务端配置。按约定使用 `tsconfig.server.json` 时，启动会打印一行日志说明实际使用的文件。回退到 `tsconfig.json` 时，产物照样跟随 `package.json#type`（CommonJS 项目仍是 `require`），不会打印提示；只有它的 `module` 是 ES Module 取值、而项目又不是 `type: module` 时，服务端代码改用 `module: CommonJS` 编译，与旧版 base 预设一致。`type: module` 项目不会被改写。完整规则见 [server.tsconfigPath](/configure/app/server/tsconfig-path)。
+
+## 迁移存量项目
+
+旧版创建模板会在 `tsconfig.json` 中写入 `"baseUrl": "./"`。TypeScript 6 对 `baseUrl` 报 TS5101（已废弃），TypeScript 7 报 TS5102（已移除）。只升级 Modern.js、TypeScript 仍是 5.x 时不受影响；框架的构建也会继续识别 `baseUrl`。
+
+升级依赖不会改动项目文件。需要迁移时，执行 Skill `modernjs-migrate-tsconfig`：
+
+```bash
+# 安装 Skill（--agent 可选 claude-code / codex / cursor 等）
+npx skills add web-infra-dev/modern.js --skill modernjs-migrate-tsconfig
+
+# 也可以直接执行脚本；<skillDir> 为上一步安装的 Skill 目录
+node <skillDir>/scripts/migrate-tsconfig.mjs <projectDir>
+```
+
+结果会写入 `<projectDir>/.agents/runs/modernjs-migrate-tsconfig/report.json` 的 `changed`（已自动改写）与 `manual`（需人工处理）。脚本可重复执行。
+
+| 项目现状                                                                                                       | 脚本行为                                                                                                                                     |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 有 `baseUrl`                                                                                                   | `paths` 每一项加上原 `baseUrl` 前缀，改成相对 `tsconfig.json` 所在目录；源码中有靠 `baseUrl` 解析的裸导入时补 `"*"` 映射；然后删除 `baseUrl` |
+| 有 `api/lambda`，`paths` 缺少 `@api/*`                                                                         | 补充 `"@api/*": ["./api/lambda/*"]`                                                                                                          |
+| 项目不是 `type: module`，有 `api/` 或 `server/`，没有 `tsconfig.server.json`，也没有配置 `server.tsconfigPath` | 写入上文的 `tsconfig.server.json`                                                                                                            |
+| 写入了 `tsconfig.server.json`，且 `api/`、`server/`、`shared/` 中有不带扩展名的相对 `import()`                 | 逐处列入人工清单：NodeNext 下 `import()` 保留为原生 ESM 导入，需要补上 `.js` 后缀，否则 tsc 报 TS2835、运行时找不到模块                      |
+| `tsconfig.json` 含注释或尾逗号                                                                                 | 不改写该文件，把上述改写列入人工清单                                                                                                         |
+| `baseUrl` 写在 `extends` 的父配置中                                                                            | 不改写父配置，列入人工清单                                                                                                                   |
+
+改写与 `baseUrl` 等价。以 `baseUrl: "./src"`、源码中有 `import { log } from 'utils/log'`（解析到 `src/utils/log.ts`）为例：
+
+```json title="迁移前"
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@shared/*": ["../shared/*"]
+    }
+  }
+}
+```
+
+```json title="迁移后"
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"],
+      "*": ["./src/*"]
+    }
+  }
+}
+```
+
+源码中没有这类裸导入时不会补 `"*"`。不使用 Skill 时，按上表手动修改即可。
+
+## 注意事项
+
+- 不要在 `tsconfig.server.json` 中声明 `paths`：TypeScript 对 `paths` 是整体替换，而不是逐键合并。
+- 不再需要 `baseUrl`。`paths` 中的相对路径以声明它的文件所在目录为基准。
+- 项目在 TypeScript 6 下保留 `baseUrl` 时，服务端类型检查会忽略 TS5101 等废弃提示，不会因此构建失败；其他类型错误照常报错。
+- 服务端编译不依赖 TypeScript 的 JS API，项目使用 TypeScript 7 时 BFF 与自定义 Server 同样可用；不再需要安装 ts-node。
+- `@modern-js/tsconfig` 与 `@modern-js/app-tools` 保持同一版本：框架需要支持从 bundler 模式的 `tsconfig.json` 编译 `api/`、`server/` 和 `shared/`。

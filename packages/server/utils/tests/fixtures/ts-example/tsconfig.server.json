@@ -1,0 +1,4 @@
+{
+  "extends": ["./tsconfig.json", "@modern-js/tsconfig/server"],
+  "include": ["shared", "server", "api", "modern-app-env.d.ts"]
+}

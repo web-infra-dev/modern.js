@@ -27,6 +27,10 @@
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/cjs/index.js"
+    },
+    "./register": {
+      "modern:source": "./src/register/preload.ts",
+      "default": "./dist/cjs/register/preload.js"
     }
   },
   "typesVersions": {
@@ -44,6 +48,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@swc/core": "1.16.22",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
