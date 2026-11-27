@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "write-to-dist",
-  "version": "2.66.8",
+  "version": "0.0.0-canary-20261127063435",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
