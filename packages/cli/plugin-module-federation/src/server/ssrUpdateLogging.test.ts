@@ -80,10 +80,10 @@ describe('MF SSR update logging', () => {
       { trigger: 'api' },
     );
     expect(infoSpy.mock.calls[0][0]).toContain(
-      '[MF SSR] Updating provider (v1->v2) mode=prod trigger=api app=host op=',
+      '[MF SSR] Updating provider (v1->v2) app=host mode=prod trigger=api op=',
     );
     expect(infoSpy.mock.calls[1][0]).toContain(
-      '[MF SSR] Ready provider mode=prod scope=full',
+      '[MF SSR] Ready provider app=host mode=prod scope=full',
     );
     expect(infoSpy.mock.calls[1][0]).toContain('gen=1');
 
@@ -95,10 +95,10 @@ describe('MF SSR update logging', () => {
       { revision: 2 },
     );
     expect(infoSpy.mock.calls[2][0]).toContain(
-      '[MF SSR] Updating provider (url-changed) mode=prod trigger=api app=host op=2:',
+      '[MF SSR] Updating provider (url-changed) app=host mode=prod trigger=api op=2:',
     );
     expect(infoSpy.mock.calls[3][0]).toContain(
-      '[MF SSR] Ready provider mode=prod scope=full',
+      '[MF SSR] Ready provider app=host mode=prod scope=full',
     );
     expect(infoSpy.mock.calls[3][0]).toContain('gen=2');
   });
@@ -426,7 +426,7 @@ describe('MF SSR update logging', () => {
       ).toThrow('defer queue rejected');
       expect(errorSpy).toHaveBeenCalledTimes(1);
       expect(errorSpy.mock.calls[0][0]).toContain(
-        '[MF SSR] Failed remotes=provider mode=prod stage=queue mutationStarted=false phase=serving app=host',
+        '[MF SSR] Failed app=host remotes=provider mode=prod stage=queue mutationStarted=false phase=serving',
       );
       expect(errorSpy.mock.calls[0][1]).toBe(deferErr);
     } finally {

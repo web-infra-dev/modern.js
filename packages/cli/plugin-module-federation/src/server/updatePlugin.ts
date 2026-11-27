@@ -13,7 +13,7 @@ import {
   startDevRemoteUpdates,
   DevRemoteUnavailableError,
 } from './devRemoteUpdates';
-import { logMFSSRError } from './ssrLogger';
+import { createMFSSRLogger } from './ssrLogger';
 
 /** Development subscriptions and request fallback share the production update owner. */
 export default function updatePlugin(
@@ -69,6 +69,11 @@ export default function updatePlugin(
       ),
     onReady(manager, context) {
       if (!context.dev) return;
+      const ssrLog = createMFSSRLogger({
+        app: options.name,
+        mode: 'dev',
+        logger: options.logger,
+      });
       const owner = getSSRUpdateOwner(context.ssrUpdateOwnerId)!;
       const remotes = () => {
         const registered = [...owner.instances].flatMap(
@@ -134,16 +139,7 @@ export default function updatePlugin(
           manager.updateRemotes(remotes, input),
         onError: (error, phase) => {
           if (phase === 'update') return;
-          logMFSSRError(
-            'Failed',
-            {
-              app: options.name,
-              mode: 'dev',
-              stage: 'check',
-            },
-            error,
-            { mode: 'dev', logger: options.logger },
-          );
+          ssrLog.error('Failed', { mode: 'dev', stage: 'check' }, error);
         },
       });
       options.devBuild?.registerRecover?.(async () => {

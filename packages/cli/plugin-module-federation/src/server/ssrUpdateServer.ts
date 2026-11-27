@@ -18,10 +18,9 @@ import type { RemoteCheckOptions } from './remoteUpdate';
 import { createSSRUpdateOwner } from './ssrUpdateOwner';
 import { anyAbortSignal } from '../ssr-runtime/devManifestWait';
 import {
+  createMFSSRLogger,
   createWindowedThrottle,
   debugMFSSRVerbose,
-  logMFSSR,
-  logMFSSRError,
 } from './ssrLogger';
 
 const key = Symbol.for('modern-js.mf.ssr.update-manager');
@@ -97,7 +96,11 @@ export function createSSRUpdateServerPlugin(
         const owner = createSSRUpdateOwner(options.name);
         api.updateServerContext({ ssrUpdateOwnerId: owner.id });
         const logMode = options.mode ?? (context.dev ? 'dev' : 'prod');
-        const logOptions = { mode: logMode, logger: options.logger };
+        const ssrLog = createMFSSRLogger({
+          app: options.name,
+          mode: logMode,
+          logger: options.logger,
+        });
         const adapter = createSSRUpdateAdapter({
           ...options,
           owner,
@@ -132,24 +135,17 @@ export function createSSRUpdateServerPlugin(
           windowMs: 5_000,
           autoFlush: true,
           onEmit: (event, suppressed) => {
-            logMFSSR(
-              'warn',
-              'Admission',
-              {
-                app: options.name,
-                decision: event.decision,
-                reason: event.reason,
-                phase: event.phase,
-                gen: event.generation,
-                entry: event.entryName,
-                waitedMs: Math.round(event.waitedMs),
-                active: event.activeRequests,
-                pending: event.pendingRequests,
-                suppressed: suppressed > 0 ? suppressed : undefined,
-              },
-              undefined,
-              logOptions,
-            );
+            ssrLog.warn('Admission', {
+              decision: event.decision,
+              reason: event.reason,
+              phase: event.phase,
+              gen: event.generation,
+              entry: event.entryName,
+              waitedMs: Math.round(event.waitedMs),
+              active: event.activeRequests,
+              pending: event.pendingRequests,
+              suppressed: suppressed > 0 ? suppressed : undefined,
+            });
           },
         });
         const onCoordinatorEvent = (event: SSRCoordinatorEvent) => {
@@ -171,19 +167,12 @@ export function createSSRUpdateServerPlugin(
               admissionThrottle.record(key, event);
             }
           } else if (event.type === 'drain-timeout') {
-            logMFSSR(
-              'warn',
-              'Drain timeout',
-              {
-                app: options.name,
-                drainTimeoutMs: event.drainTimeoutMs,
-                active: event.activeRequests,
-                scope: event.closedScope ?? 'all',
-                gen: event.generation,
-              },
-              undefined,
-              logOptions,
-            );
+            ssrLog.warn('Drain timeout', {
+              drainTimeoutMs: event.drainTimeoutMs,
+              active: event.activeRequests,
+              scope: event.closedScope ?? 'all',
+              gen: event.generation,
+            });
           }
           if (options.application?.onEvent) {
             try {
@@ -203,16 +192,14 @@ export function createSSRUpdateServerPlugin(
           onEvent: onCoordinatorEvent,
           onInitialError: context.dev
             ? error =>
-                logMFSSRError(
+                ssrLog.error(
                   'Failed',
                   {
-                    app: options.name,
                     mode: 'dev',
                     stage: 'init',
                     phase: 'unavailable',
                   },
                   error,
-                  logOptions,
                 )
             : undefined,
           onAvailabilityChange: options.onAvailabilityChange,

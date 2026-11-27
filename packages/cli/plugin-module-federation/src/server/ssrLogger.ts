@@ -192,6 +192,61 @@ export function logMFSSRError(
   target.error(line, error);
 }
 
+export interface MFSSRScopedLoggerOptions extends MFSSRLogOptions {
+  app?: string;
+}
+
+export interface MFSSRScopedLogger {
+  info(
+    event: string,
+    fields?: Record<string, unknown>,
+    headline?: string,
+  ): void;
+  warn(
+    event: string,
+    fields?: Record<string, unknown>,
+    headline?: string,
+  ): void;
+  error(
+    event: string,
+    fields: Record<string, unknown> | undefined,
+    error: unknown,
+  ): void;
+  child(overrides: Partial<MFSSRScopedLoggerOptions>): MFSSRScopedLogger;
+}
+
+export function createMFSSRLogger(
+  options: MFSSRScopedLoggerOptions = {},
+): MFSSRScopedLogger {
+  const { app, mode, logger } = options;
+  const logOptions: MFSSRLogOptions = { mode, logger };
+  const withApp = (
+    fields?: Record<string, unknown>,
+  ): Record<string, unknown> | undefined => {
+    if (!app) return fields;
+    if (!fields) return { app };
+    return 'app' in fields ? fields : { app, ...fields };
+  };
+  return {
+    info(event, fields, headline) {
+      logMFSSR('info', event, withApp(fields), headline, logOptions);
+    },
+    warn(event, fields, headline) {
+      logMFSSR('warn', event, withApp(fields), headline, logOptions);
+    },
+    error(event, fields, error) {
+      logMFSSRError(event, withApp(fields), error, logOptions);
+    },
+    child(overrides) {
+      return createMFSSRLogger({
+        app: 'app' in overrides ? overrides.app : app,
+        mode: 'mode' in overrides ? overrides.mode : mode,
+        logger: 'logger' in overrides ? overrides.logger : logger,
+      });
+    },
+  };
+}
+
 export function debugMFSSR(
   event: string,
   fields?: Record<string, unknown> | (() => Record<string, unknown>),

@@ -33,9 +33,9 @@ import {
   anyAbortSignal,
 } from '../ssr-runtime/devManifestWait';
 import {
+  createMFSSRLogger,
   createWindowedThrottle,
   debugMFSSR,
-  logMFSSR,
 } from '../server/ssrLogger';
 
 export function setEnv() {
@@ -423,6 +423,7 @@ export const moduleFederationSSRPlugin = (
       }
     });
     const hotUpdateCache = isDev() ? createDevHotUpdateCache() : undefined;
+    const ssrLog = createMFSSRLogger({ mode: 'dev' });
     const manifest503Throttle = createWindowedThrottle<{
       pathname: string;
       reason: 'wait-timeout' | 'ssr-not-ready' | 'not-ready';
@@ -433,24 +434,16 @@ export const moduleFederationSSRPlugin = (
     }>({
       windowMs: 5_000,
       onEmit: (info, suppressed) => {
-        logMFSSR(
-          'warn',
-          'Manifest 503',
-          {
-            path: info.pathname,
-            reason: info.reason,
-            waitedMs:
-              info.waitedMs !== undefined
-                ? Math.round(info.waitedMs)
-                : undefined,
-            buildReady: info.buildReady,
-            ssrReady: info.ssrReady,
-            waitHeader: info.waitHeader ? 1 : 0,
-            suppressed: suppressed > 0 ? suppressed : undefined,
-          },
-          undefined,
-          { mode: 'dev' },
-        );
+        ssrLog.warn('Manifest 503', {
+          path: info.pathname,
+          reason: info.reason,
+          waitedMs:
+            info.waitedMs !== undefined ? Math.round(info.waitedMs) : undefined,
+          buildReady: info.buildReady,
+          ssrReady: info.ssrReady,
+          waitHeader: info.waitHeader ? 1 : 0,
+          suppressed: suppressed > 0 ? suppressed : undefined,
+        });
       },
     });
     const reportManifest503 = (

@@ -40,14 +40,13 @@ import {
   type SSRUpdateOwner,
 } from './ssrUpdateOwner';
 import {
+  createMFSSRLogger,
   debugMFSSR,
   extractTargetVersion,
   formatErrorMessage,
   formatRemoteTransitions,
   formatTimings,
   isMFSSRDebugEnabled,
-  logMFSSR,
-  logMFSSRError,
   type MFSSRLogger,
 } from './ssrLogger';
 
@@ -132,10 +131,14 @@ export function createSSRUpdateAdapter(options: {
 }) {
   options = { ...options, entries: [...options.entries] };
   const logMode = options.mode ?? 'prod';
-  const logOptionsFor = (mode: 'dev' | 'prod' | 'global' = logMode) => ({
-    mode,
+  const ssrLog = createMFSSRLogger({
+    app: options.name,
+    mode: logMode,
     logger: options.logger,
   });
+  const globalLog = ssrLog.child({ mode: 'global' });
+  const loggerFor = (mode: 'dev' | 'prod' | 'global') =>
+    mode === 'global' ? globalLog : ssrLog;
   const logUpdateStart = (info: {
     mode?: 'dev' | 'prod' | 'global';
     trigger?: string;
@@ -148,17 +151,14 @@ export function createSSRUpdateAdapter(options: {
     }>;
   }) => {
     const mode = info.mode ?? logMode;
-    logMFSSR(
-      'info',
+    loggerFor(mode).info(
       'Updating',
       {
         mode,
         trigger: info.trigger || 'api',
-        app: options.name,
         op: info.operationId,
       },
       formatRemoteTransitions(info.remotes) || undefined,
-      logOptionsFor(mode),
     );
   };
   const logUpdateReady = (info: {
@@ -179,8 +179,7 @@ export function createSSRUpdateAdapter(options: {
           ? 'snapshot'
           : 'full';
     const headline = info.remotes.length ? info.remotes.join(', ') : undefined;
-    logMFSSR(
-      'info',
+    loggerFor(mode).info(
       'Ready',
       {
         mode,
@@ -193,11 +192,9 @@ export function createSSRUpdateAdapter(options: {
             ? Math.round(info.timingsMs.total)
             : undefined,
         timings: formatTimings(info.timingsMs),
-        app: options.name,
         op: info.operationId,
       },
       headline,
-      logOptionsFor(mode),
     );
   };
   const logUpdateFailed = (info: {
@@ -211,7 +208,7 @@ export function createSSRUpdateAdapter(options: {
     error: unknown;
   }) => {
     const mode = info.mode ?? logMode;
-    logMFSSRError(
+    loggerFor(mode).error(
       'Failed',
       {
         remotes: info.remotes,
@@ -223,11 +220,9 @@ export function createSSRUpdateAdapter(options: {
           info.timingsMs?.total !== undefined
             ? Math.round(info.timingsMs.total)
             : undefined,
-        app: options.name,
         op: info.operationId,
       },
       info.error,
-      logOptionsFor(mode),
     );
   };
   const owner =
@@ -786,19 +781,12 @@ export function createSSRUpdateAdapter(options: {
         // Modern keeps a failed scope closed and widens its next update to the
         // whole application. Retry once using the same intended remote targets.
         onStage('fallback');
-        logMFSSR(
-          'warn',
-          'Fallback',
-          {
-            scope: 'partial->full',
-            remotes: changes.map(({ name }) => canonicalName(name)),
-            reason: formatErrorMessage(error),
-            app: options.name,
-            op: operationId,
-          },
-          undefined,
-          logOptionsFor(),
-        );
+        ssrLog.warn('Fallback', {
+          scope: 'partial->full',
+          remotes: changes.map(({ name }) => canonicalName(name)),
+          reason: formatErrorMessage(error),
+          op: operationId,
+        });
         try {
           generation = await authorized();
         } catch (recoveryError) {

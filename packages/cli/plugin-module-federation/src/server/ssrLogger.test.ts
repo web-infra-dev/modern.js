@@ -1,5 +1,6 @@
 import { debug, logger } from '@modern-js/utils';
 import {
+  createMFSSRLogger,
   createWindowedThrottle,
   debugMFSSR,
   debugMFSSRVerbose,
@@ -236,5 +237,54 @@ describe('ssrLogger', () => {
     } finally {
       rs.useRealTimers();
     }
+  });
+
+  it('creates scoped logger instances with automatic app field, child overrides, and log level control', () => {
+    const infoSpy = rs.spyOn(logger, 'info').mockImplementation(() => {});
+    const warnSpy = rs.spyOn(logger, 'warn').mockImplementation(() => {});
+    const errorSpy = rs.spyOn(logger, 'error').mockImplementation(() => {});
+
+    const scoped = createMFSSRLogger({ app: 'host', mode: 'dev' });
+    scoped.info('Updating', { mode: 'dev', trigger: 'api' }, 'remote (v1->v2)');
+    scoped.warn('Fallback', { scope: 'partial->full' });
+    const cause = new Error('root cause');
+    const err = new Error('load failed', { cause });
+    scoped.error('Failed', { stage: 'rebuild' }, err);
+
+    expect(infoSpy).toHaveBeenCalledWith(
+      '[MF SSR] Updating remote (v1->v2) app=host mode=dev trigger=api',
+    );
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[MF SSR] Fallback app=host scope=partial->full',
+    );
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[MF SSR] Failed app=host stage=rebuild',
+      err,
+    );
+    expect((errorSpy.mock.calls[0][1] as Error).cause).toBe(cause);
+    expect((errorSpy.mock.calls[0][1] as Error).stack).toContain('load failed');
+
+    // child({ mode: 'global' }) respects MODERN_SERVER_LOG_LEVEL without affecting parent dev logger
+    process.env.MODERN_SERVER_LOG_LEVEL = 'warn';
+    const globalChild = scoped.child({ mode: 'global' });
+    globalChild.info('Ready', { mode: 'global', scope: 'snapshot' });
+    scoped.info('Ready', { mode: 'dev', scope: 'partial' });
+    expect(infoSpy).toHaveBeenCalledTimes(2);
+    expect(infoSpy.mock.calls[1][0]).toBe(
+      '[MF SSR] Ready app=host mode=dev scope=partial',
+    );
+
+    // Custom logger and logger: false overrides
+    delete process.env.MODERN_SERVER_LOG_LEVEL;
+    const customWarn = rs.fn();
+    const customChild = scoped.child({ logger: { warn: customWarn } });
+    customChild.warn('Admission', { decision: 'reject' });
+    expect(customWarn).toHaveBeenCalledWith(
+      '[MF SSR] Admission app=host decision=reject',
+    );
+    const mutedChild = scoped.child({ logger: false });
+    mutedChild.warn('Admission', { decision: 'reject' });
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(customWarn).toHaveBeenCalledTimes(1);
   });
 });
