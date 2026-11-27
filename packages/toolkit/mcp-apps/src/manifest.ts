@@ -1,11 +1,28 @@
 import type { McpUiResourceMeta } from '@modelcontextprotocol/ext-apps';
 
-export type UiMetadata = McpUiResourceMeta;
+export type UiMetadata = McpUiResourceMeta & Record<string, unknown>;
+/** Native resource declaration. Unknown resource and host metadata fields are retained. */
+export interface UiResourceConfig extends Record<string, unknown> {
+  uri?: string;
+  mimeType?: string;
+  _meta?: Record<string, unknown> & { ui?: UiMetadata };
+}
+export type McpViewSource =
+  | string
+  | ((
+      | { component: string }
+      | { entry: string; url?: string }
+      | { expose: string; remote?: string }
+    ) & {
+      /** Serve component or expose views at /mcp-views/<name>. Defaults to false. */
+      http?: boolean;
+      resource?: UiResourceConfig;
+    });
 export interface McpViewsConfig extends UiMetadata {
   /** Default deployed MF remote for expose views. Individual views may override it. */
   remote?: string;
   /** A component path, an expose of this application, or an expose of a deployed remote. */
-  views: Record<string, string | { expose: string; remote?: string }>;
+  views: Record<string, McpViewSource>;
 }
 export interface UiManifest {
   version: 1;
@@ -16,8 +33,10 @@ export interface UiManifest {
   views: Record<
     string,
     (
-      { html: string; inline?: boolean } | { remote: string; expose: string }
-    ) & { ui: UiMetadata }
+      | { html: string; inline?: boolean }
+      | { entry: string; url?: string }
+      | { remote: string; expose: string }
+    ) & { ui: UiMetadata; resource?: UiResourceConfig; http?: boolean }
   >;
 }
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -25,6 +44,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 }
 export function validateUiMetadata(
   value: unknown,
+  allowExtensions = false,
 ): asserts value is UiMetadata {
   if (!isRecord(value)) throw new Error('UI metadata must be an object');
   if (
@@ -40,6 +60,16 @@ export function validateUiMetadata(
     if (!isRecord(value.csp)) throw new Error('csp must be an object');
     for (const [key, domains] of Object.entries(value.csp)) {
       if (
+        allowExtensions &&
+        ![
+          'resourceDomains',
+          'connectDomains',
+          'frameDomains',
+          'baseUriDomains',
+        ].includes(key)
+      )
+        continue;
+      if (
         ![
           'resourceDomains',
           'connectDomains',
@@ -53,6 +83,76 @@ export function validateUiMetadata(
     }
   }
 }
+/** Merge resource UI overrides while retaining the domains required by the page. */
+export function mergeUiMetadata(
+  defaults: UiMetadata,
+  configured?: UiMetadata,
+): UiMetadata {
+  if (!configured) return structuredClone(defaults);
+  const ui: UiMetadata = { ...defaults, ...configured };
+  if (defaults.csp || configured.csp) {
+    ui.csp = { ...defaults.csp, ...configured.csp };
+    for (const key of [
+      'resourceDomains',
+      'connectDomains',
+      'frameDomains',
+      'baseUriDomains',
+    ] as const) {
+      if (defaults.csp?.[key] || configured.csp?.[key])
+        ui.csp[key] = [
+          ...new Set([
+            ...(defaults.csp?.[key] ?? []),
+            ...(configured.csp?.[key] ?? []),
+          ]),
+        ];
+    }
+  }
+  return structuredClone(ui);
+}
+
+function validateResourceConfig(
+  value: unknown,
+): asserts value is UiResourceConfig | undefined {
+  if (value === undefined) return;
+  if (!isRecord(value)) throw new Error('View resource must be an object');
+  if ('text' in value || 'blob' in value)
+    throw new Error(
+      'View resource content is generated from its component or expose',
+    );
+  if (value.uri !== undefined) {
+    if (
+      typeof value.uri !== 'string' ||
+      value.uri.trim() !== value.uri ||
+      !value.uri.startsWith('ui://') ||
+      /[\u0000-\u0020\u007f]/.test(value.uri)
+    )
+      throw new Error('Resource uri must be an absolute ui:// URI');
+    const uri = new URL(value.uri);
+    if (uri.protocol !== 'ui:' || !uri.host)
+      throw new Error('Resource uri must be an absolute ui:// URI');
+  }
+  if (
+    value.mimeType !== undefined &&
+    (typeof value.mimeType !== 'string' || !value.mimeType.trim())
+  )
+    throw new Error('Resource mimeType must be a non-empty string');
+  if (value._meta !== undefined) {
+    if (!isRecord(value._meta))
+      throw new Error('Resource _meta must be an object');
+    if (value._meta.ui !== undefined) validateUiMetadata(value._meta.ui, true);
+  }
+}
+
+function validateViewHttp(view: Record<string, unknown>) {
+  if (view.http === undefined) return;
+  if (typeof view.http !== 'boolean')
+    throw new Error('View http must be a boolean');
+  if ('entry' in view)
+    throw new Error(
+      'Entry views use application routes and do not support http',
+    );
+}
+
 export function validateViewsConfig(
   value: unknown,
 ): asserts value is McpViewsConfig {
@@ -80,20 +180,43 @@ export function validateViewsConfig(
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim()) throw new Error('View names must be non-empty');
     if (typeof view === 'string' && view.trim()) continue;
-    if (
-      isRecord(view) &&
-      typeof view.expose === 'string' &&
-      view.expose.startsWith('./') &&
-      Object.keys(view).every(key => key === 'expose' || key === 'remote')
-    ) {
-      if (!('remote' in view)) continue;
-      if (typeof view.remote === 'string') {
-        assertRemoteManifest(view.remote);
+    if (isRecord(view)) {
+      validateResourceConfig(view.resource);
+      validateViewHttp(view);
+      if (view.url !== undefined) {
+        if (!('entry' in view))
+          throw new Error('Only entry views support a configured URL');
+        validateViewUrl(view.url);
+      }
+      const keys = Object.keys(view).filter(
+        key => key !== 'resource' && key !== 'url' && key !== 'http',
+      );
+      if (
+        typeof view.entry === 'string' &&
+        view.entry.trim() &&
+        keys.length === 1
+      )
         continue;
+      if (
+        typeof view.component === 'string' &&
+        view.component.trim() &&
+        keys.length === 1
+      )
+        continue;
+      if (
+        typeof view.expose === 'string' &&
+        view.expose.startsWith('./') &&
+        keys.every(key => key === 'expose' || key === 'remote')
+      ) {
+        if (!('remote' in view)) continue;
+        if (typeof view.remote === 'string') {
+          assertRemoteManifest(view.remote);
+          continue;
+        }
       }
     }
     throw new Error(
-      `Invalid view: ${name}. Use a component path, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
+      `Invalid view: ${name}. Use a component path, { component: './View.tsx' }, { entry: 'main' }, { expose: './Name' } or { remote: 'https://host/mf-manifest.json', expose: './Name' }`,
     );
   }
 }
@@ -111,6 +234,18 @@ export function assertRemoteManifest(remote: string) {
       `Invalid MF remote: ${remote}. Use https://host/mf-manifest.json`,
     );
 }
+/** Application routes must be root-relative paths or complete HTTP(S) URLs. */
+export function validateViewUrl(value: unknown): asserts value is string {
+  if (
+    typeof value !== 'string' ||
+    !value ||
+    /[\u0000-\u0020\u007f\\]/.test(value) ||
+    value.startsWith('//')
+  )
+    throw new Error('View URL must be an application path or an HTTP(S) URL');
+  if (!value.startsWith('/')) assertHttpUrl(value);
+}
+
 export function assertHttpUrl(source: string): URL {
   const url = new URL(source);
   if (
@@ -156,7 +291,25 @@ export function validateUiManifest(
   }
   for (const [name, view] of Object.entries(value.views)) {
     if (!name.trim() || !isRecord(view)) throw new Error('Invalid UI view');
-    validateUiMetadata(view.ui);
+    if ('tool' in view)
+      throw new Error('UI manifest views do not support tool configuration');
+    validateUiMetadata(view.ui, true);
+    validateResourceConfig(view.resource);
+    validateViewHttp(view);
+    if (view.url !== undefined) {
+      if (!('entry' in view))
+        throw new Error('Only entry views support a configured URL');
+      validateViewUrl(view.url);
+    }
+    if (
+      typeof view.entry === 'string' &&
+      view.entry.trim() &&
+      !('html' in view) &&
+      !('remote' in view) &&
+      !('expose' in view) &&
+      view.inline === undefined
+    )
+      continue;
     if ('html' in view && !('remote' in view) && !('expose' in view)) {
       if (view.inline !== undefined && typeof view.inline !== 'boolean')
         throw new Error(`Invalid inline option on UI manifest view: ${name}`);

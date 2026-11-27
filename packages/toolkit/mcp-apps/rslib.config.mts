@@ -27,6 +27,8 @@ export default defineConfig({
       source: {
         entry: {
           react: './src/ui/react.ts',
+          'app-entry': './src/ui/app-entry.ts',
+          'entry-react': './src/ui/entry-react.ts',
           'mf-entry': './src/ui/mf-entry.ts',
         },
       },

@@ -8,14 +8,27 @@ import {
   beforeEach,
   afterEach,
 } from '@rstest/core';
-import { mkdtemp, mkdir, writeFile, rename, rm } from 'node:fs/promises';
+import {
+  mkdtemp,
+  mkdir,
+  writeFile,
+  readFile,
+  rename,
+  rm,
+} from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
+import { mcpAppsPlugin, type McpHttpServerConfig } from '../src/cli';
 import { McpServer } from '@modelcontextprotocol/server';
 import { Client } from '@modelcontextprotocol/client';
 import { InMemoryTransport } from '@modelcontextprotocol/server';
-import { registerUiResources, type UiManifest } from '../src/server';
+import {
+  registerUiResources,
+  resolveUiViews,
+  createUiViewHandler,
+  type UiManifest,
+} from '../src/server';
 
 let directory: string;
 beforeAll(async () => {
@@ -427,4 +440,263 @@ describe('manifest cache policy', () => {
       expect(fetch).toHaveBeenCalledTimes(2);
     },
   );
+});
+
+describe('view page URLs', () => {
+  async function resolve(
+    value: UiManifest,
+    options: Parameters<typeof resolveUiViews>[0] = {},
+  ) {
+    const filename = path.join(directory, `url-${crypto.randomUUID()}.json`);
+    await writeFile(filename, JSON.stringify(value));
+    return resolveUiViews({ ...options, manifest: filename });
+  }
+
+  it('resolves entry routes and encoded card paths against the application rather than the CDN', async () => {
+    const value = manifest();
+    value.assetBase = 'https://cdn.example/assets/';
+    value.views.home = { entry: 'main', url: '/home?tab=todo#today', ui: {} };
+    value.views.local.http = true;
+    value.views.remote.http = true;
+    value.views['my tasks/一'] = value.views.local;
+    const views = await resolve(value, {
+      request: new Request('http://app.example/api/mcp', {
+        headers: { 'x-forwarded-proto': 'https' },
+      }),
+    });
+    expect(views.home.url).toBe('https://app.example/home?tab=todo#today');
+    expect(views['my tasks/一'].url).toBe(
+      'https://app.example/mcp-views/my%20tasks%2F%E4%B8%80',
+    );
+    expect(views.remote.url).toBe('https://app.example/mcp-views/remote');
+    expect(await views.local.render()).toContain(
+      '<base href="https://cdn.example/assets/">',
+    );
+  });
+
+  it('uses the explicit application origin before the request origin', async () => {
+    const value = manifest();
+    value.views = { home: { entry: 'main', url: '/', ui: {} } };
+    const views = await resolve(value, {
+      request: new Request('http://internal.example/api/mcp'),
+      publicBaseUrl: 'https://public.example',
+    });
+    expect(views.home.url).toBe('https://public.example/');
+  });
+
+  it('supports absolute entry URLs without a request or application origin', async () => {
+    const value = manifest();
+    value.views = {
+      home: { entry: 'main', url: 'https://app.example/home', ui: {} },
+    };
+    expect((await resolve(value)).home.url).toBe('https://app.example/home');
+  });
+
+  it('keeps resource rendering available without an application origin and reports missing URL configuration on access', async () => {
+    const value = manifest();
+    value.assetBase = 'https://cdn.example/';
+    value.views.home = { entry: 'main', ui: {} };
+    value.views.local.http = true;
+    const views = await resolve(value);
+    expect(await views.local.render()).toContain('<body>Hello</body>');
+    expect(() => views.local.url).toThrow(
+      'View URLs require a request or publicBaseUrl',
+    );
+    expect(() => views.home.url).toThrow(
+      'Entry view home requires a configured URL',
+    );
+  });
+
+  it.each([
+    '//other.example/',
+    '/\\other.example/',
+    '/with space',
+    'javascript:alert(1)',
+    'https://user:pass@app.example/',
+  ])('rejects ambiguous or unsupported entry URL %s', async url => {
+    const value = manifest();
+    value.views = { home: { entry: 'main', url, ui: {} } };
+    await expect(resolve(value)).rejects.toThrow();
+  });
+
+  it.each([
+    'https://app.example/path',
+    'https://app.example/?query=1',
+    'https://app.example/#hash',
+  ])(
+    'rejects an application origin containing a path, query or fragment: %s',
+    async publicBaseUrl => {
+      const value = manifest();
+      value.views = { home: { entry: 'main', url: '/', ui: {} } };
+      const views = await resolve(value, { publicBaseUrl });
+      expect(() => views.home.url).toThrow(
+        'publicBaseUrl must be an application origin',
+      );
+    },
+  );
+});
+
+describe('plugin package MCP endpoints', () => {
+  async function build(
+    servers: Record<string, McpHttpServerConfig>,
+    prefix?: string | string[],
+  ) {
+    const appDirectory = path.join(directory, crypto.randomUUID());
+    const distDirectory = path.join(appDirectory, 'dist');
+    await mkdir(path.join(appDirectory, 'plugin'), { recursive: true });
+    await writeFile(
+      path.join(appDirectory, 'plugin/plugin.json'),
+      JSON.stringify({ name: 'tasks', version: '1.0.0' }),
+    );
+    const hooks: Array<() => Promise<void>> = [];
+    const plugin = mcpAppsPlugin({ mcpServers: servers });
+    type PluginApi = Parameters<NonNullable<typeof plugin.setup>>[0];
+    await plugin.setup?.({
+      getAppContext: () => ({ appDirectory, distDirectory }),
+      getNormalizedConfig: () => ({ bff: { prefix } }),
+      onAfterBuild: (hook: () => Promise<void>) => hooks.push(hook),
+      _internalServerPlugins: () => {},
+      addWatchFiles: () => {},
+      modifyEntrypoints: () => {},
+      modifyRsbuildConfig: () => {},
+      onAfterCreateCompiler: () => {},
+      onDevCompileDone: () => {},
+    } as unknown as PluginApi);
+    for (const hook of hooks) await hook();
+    return JSON.parse(
+      await readFile(path.join(distDirectory, 'plugin/mcp.json'), 'utf8'),
+    ) as { mcpServers: Record<string, { type: string; url: string }> };
+  }
+
+  it.each([
+    { prefix: undefined, route: '/api/mcp' },
+    { prefix: '/custom/', route: '/custom/mcp' },
+    { prefix: '/', route: '/mcp' },
+    { prefix: ['/first/', '/second'], route: '/first/mcp' },
+  ])(
+    'packages an origin using the conventional BFF route for prefix $prefix',
+    async ({ prefix, route }) => {
+      const result = await build(
+        {
+          tasks: {
+            type: 'streamable-http',
+            origin: 'https://todo.example.com',
+          },
+        },
+        prefix,
+      );
+      expect(result.mcpServers).toEqual({
+        tasks: {
+          type: 'streamable-http',
+          url: `https://todo.example.com${route}`,
+        },
+      });
+    },
+  );
+
+  it('preserves explicit URL overrides and existing URL-only configurations', async () => {
+    const result = await build(
+      {
+        tasks: {
+          type: 'streamable-http',
+          origin: 'https://todo.example.com',
+          url: 'https://gateway.example.com/custom?tenant=tasks',
+        },
+        existing: {
+          type: 'streamable-http',
+          url: 'https://existing.example.com/mcp',
+        },
+      },
+      '/ignored',
+    );
+    expect(result.mcpServers).toEqual({
+      tasks: {
+        type: 'streamable-http',
+        url: 'https://gateway.example.com/custom?tenant=tasks',
+      },
+      existing: {
+        type: 'streamable-http',
+        url: 'https://existing.example.com/mcp',
+      },
+    });
+  });
+
+  it.each([
+    'https://todo.example.com/path',
+    'https://todo.example.com/?tenant=tasks',
+    'https://todo.example.com/#home',
+    '//todo.example.com',
+    'https://user:pass@todo.example.com',
+    'https://todo.example.com/with space',
+  ])('rejects invalid deployment origin %s', async origin => {
+    await expect(
+      build({ tasks: { type: 'streamable-http', origin } }),
+    ).rejects.toThrow();
+  });
+});
+
+describe('optional card HTTP pages', () => {
+  it('serves only opted-in cards while retaining resource rendering for all cards', async () => {
+    const value = manifest();
+    value.views.enabled = { html: './ui/card.html', http: true, ui: {} };
+    value.views.disabled = { html: './ui/card.html', http: false, ui: {} };
+    value.views.home = { entry: 'main', url: '/', ui: {} };
+    const filename = path.join(directory, `http-${crypto.randomUUID()}.json`);
+    await writeFile(filename, JSON.stringify(value));
+    const handler = createUiViewHandler({ manifest: filename });
+    const request = (name: string, method = 'GET') =>
+      new Request(`https://app.example/mcp-views/${name}`, { method });
+    for (const name of ['local', 'remote', 'disabled', 'home', 'missing']) {
+      expect((await handler(request(name)))?.status).toBe(404);
+      expect((await handler(request(name, 'POST')))?.status).toBe(404);
+    }
+    const response = await handler(request('enabled'));
+    expect(response?.status).toBe(200);
+    expect(await response?.text()).toContain('modern-mcp-bootstrap');
+    const head = await handler(request('enabled', 'HEAD'));
+    expect(head?.status).toBe(200);
+    expect(await head?.text()).toBe('');
+    expect((await handler(request('enabled', 'POST')))?.status).toBe(405);
+    expect(
+      await handler(new Request('https://app.example/other')),
+    ).toBeUndefined();
+    const views = await resolveUiViews({
+      manifest: filename,
+      request: request('enabled'),
+    });
+    expect(views.enabled.url).toBe('https://app.example/mcp-views/enabled');
+    expect(() => views.local.url).toThrow('requires http: true');
+    expect(() => views.disabled.url).toThrow('requires http: true');
+    expect(await views.local.render()).toContain('<body>Hello</body>');
+    const session = await connect(filename, { request: request('enabled') });
+    try {
+      expect(Object.keys(session.uris)).toEqual([
+        'local',
+        'remote',
+        'enabled',
+        'disabled',
+      ]);
+      const result = await session.client.readResource({
+        uri: session.uris.local,
+      });
+      expect(String(result.contents[0].text)).toContain('<body>Hello</body>');
+    } finally {
+      await session.close();
+    }
+  });
+
+  it.each([
+    { html: './ui/card.html', http: 'true', ui: {} },
+    { entry: 'main', http: true, ui: {} },
+  ])('rejects invalid card HTTP declarations $http', async view => {
+    const filename = path.join(
+      directory,
+      `invalid-http-${crypto.randomUUID()}.json`,
+    );
+    await writeFile(
+      filename,
+      JSON.stringify({ ...manifest(), views: { card: view } }),
+    );
+    await expect(resolveUiViews({ manifest: filename })).rejects.toThrow();
+  });
 });

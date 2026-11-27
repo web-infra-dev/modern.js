@@ -14,11 +14,28 @@ import {
   type UiCsp,
 } from './build';
 
+import {
+  buildPluginPackage,
+  resolveMcpPath,
+  type McpHttpServerConfig,
+  type PluginPackageOptions,
+} from './plugin-package';
+export type {
+  McpHttpServerConfig,
+  PluginPackageOptions,
+} from './plugin-package';
+
 export type { StdioBridgeOptions } from './stdio';
 
 export interface McpAppsPluginOptions {
+  /** Generate dist/plugin/mcp.json and package user-owned plugin declarations. */
+  mcpServers?: Record<string, McpHttpServerConfig>;
+  /** Plugin source package settings. Requires mcpServers. */
+  plugin?: PluginPackageOptions;
   /** JSON UI configuration, relative to the application root. */
   views?: string;
+  /** Automatically connect existing application entries when embedded. Defaults to true. */
+  entryAutoConnect?: boolean;
   /** CSP domains added to every view, merged with the csp in the views file. */
   csp?: UiCsp;
   /**
@@ -72,15 +89,7 @@ function resolveMcpDevUrl(
   },
 ): string {
   const protocol = config.dev?.https ? 'https' : 'http';
-  const rawPrefix = config.bff?.prefix;
-  const prefix =
-    typeof rawPrefix === 'string'
-      ? rawPrefix
-      : Array.isArray(rawPrefix) && typeof rawPrefix[0] === 'string'
-        ? rawPrefix[0]
-        : '/api';
-  const normalized = `/${prefix.replace(/^\/+|\/+$/g, '')}`;
-  return `${protocol}://localhost:${port ?? 8080}${normalized === '/' ? '' : normalized}/mcp`;
+  return `${protocol}://localhost:${port ?? 8080}${resolveMcpPath(config.bff?.prefix)}`;
 }
 
 async function writeArtifact(filename: string, contents: string | Uint8Array) {
@@ -105,6 +114,21 @@ export const mcpAppsPlugin = (
   name: '@modern-js/mcp-apps',
   post: ['@modern-js/runtime'],
   setup(api) {
+    if (options.plugin && !options.mcpServers)
+      throw new Error('Plugin packaging requires mcpServers');
+    api.onAfterBuild(async () => {
+      if (!options.mcpServers) return;
+      const ctx = api.getAppContext();
+      await buildPluginPackage(
+        ctx.appDirectory,
+        ctx.distDirectory,
+        options.mcpServers,
+        options.plugin,
+        (api.getNormalizedConfig() as { bff?: { prefix?: string | string[] } })
+          .bff?.prefix,
+      );
+    });
+
     api._internalServerPlugins(({ plugins }) => {
       const ctx = api.getAppContext();
       plugins.push({
@@ -153,7 +177,7 @@ export const mcpAppsPlugin = (
         path.join(ctx.appDirectory, 'package.json'),
       );
       const needsMf = Object.values(definition.views).some(
-        view => typeof view !== 'string',
+        view => typeof view !== 'string' && 'expose' in view,
       );
       const useInline = shouldInline(options.inline, ctx.command);
       if (closeInlineWatch) {
@@ -182,8 +206,18 @@ export const mcpAppsPlugin = (
       );
       const config = api.getNormalizedConfig();
       const { enableAsyncEntry } = config.source;
+      for (const [name, view] of Object.entries(definition.views)) {
+        if (typeof view === 'string' || !('entry' in view)) continue;
+        if (!entrypoints.some(entry => entry.entryName === view.entry))
+          throw new Error(
+            `View ${name} references missing application entry: ${view.entry}`,
+          );
+      }
       for (const [name, viewSource] of Object.entries(definition.views)) {
-        if (typeof viewSource !== 'string') continue;
+        if (typeof viewSource !== 'string' && !('component' in viewSource))
+          continue;
+        const component =
+          typeof viewSource === 'string' ? viewSource : viewSource.component;
         const entryName = viewEntryName(name);
         if (
           !useInline &&
@@ -199,7 +233,7 @@ export const mcpAppsPlugin = (
             : entry;
         await writeArtifact(
           mountEntry,
-          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(packageFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configPath()), viewSource))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
+          `import React from ${JSON.stringify(appRequire.resolve('react'))};\nimport { createRoot } from ${JSON.stringify(appRequire.resolve('react-dom/client'))};\nimport { createMcpView } from ${JSON.stringify(packageFile('react.mjs'))};\nimport View, * as viewModule from ${JSON.stringify(path.resolve(path.dirname(configPath()), component))};\ncreateRoot(document.getElementById('root')).render(React.createElement(createMcpView(View, ${JSON.stringify({ name, version: '1.0.0' })}, Reflect.get(viewModule, 'mcpCapabilities'))));\n`,
         );
         if (useInline) {
           inlineEntries[entryName] = mountEntry;
@@ -480,6 +514,37 @@ export const mcpAppsPlugin = (
     });
 
     api.modifyRsbuildConfig(config => {
+      const entries =
+        config.environments?.client?.source?.entry ?? config.source?.entry;
+      if (entries && definition && options.entryAutoConnect !== false) {
+        const selected = new Set(
+          Object.values(definition.views).flatMap(view =>
+            typeof view !== 'string' && 'entry' in view ? [view.entry] : [],
+          ),
+        );
+        for (const name of selected) {
+          const entry = entries[name];
+          if (!entry) continue;
+          const bootstrap = packageFile('app-entry.mjs');
+          if (typeof entry === 'string') entries[name] = [bootstrap, entry];
+          else if (Array.isArray(entry))
+            entries[name] = [
+              bootstrap,
+              ...entry.filter(item => item !== bootstrap),
+            ];
+          else
+            entries[name] = {
+              ...entry,
+              import: [
+                bootstrap,
+                ...(typeof entry.import === 'string'
+                  ? [entry.import]
+                  : (entry.import ?? [])
+                ).filter(item => item !== bootstrap),
+              ],
+            };
+        }
+      }
       const lazy = config.dev?.lazyCompilation;
       if (!lazy) return config;
       const current = typeof lazy === 'object' ? lazy : {};
@@ -571,6 +636,7 @@ export const mcpAppsPlugin = (
               Object.values(definition.views).some(
                 view =>
                   typeof view !== 'string' &&
+                  'expose' in view &&
                   view.remote === undefined &&
                   definition.remote === undefined,
               )
@@ -581,9 +647,17 @@ export const mcpAppsPlugin = (
               );
             }
             const config = api.getNormalizedConfig();
+            // Deployment plugins can change the bundler public path after app
+            // configuration is normalized. Use the path that emitted the assets.
+            const publicPath = child.options.output?.publicPath;
+            const assetPrefix = development
+              ? config.dev.assetPrefix
+              : typeof publicPath === 'string' && publicPath !== 'auto'
+                ? publicPath
+                : config.output.assetPrefix;
             const manifest = createUiManifest(
               definition,
-              development ? config.dev.assetPrefix : config.output.assetPrefix,
+              assetPrefix,
               mf,
               options.csp,
               { inline: useInline },

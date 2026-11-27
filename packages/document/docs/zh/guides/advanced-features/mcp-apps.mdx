@@ -18,16 +18,45 @@ npx @modern-js/create@latest my-mf-mcp --template mcp-apps --mf
 
 创建 `mcp-views.json`。字符串路径相对该 JSON 文件解析。对象可以引用本项目 MF 配置中已有的 expose，也可以通过 `remote` 引用已部署的远程模块，见下文。
 
-```json
+下面用 JSONC 注释说明配置字段。实际的 `mcp-views.json` 必须是合法 JSON，使用时请移除注释。
+
+```jsonc
 {
+  // 卡片名称到视图配置的映射
   "views": {
-    "todos": "./src/components/Todos.tsx",
-    "stats": { "expose": "./Stats" }
+    "todos": {
+      // 本地 React 组件路径，相对 mcp-views.json 解析，组件必须默认导出
+      "component": "./src/components/Todos.tsx",
+      // 可选的资源配置
+      "resource": {
+        // 自定义资源 URI，省略时自动生成 ui://app/todos
+        "uri": "ui://app/todos",
+        "_meta": {
+          // 仅覆盖当前卡片的 UI 元数据
+          "ui": {
+            // 请求宿主为该卡片显示边框
+            "prefersBorder": true,
+          },
+        },
+      },
+    },
+    // 引用已部署的 MF 远程模块
+    "stats": {
+      // 远程模块暴露的名称，必须以 ./ 开头
+      "expose": "./Stats",
+      // 远程 MF manifest 的绝对 HTTP(S) 地址，路径必须以 .json 结尾
+      "remote": "https://example.com/mf-manifest.json",
+    },
   },
-  "csp": { "resourceDomains": [], "connectDomains": [] },
-  "prefersBorder": true
+  // 全局 CSP 配置，应用到所有卡片
+  "csp": {
+    // 允许卡片连接的 API 域名
+    "connectDomains": ["https://api.example.com"],
+  },
 }
 ```
+
+工具的名称、参数、元数据和处理逻辑直接在 MCP server 中定义，通过 `_meta.ui.resourceUri` 关联 `registerUiResources` 返回的资源 URI。
 
 在 `modern.config.ts` 中从 `@modern-js/mcp-apps/cli` 导入并加入 `mcpAppsPlugin({ views: './mcp-views.json' })`。本地卡片仅需该插件，MF 卡片还需启用 `@module-federation/modern-js-v3` 插件并开启 manifest 输出。插件读取实际 MF 构建产物，验证 expose 存在，生成项目自身构建的 shell。
 
@@ -142,6 +171,98 @@ export const { POST, GET, DELETE } = createBffHandlers(createServer)
 
 独立 Hono 服务可通过 `app.all('/mcp', c => handle(c.req.raw))` 挂载 `createFetchHandler(createServer)`。适配器默认只允许同源浏览器请求，额外来源通过第二个参数的 `allowedOrigins` 配置。
 
+## 使用应用入口和 URL 页面
+
+`mcp-views.json` 只声明视图及其构建、资源和页面配置。工具名称、输入 Schema、处理函数和宿主入口元数据在 SDK 注册代码中定义，不在视图 JSON 中声明工具。`registerUiResources` 注册 MCP 资源，`resolveUiViews` 返回页面 URL、解析后的 UI 元数据和渲染函数，两者都不注册业务工具。
+
+```json
+{
+  "views": {
+    "home": { "entry": "main", "url": "/" },
+    "todos": "./src/components/Todos.tsx",
+    "preview": { "component": "./src/components/Preview.tsx", "http": true }
+  }
+}
+```
+
+- `home` 引用已有应用入口 `main`，`url` 声明应用真实路由。请替换示例入口名和路径，入口名称不会用于推导路由。`entry`、`component` 和 `expose` 只能选择一个。
+- `todos` 默认只提供 MCP UI 资源，`/mcp-views/todos` 返回 404。
+- `preview` 通过 `http: true` 显式开启 `/mcp-views/preview` 页面。`component` 和 `expose` 视图都支持该开关，默认关闭，仍可同时注册为 MCP 资源。请将示例组件路径替换为实际文件路径。
+
+entry 视图沿用应用已有 HTML、React 根节点和路由，不注册 MCP UI 资源，也不会在 `/mcp-views/` 下提供页面。它不接受 `http` 开关。普通浏览器直接访问时正常渲染，嵌入宿主时按 `entryAutoConnect` 配置建立 MCP 连接。
+
+### 在工具中引用页面 URL
+
+URL 模式需要页面服务运行，并由支持 URL 来源的宿主加载页面。以下示例放在 `api/lambda/mcp.ts` 中，通过 `views.home.url` 引用解析后的完整地址：
+
+```ts
+import { McpServer } from '@modelcontextprotocol/server';
+import { createBffHandlers, resolveUiViews } from '@modern-js/mcp-apps/server';
+
+export const { POST, GET, DELETE } = createBffHandlers(async request => {
+  const server = new McpServer({ name: 'tasks', version: '1.0.0' });
+  const views = await resolveUiViews({ request });
+  server.registerTool(
+    'open_home',
+    {
+      title: 'Home',
+      inputSchema: {},
+      _meta: {
+        'doubao/ui': {
+          url: views.home.url,
+          entrypoints: [{ type: 'global' }],
+          csp: views.home.ui.csp,
+          permissions: views.home.ui.permissions,
+        },
+      },
+    },
+    async () => ({ content: [], structuredContent: { todos: [] } }),
+  );
+  return server;
+});
+```
+
+同样可以使用 `views.preview.url` 引用已开启 HTTP 的组件页面。URL 工具不能同时声明 `_meta.ui.resourceUri`。纯 URL 服务不需要调用 `registerUiResources`，需要资源卡片时继续使用前面的资源注册示例。
+
+相对路径使用请求的公开 origin，并识别经过可信代理清理的 `x-forwarded-proto`。可以通过 `resolveUiViews({ request, publicBaseUrl: 'https://app.example.com' })` 覆盖应用域名，将示例域名替换为实际部署域名。`publicBaseUrl` 必须是无路径、查询参数和片段的 HTTP(S) origin，优先于请求域名。entry 的 `url` 也可以填写完整 HTTP(S) 地址。静态资源的 `assetBase` 可能指向 CDN，不用于推导应用页面地址。
+
+`.url` 在读取时解析。entry 缺少 `url`、组件或 expose 没有开启 `http: true`、相对地址缺少请求和 `publicBaseUrl` 时，读取会报错。纯资源或 stdio 服务不读取 `.url`，无需额外配置应用域名。
+
+### 资源元数据与宿主声明
+
+在 `resource` 中配置自定义 `uri`、`mimeType` 和 `_meta`。`resource._meta.ui` 保存 CSP 和浏览器权限，`resource._meta` 也可以携带宿主扩展字段。框架在资源列表和资源内容中保留这些声明，不会自动复制到工具元数据中。URL 工具通过 `views.home.ui.csp` 和 `views.home.ui.permissions` 显式引用解析后的配置。宿主决定如何解释入口、展示偏好和权限声明。
+
+需要自定义 CSP 和权限的 entry 视图，也可以通过 `resource._meta.ui` 提供视图级配置，这不会使 entry 注册为 MCP 资源：
+
+```json
+{
+  "views": {
+    "home": {
+      "entry": "main",
+      "url": "/",
+      "resource": {
+        "_meta": {
+          "ui": {
+            "csp": { "connectDomains": ["https://api.example.com"] },
+            "permissions": {}
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+将 API 域名替换为实际服务地址。已知 CSP 域名数组与默认值及页面必需来源去重合并。显式 `permissions` 整体覆盖默认值，`{}` 表示不请求浏览器权限。
+
+### 从旧配置迁移与验证
+
+原来在视图 JSON 中声明 `tool` 的项目，需要把工具配置移到 SDK 注册代码。资源工具通过 `registerUiResources` 返回的 URI 绑定视图。原来手动拼接页面地址的代码，改为引用 `resolveUiViews` 返回的 `.url`。
+
+原来通过 `/mcp-views/<视图名>` 打开卡片的项目，需要为对应的组件或 expose 视图添加 `http: true` 并重新构建。仅使用 `resources/read` 的卡片无需开启 HTTP。
+
+构建后检查 `tools/list`，资源工具应包含 `_meta.ui.resourceUri`，URL 工具应包含完整的 `_meta["doubao/ui"].url`。确认未开启 HTTP 的卡片返回 404，已开启的卡片支持 GET 和 HEAD。从宿主打开 URL 工具，确认页面和应用内部路由正常，并收到入口工具结果。入口脚本发出 `mcp-app-connected` 和 `mcp-app-tool-result` 事件，React 页面可通过 `useEntryMcpApp` 读取连接状态和保留的结果。
+
 ## 清单与部署
 
 ```text
@@ -182,7 +303,7 @@ dist/
 - `html`、`shell` 相对清单文件位置解析，也支持绝对 HTTP(S) 地址
 - `entry` 相对 `assetBase` 解析，也支持绝对 HTTP(S) 地址
 - `ui` 保留卡片的 CSP、permissions、domain、prefersBorder 元数据
-- 清单不记录 tool 或 resource URI，服务端生成 `ui://app/<编码后的卡片名>`，多个 tool 可以复用同一 URI
+- 清单保留可选的 `resource` 声明。未指定 URI 时，服务端生成 `ui://app/<编码后的卡片名>`，多个工具可以复用同一资源
 - MF 配置在读取 resource 时注入 shell，不需要 tool result 携带框架元数据
 
 `createBffHandlers()` 将服务端插件提供的清单路径和运行模式关联到当前请求。调用 `registerUiResources(server, { request })` 即可自动获取配置。开发使用框架的内部目录，生产使用运行时的实际输出目录。显式选项优先于注入配置。独立服务必须显式配置 `manifest` 文件路径或 HTTP(S) URL，`mode` 默认为 `production`。相对 HTML 路径以清单位置为基准解析。
@@ -194,6 +315,124 @@ dist/
 服务端把资源根地址加入 CSP 的 resourceDomains、connectDomains 和 baseUriDomains，把 MF entry 的 origin 加入 connectDomains 和 resourceDomains。构建时还会把绝对地址或不带协议的 `output.assetPrefix` 的 origin 加入 CSP，`//cdn.example/` 按 `https://cdn.example` 处理。其他 CDN、接口和 iframe 域名需在 `mcp-views.json` 中声明，或在配置中计算后通过 `mcpAppsPlugin({ csp })` 传入，两者都会合并到每张卡片。生产部署必须保留清单、HTML、应用静态资源和 MF 产物。
 
 平台可以把已构建的卡片文件和 MF 地址转换为绝对地址，组合成同版本的新清单，再由独立服务端消费。未知清单版本会被拒绝。
+
+## 打包豆包工作台 Plugin
+
+配置 `mcpServers` 后，生产构建会在应用产物目录下生成独立的 `plugin/` 包。设置 `origin` 为应用的公开 HTTP(S) 域名，框架会按 `bff.prefix` 和 `/mcp` 拼接服务地址，默认生成 `/api/mcp`。前缀为数组时取第一项，与开发地址发现保持一致。`origin` 不得包含路径、查询参数和片段。自定义路由或网关改写路径时，提供完整 `url` 覆盖。可以通过部署环境变量传入这些值，框架不会从静态资源地址推断 MCP 服务地址。
+
+```ts
+mcpAppsPlugin({
+  views: './mcp-views.json',
+  mcpServers: {
+    // 工作台通过 server: 'tasks' 引用这个服务配置键
+    tasks: {
+      type: 'streamable-http',
+      origin: 'https://app.example.com',
+      // 自定义路由时可使用完整 url 覆盖
+      // url: 'https://gateway.example.com/custom/mcp',
+    },
+  },
+  plugin: {
+    // 可选，相对项目根目录，默认值为 'plugin'
+    directory: './plugin',
+    resources: ['com.doubao'],
+  },
+});
+```
+
+用户在源目录中编写 `plugin.json`，例如：
+
+```json
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tasks-workbench",
+  "version": "1.0.0",
+  "description": "待办工作台",
+  "author": { "name": "示例开发者" },
+  "extensions": {
+    "com.doubao": {
+      "displayName": { "zh": "待办工作台" },
+      "displayDescription": { "zh": "查看和管理待办事项" },
+      "icon": "./com.doubao/assets/plugin-icon.png"
+    }
+  }
+}
+```
+
+图标文件需放在对应路径。需要定制导航时，再提供 `com.doubao/workbench/manifest.json`。工作台通过 `{ "server": "tasks", "name": "open_todos" }` 引用 Server 实际注册的工具，工具参数、元数据和 handler 仍然只在 Server 中定义。工作台配置与资源格式参见[豆包 Plugin 定制工作台协议](https://bytedance.larkoffice.com/docx/NrkgdZ25QoaMbBx0d5Fcy6kOnzm)。
+
+默认目录结构如下，工作台配置及其资源按需提供：
+
+```text
+plugin/                         # 用户维护的源目录
+├─ plugin.json
+└─ com.doubao/
+   ├─ assets/plugin-icon.png
+   └─ workbench/
+      ├─ manifest.json
+      ├─ preinstall-resources.json
+      ├─ assets/
+      └─ web/
+
+dist/plugin/                    # 构建生成的 Plugin 包根
+├─ plugin.json                  # 原样复制
+├─ mcp.json                     # 框架生成
+└─ com.doubao/                  # 原样复制配置和资源
+```
+
+生成的 `dist/plugin/mcp.json` 为：
+
+```json
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "tasks": {
+      "type": "streamable-http",
+      "url": "https://app.example.com/api/mcp"
+    }
+  }
+}
+```
+
+生成的 `mcp.json` 只包含解析后的完整 `url`，不包含配置简写 `origin`。将示例域名替换为实际部署域名。
+
+打包始终复制源目录的 `plugin.json`。通过 `plugin.resources` 显式选择额外的文件或目录，路径相对源包目录，默认值为 `[]`。本例配置 `['com.doubao']`，其他宿主可配置 `['assets', 'vendor.example']`。声明的路径必须存在，不允许绝对路径、空路径段、`.` 或 `..` 路径段，也不允许选择保留的 `plugin.json` 和 `mcp.json`。资源路径及其内容不支持符号链接。不读取用户手写的 `mcp.json`。源目录不能与输出包目录重叠，包内不支持符号链接。每次成功打包都会替换 `dist/plugin/`，清理不再使用的资源。自定义应用产物目录时，Plugin 包也随之输出到该目录的 `plugin/` 下。未配置 `mcpServers` 时不生成 Plugin 包，单独配置 `plugin` 会报错。开发模式不生成部署包。
+
+`dist/plugin/` 是插件声明与资源包，应用服务及 MCP UI 产物仍需正常部署。当前打包不会校验完整的豆包工作台协议或远程工具是否存在，也不会自动生成工作台导航、编译 `web/` 页面或添加启动结果领取逻辑。这些配置和页面需要遵循宿主协议并与 MCP Server 一同发布。
+
+## 自定义资源元数据
+
+每个组件视图或 expose 视图都可以配置 `resource`：
+
+```json
+{
+  "views": {
+    "sales-overview": {
+      "component": "./src/components/SalesOverview.tsx",
+      "resource": {
+        "uri": "ui://app/sales-overview",
+        "mimeType": "text/html;profile=mcp-app",
+        "_meta": {
+          "ui": {
+            "availableDisplayModes": ["inline", "fullscreen"],
+            "preferredDisplayMode": "inline",
+            "prefersBorder": true,
+            "permissions": {},
+            "csp": { "connectDomains": ["https://api.example.com"] }
+          },
+          "vendor/custom": { "enabled": true }
+        }
+      }
+    }
+  }
+}
+```
+
+`resource._meta` 接受宿主扩展字段，`ui` 内的未知字段也会保留。框架将其保存到构建 manifest，并在资源注册列表 `resources/list` 和资源内容 `resources/read` 中返回。`resource.mimeType` 覆盖 SDK 默认值。`resource.uri` 覆盖自动生成的 `ui://app/<编码后的视图名>`。工具及其元数据直接在 MCP server 中定义，通过 `_meta.ui.resourceUri` 关联注册后的资源 URI。
+
+视图的 `resource._meta.ui` 覆盖公共 UI 默认值。四类已知 CSP 域名数组与公共配置、页面必需域名去重合并，未知 CSP 字段保持原值。显式 `permissions` 整体替代默认权限，`{}` 也生效。其他元数据值覆盖默认值，框架不解释其宿主语义。`title`、`description` 等资源声明字段交给 SDK 注册。HTML 内容由框架生成，不能配置 `text` 或 `blob`。
+
+工具元数据放在 MCP server 的工具定义 `_meta` 中。资源元数据不会自动复制到工具或 URL 来源元数据中。`preferredDisplayMode` 等扩展字段是否生效由宿主决定，不会修改 `mcpCapabilities`、主动请求全屏或改变 SDK 握手。URL 模式仍然返回 `text/html` 页面，并使用原有宿主工具声明。
 
 ## 卡片能力声明
 
@@ -284,3 +523,7 @@ mcpAppsPlugin({
 - **自动端口发现**：默认连接器使用 `--cwd <项目目录>`，脚本在每次请求时读取 `node_modules/.modern-js/mcp-apps/dev-server.json` 自动定位当前开发服务地址。也可直接传入固定的 HTTP MCP URL
 - **增量构建**：`inline` 模式下本地组件卡片通过独立的 watch 构建打包为单文件自包含 HTML（内联脚本、样式和导入资源，上限 5 MiB，不注入 `<base>` 或本地 CSP），修改组件后自动重编，下次读取卡片资源时生效。普通页面使用主应用的 HMR。若同一份 `mcp-views.json` 还包含 Module Federation 卡片，本地卡片走内联、MF 卡片使用 HTTP shell
 - **日志输出**：开发服务的日志输出在 `pnpm dev` 终端，转发脚本的 `stdout` 仅用于 JSON-RPC。`modern dev` 未启动或重启期间，转发脚本会返回 JSON-RPC 错误而不是退出进程，待开发服务就绪后下一次调用自动恢复
+
+入口连接的浏览器事件供非 React 消费方接收后续通知，不提供历史状态快照。宿主关闭视图时触发 `mcp-app-teardown`，关闭后忽略迟到结果和连接回调。React 消费方应使用 `useEntryMcpApp` 读取已保留的状态并订阅变化。初始状态为 `standalone`，由入口脚本启动连接后才切换为 `connecting`。在 iframe 中嵌入页面会触发握手尝试，不代表已经确认父页面是 MCP 宿主。
+
+应用同时需要普通 iframe 嵌入时，可设置 `mcpAppsPlugin({ entryAutoConnect: false })` 禁用自动注入的握手。在应用接入逻辑明确选择 MCP 模式时，调用 `@modern-js/mcp-apps/react` 导出的 `connectEntryMcpApp()`。重复调用复用当前连接，顶层页面和服务端调用不建立连接。连接失败后释放 App 实例，可再次显式调用重试。宿主身份通过 SDK 握手确认，不能仅凭 iframe 判断。

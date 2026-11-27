@@ -19,6 +19,8 @@
   ],
   "sideEffects": [
     "./src/ui/mf-entry.ts",
+    "./src/ui/app-entry.ts",
+    "./dist/esm/app-entry.mjs",
     "./dist/esm/mf-entry.mjs"
   ],
   "engines": {

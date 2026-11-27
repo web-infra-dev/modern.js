@@ -3,6 +3,7 @@ import path from 'node:path';
 import { Script } from 'node:vm';
 import {
   validateUiMetadata,
+  mergeUiMetadata,
   validateViewsConfig,
   type UiManifest,
   type UiMetadata,
@@ -142,14 +143,37 @@ export function createUiManifest(
     views: Object.create(null),
   };
   for (const [name, source] of Object.entries(views)) {
-    if (typeof source === 'string') {
+    const resource = typeof source === 'string' ? undefined : source.resource;
+    const resourceFields = {
+      ...(resource ? { resource: structuredClone(resource) } : {}),
+      ...(typeof source !== 'string' && source.http !== undefined
+        ? { http: source.http }
+        : {}),
+    };
+    const viewUi = mergeUiMetadata(ui, resource?._meta?.ui);
+    const inlineViewUi = mergeUiMetadata(inlineUi, resource?._meta?.ui);
+    if (typeof source !== 'string' && 'entry' in source) {
+      manifest.views[name] = {
+        entry: source.entry,
+        ...(source.url !== undefined ? { url: source.url } : {}),
+        ui: viewUi,
+        ...resourceFields,
+      };
+      continue;
+    }
+    if (typeof source === 'string' || 'component' in source) {
       manifest.views[name] = options?.inline
         ? {
             html: `./ui/${viewEntryName(name)}.html`,
             inline: true,
-            ui: inlineUi,
+            ui: inlineViewUi,
+            ...resourceFields,
           }
-        : { html: `./ui/${viewEntryName(name)}.html`, ui };
+        : {
+            html: `./ui/${viewEntryName(name)}.html`,
+            ui: viewUi,
+            ...resourceFields,
+          };
       continue;
     }
     let remote: string;
@@ -183,7 +207,12 @@ export function createUiManifest(
       remote = mf.manifest.name;
     }
     manifest.remotes[remote] = { entry, shell: './ui/mcp-shell.html' };
-    manifest.views[name] = { remote, expose: source.expose, ui };
+    manifest.views[name] = {
+      remote,
+      expose: source.expose,
+      ui: viewUi,
+      ...resourceFields,
+    };
   }
   return manifest;
 }
