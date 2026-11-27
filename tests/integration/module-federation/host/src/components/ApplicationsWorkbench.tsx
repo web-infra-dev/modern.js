@@ -194,14 +194,37 @@ function stripRouteWildcard(route: string): string {
 }
 
 function normalizeRouteForCompare(route: string): string {
-  return stripRouteWildcard(route).toLowerCase();
+  return route.trim().replace(/^\/+/, '').replace(/\/+$/, '').toLowerCase();
+}
+
+function isWildcardRoute(routePattern: string): boolean {
+  return /\*$/.test(routePattern.trim());
 }
 
 function pathMatchesRoute(pathname: string, routePattern: string): boolean {
   const cleanPath = pathname.replace(/^\/+/, '').replace(/\/+$/, '');
   const prefix = stripRouteWildcard(routePattern);
-  if (!prefix) return cleanPath === '';
-  return cleanPath === prefix || cleanPath.startsWith(`${prefix}/`);
+  if (isWildcardRoute(routePattern)) {
+    if (!prefix) return true;
+    return cleanPath === prefix || cleanPath.startsWith(`${prefix}/`);
+  }
+  return cleanPath === prefix;
+}
+
+function findBestMatchingRoute<T extends { route: string }>(
+  routes: readonly T[],
+  pathname: string,
+): T | undefined {
+  const matches = routes.filter(r => pathMatchesRoute(pathname, r.route));
+  if (matches.length <= 1) return matches[0];
+  return [...matches].sort((a, b) => {
+    const aWild = isWildcardRoute(a.route) ? 1 : 0;
+    const bWild = isWildcardRoute(b.route) ? 1 : 0;
+    if (aWild !== bWild) return aWild - bWild;
+    return (
+      stripRouteWildcard(b.route).length - stripRouteWildcard(a.route).length
+    );
+  })[0];
 }
 
 function RefreshIcon() {
@@ -429,7 +452,7 @@ function RouteEditorModal({
   // Real-time route conflict validation
   const normalizedRoute = normalizeRouteForCompare(route);
   const routeError = useMemo(() => {
-    if (!route.trim()) return '请输入路由路径（例如 forecast/*）';
+    if (!route.trim()) return '请输入路由路径（如 for、for/b 或 for/*）';
     if (!normalizedRoute) return '路由路径不能为空';
     const conflict = siblingRoutes.find(
       item =>
@@ -438,7 +461,7 @@ function RouteEditorModal({
         normalizeRouteForCompare(item.route) === normalizedRoute,
     );
     if (conflict) {
-      return `路由「/${stripRouteWildcard(route)}/*」与已有路由「/${stripRouteWildcard(conflict.route)}/*」冲突`;
+      return `路由「/${route.trim().replace(/^\/+/, '')}」与已有路由「/${conflict.route.replace(/^\/+/, '')}」冲突`;
     }
     return '';
   }, [route, normalizedRoute, siblingRoutes, target.editingId]);
@@ -464,10 +487,8 @@ function RouteEditorModal({
 
   const handleSubmit = () => {
     if (!canSubmit || !inspected) return;
-    const cleanRoute = route.trim().replace(/^\/+/, '');
-    const finalRoute = cleanRoute.endsWith('*')
-      ? cleanRoute
-      : `${cleanRoute.replace(/\/+$/, '')}/*`;
+    // Preserve exact routes (e.g. `for`, `for/b`) as well as wildcard routes (`for/*`).
+    const finalRoute = route.trim().replace(/^\/+/, '').replace(/\/+$/, '');
     onConfirm({
       route: finalRoute,
       sourceKind,
@@ -529,11 +550,15 @@ function RouteEditorModal({
                 id="jo-modal-route"
                 className="mono"
                 autoFocus
-                placeholder="forecast/*"
+                placeholder="for、for/b 或 for/*"
                 data-testid="modal-route-input"
                 value={route}
                 onChange={e => setRoute(e.target.value)}
               />
+            </div>
+            <div className="jo-form-hint">
+              精确路径如 <code>for</code> / <code>for/b</code>，含子路径请加{' '}
+              <code>/*</code>
             </div>
             {routeError && (
               <div className="jo-form-error" data-testid="modal-route-error">
@@ -1199,51 +1224,57 @@ export function ApplicationsWorkbench() {
       path: string;
       active: boolean;
     }> = [];
-    const childSourcesByParentKey = new Map<
-      string,
-      (typeof childrenState)[string]
-    >();
-    for (const [srcName, srcVal] of Object.entries(childrenState)) {
-      childSourcesByParentKey.set(srcName, srcVal);
-    }
+    const matchedBestRoot = findBestMatchingRoute(
+      portalActive?.routes || [],
+      currentConsumerPath,
+    );
     for (const r of portalActive?.routes || []) {
       const prefix = stripRouteWildcard(r.route);
       if (!prefix) continue;
       const matchedApp = platformState?.sources.portal.config.applications.find(
-        a => stripRouteWildcard(a.route) === prefix && a.enabled,
+        a =>
+          normalizeRouteForCompare(a.route) ===
+            normalizeRouteForCompare(r.route) && a.enabled,
       );
       const childRoutes = matchedApp?.childrenSource
         ? childrenState[matchedApp.childrenSource]?.active?.routes || []
         : [];
       const targetPath =
-        r.expose === './WeatherApplication'
+        r.expose === './WeatherApplication' && isWildcardRoute(r.route)
           ? `/${prefix}/overview`
           : `/${prefix}`;
       const matchedChildPrefix = childRoutes.find(c =>
-        currentConsumerPath.startsWith(
-          `/${prefix}/${stripRouteWildcard(c.route)}`,
+        pathMatchesRoute(
+          currentConsumerPath
+            .replace(/^\/+/, '')
+            .slice(prefix.length)
+            .replace(/^\/+/, ''),
+          c.route,
         ),
       );
       items.push({
-        id: `root-${prefix}`,
+        id: `root-${r.route}`,
         label: `/${prefix}`,
         path: targetPath,
-        active:
-          currentConsumerPath.startsWith(`/${prefix}`) && !matchedChildPrefix,
+        active: matchedBestRoot?.route === r.route && !matchedChildPrefix,
       });
       if (r.discoverChildren) {
         for (const c of childRoutes) {
           const cPrefix = stripRouteWildcard(c.route);
           if (!cPrefix) continue;
           const nestedPath =
-            c.expose === './WindApplication'
+            c.expose === './WindApplication' && isWildcardRoute(c.route)
               ? `/${prefix}/${cPrefix}/gusts`
               : `/${prefix}/${cPrefix}`;
           items.push({
-            id: `nested-${prefix}-${cPrefix}`,
+            id: `nested-${r.route}-${c.route}`,
             label: `嵌套 /${prefix}/${cPrefix}`,
             path: nestedPath,
-            active: currentConsumerPath.startsWith(`/${prefix}/${cPrefix}`),
+            active:
+              matchedBestRoot?.route === r.route &&
+              Boolean(
+                matchedChildPrefix && matchedChildPrefix.route === c.route,
+              ),
           });
         }
       }
@@ -1261,14 +1292,15 @@ export function ApplicationsWorkbench() {
       versionOrUrl: string;
       snapshotKey: string;
     }> = [];
-    const matchedRoot = (portalActive?.routes || []).find(r =>
-      pathMatchesRoute(currentConsumerPath, r.route),
+    const matchedRoot = findBestMatchingRoute(
+      portalActive?.routes || [],
+      currentConsumerPath,
     );
     if (!matchedRoot) return chain;
     const rootPrefix = stripRouteWildcard(matchedRoot.route);
     chain.push({
       level: 0,
-      route: `/${rootPrefix}/*`,
+      route: `/${matchedRoot.route.replace(/^\/+/, '')}`,
       moduleName: matchedRoot.moduleName,
       expose: matchedRoot.expose,
       versionOrUrl: matchedRoot.versionOrUrl,
@@ -1280,18 +1312,18 @@ export function ApplicationsWorkbench() {
         .slice(rootPrefix.length)
         .replace(/^\/+/, '');
       const matchedApp = platformState?.sources.portal.config.applications.find(
-        a => stripRouteWildcard(a.route) === rootPrefix && a.enabled,
+        a =>
+          normalizeRouteForCompare(a.route) ===
+            normalizeRouteForCompare(matchedRoot.route) && a.enabled,
       );
       const childRoutes = matchedApp?.childrenSource
         ? childrenState[matchedApp.childrenSource]?.active?.routes || []
         : [];
-      const matchedChild = childRoutes.find(c =>
-        pathMatchesRoute(rest, c.route),
-      );
+      const matchedChild = findBestMatchingRoute(childRoutes, rest);
       if (matchedChild) {
         chain.push({
           level: 1,
-          route: `/${rootPrefix}/${stripRouteWildcard(matchedChild.route)}/*`,
+          route: `/${rootPrefix}/${matchedChild.route.replace(/^\/+/, '')}`,
           moduleName: matchedChild.moduleName,
           expose: matchedChild.expose,
           versionOrUrl: matchedChild.versionOrUrl,
