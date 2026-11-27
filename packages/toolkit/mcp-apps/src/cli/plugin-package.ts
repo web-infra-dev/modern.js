@@ -2,10 +2,31 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { assertHttpUrl, isRecord } from '../manifest';
 
-export interface McpHttpServerConfig {
+export type McpHttpServerConfig = {
   type: 'streamable-http';
-  /** Public deployed endpoint, including the MCP route. */
-  url: string;
+} & (
+  | {
+      /** Complete public endpoint. Overrides origin and the conventional MCP path. */
+      url: string;
+      origin?: string;
+    }
+  | {
+      /** Public application origin. The framework appends bff.prefix and /mcp. */
+      origin: string;
+      url?: string;
+    }
+);
+
+/** Conventional BFF MCP route, shared by development discovery and packaging. */
+export function resolveMcpPath(rawPrefix?: string | string[]): string {
+  const prefix =
+    typeof rawPrefix === 'string'
+      ? rawPrefix
+      : Array.isArray(rawPrefix) && typeof rawPrefix[0] === 'string'
+        ? rawPrefix[0]
+        : '/api';
+  const normalized = `/${prefix.replace(/^\/+|\/+$/g, '')}`;
+  return `${normalized === '/' ? '' : normalized}/mcp`;
 }
 
 export interface PluginPackageOptions {
@@ -21,24 +42,47 @@ export async function buildPluginPackage(
   distDirectory: string,
   servers: Record<string, McpHttpServerConfig>,
   options: PluginPackageOptions = {},
+  bffPrefix?: string | string[],
 ) {
   if (!isRecord(servers) || !Object.keys(servers).length)
     throw new Error('mcpServers must contain at least one HTTP MCP server');
+  const resolvedServers: Record<
+    string,
+    { type: 'streamable-http'; url: string }
+  > = Object.create(null);
   for (const [name, server] of Object.entries(servers)) {
     if (
       !name.trim() ||
       !isRecord(server) ||
       server.type !== 'streamable-http' ||
-      typeof server.url !== 'string' ||
-      server.url.trim() !== server.url ||
-      !/^https?:\/\//.test(server.url) ||
-      /[\u0000-\u0020\u007f\\]/.test(server.url) ||
-      Object.keys(server).some(key => !['type', 'url'].includes(key))
+      (server.url === undefined && server.origin === undefined) ||
+      Object.keys(server).some(key => !['type', 'url', 'origin'].includes(key))
     )
       throw new Error(`Invalid HTTP MCP server configuration: ${name}`);
-    const url = assertHttpUrl(server.url);
-    if (url.hash)
-      throw new Error(`MCP server URL must not contain a fragment: ${name}`);
+    for (const value of [server.url, server.origin]) {
+      if (value === undefined) continue;
+      if (
+        typeof value !== 'string' ||
+        value.trim() !== value ||
+        !/^https?:\/\//.test(value) ||
+        /[\u0000-\u0020\u007f\\]/.test(value)
+      )
+        throw new Error(`Invalid HTTP MCP server configuration: ${name}`);
+      const parsed = assertHttpUrl(value);
+      if (parsed.hash)
+        throw new Error(`MCP server URL must not contain a fragment: ${name}`);
+    }
+    if (server.origin !== undefined) {
+      const origin = assertHttpUrl(server.origin);
+      if (origin.pathname !== '/' || origin.search || origin.hash)
+        throw new Error(
+          `MCP server origin must not contain a path, query or fragment: ${name}`,
+        );
+    }
+    resolvedServers[name] = {
+      type: 'streamable-http',
+      url: server.url ?? new URL(resolveMcpPath(bffPrefix), server.origin).href,
+    };
   }
   const source = path.resolve(appDirectory, options.directory ?? 'plugin');
   const output = path.resolve(distDirectory, 'plugin');
@@ -121,7 +165,7 @@ export async function buildPluginPackage(
       `${JSON.stringify(
         {
           $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
-          mcpServers: servers,
+          mcpServers: resolvedServers,
         },
         null,
         2,

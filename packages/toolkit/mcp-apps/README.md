@@ -163,7 +163,7 @@ Resource registration can select manifest views with
 
 ## Package a Doubao workbench Plugin
 
-Set `mcpServers` to generate a separate `plugin/` package inside the application output directory during production builds. Supply a complete public HTTP(S) endpoint, including the actual MCP route. Deployment environment variables can provide the URL. The framework does not infer MCP endpoints from static asset URLs.
+Set `mcpServers` to generate a separate `plugin/` package inside the application output directory during production builds. Set `origin` to the public HTTP(S) application origin. The framework appends the normalized `bff.prefix` and `/mcp`, using `/api/mcp` by default. When `bff.prefix` is an array, it uses the first prefix, matching development MCP discovery. The generated `mcp.json` contains a complete `url`, without the `origin` shorthand. An origin must not contain a path, query or fragment. For a custom MCP route or gateway rewrite, set a complete `url`, which takes precedence over `origin`. Deployment environment variables can provide either value. The framework does not infer MCP endpoints from static asset URLs.
 
 ```ts
 mcpAppsPlugin({
@@ -172,7 +172,9 @@ mcpAppsPlugin({
     // Workbench tool references use server: 'tasks'
     tasks: {
       type: 'streamable-http',
-      url: 'https://app.example.com/api/mcp',
+      origin: 'https://app.example.com',
+      // Optional override for a custom route or gateway rewrite:
+      // url: 'https://gateway.example.com/custom/mcp',
     },
   },
   plugin: {

@@ -16,6 +16,7 @@ import {
 
 import {
   buildPluginPackage,
+  resolveMcpPath,
   type McpHttpServerConfig,
   type PluginPackageOptions,
 } from './plugin-package';
@@ -88,15 +89,7 @@ function resolveMcpDevUrl(
   },
 ): string {
   const protocol = config.dev?.https ? 'https' : 'http';
-  const rawPrefix = config.bff?.prefix;
-  const prefix =
-    typeof rawPrefix === 'string'
-      ? rawPrefix
-      : Array.isArray(rawPrefix) && typeof rawPrefix[0] === 'string'
-        ? rawPrefix[0]
-        : '/api';
-  const normalized = `/${prefix.replace(/^\/+|\/+$/g, '')}`;
-  return `${protocol}://localhost:${port ?? 8080}${normalized === '/' ? '' : normalized}/mcp`;
+  return `${protocol}://localhost:${port ?? 8080}${resolveMcpPath(config.bff?.prefix)}`;
 }
 
 async function writeArtifact(filename: string, contents: string | Uint8Array) {
@@ -131,6 +124,8 @@ export const mcpAppsPlugin = (
         ctx.distDirectory,
         options.mcpServers,
         options.plugin,
+        (api.getNormalizedConfig() as { bff?: { prefix?: string | string[] } })
+          .bff?.prefix,
       );
     });
 

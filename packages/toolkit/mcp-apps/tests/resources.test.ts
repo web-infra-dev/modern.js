@@ -8,10 +8,18 @@ import {
   beforeEach,
   afterEach,
 } from '@rstest/core';
-import { mkdtemp, mkdir, writeFile, rename, rm } from 'node:fs/promises';
+import {
+  mkdtemp,
+  mkdir,
+  writeFile,
+  readFile,
+  rename,
+  rm,
+} from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
+import { mcpAppsPlugin, type McpHttpServerConfig } from '../src/cli';
 import { McpServer } from '@modelcontextprotocol/server';
 import { Client } from '@modelcontextprotocol/client';
 import { InMemoryTransport } from '@modelcontextprotocol/server';
@@ -522,4 +530,103 @@ describe('view page URLs', () => {
       );
     },
   );
+});
+
+describe('plugin package MCP endpoints', () => {
+  async function build(
+    servers: Record<string, McpHttpServerConfig>,
+    prefix?: string | string[],
+  ) {
+    const appDirectory = path.join(directory, crypto.randomUUID());
+    const distDirectory = path.join(appDirectory, 'dist');
+    await mkdir(path.join(appDirectory, 'plugin'), { recursive: true });
+    await writeFile(
+      path.join(appDirectory, 'plugin/plugin.json'),
+      JSON.stringify({ name: 'tasks', version: '1.0.0' }),
+    );
+    const hooks: Array<() => Promise<void>> = [];
+    const plugin = mcpAppsPlugin({ mcpServers: servers });
+    type PluginApi = Parameters<NonNullable<typeof plugin.setup>>[0];
+    await plugin.setup?.({
+      getAppContext: () => ({ appDirectory, distDirectory }),
+      getNormalizedConfig: () => ({ bff: { prefix } }),
+      onAfterBuild: (hook: () => Promise<void>) => hooks.push(hook),
+      _internalServerPlugins: () => {},
+      addWatchFiles: () => {},
+      modifyEntrypoints: () => {},
+      modifyRsbuildConfig: () => {},
+      onAfterCreateCompiler: () => {},
+      onDevCompileDone: () => {},
+    } as unknown as PluginApi);
+    for (const hook of hooks) await hook();
+    return JSON.parse(
+      await readFile(path.join(distDirectory, 'plugin/mcp.json'), 'utf8'),
+    ) as { mcpServers: Record<string, { type: string; url: string }> };
+  }
+
+  it.each([
+    { prefix: undefined, route: '/api/mcp' },
+    { prefix: '/custom/', route: '/custom/mcp' },
+    { prefix: '/', route: '/mcp' },
+    { prefix: ['/first/', '/second'], route: '/first/mcp' },
+  ])(
+    'packages an origin using the conventional BFF route for prefix $prefix',
+    async ({ prefix, route }) => {
+      const result = await build(
+        {
+          tasks: {
+            type: 'streamable-http',
+            origin: 'https://todo.example.com',
+          },
+        },
+        prefix,
+      );
+      expect(result.mcpServers).toEqual({
+        tasks: {
+          type: 'streamable-http',
+          url: `https://todo.example.com${route}`,
+        },
+      });
+    },
+  );
+
+  it('preserves explicit URL overrides and existing URL-only configurations', async () => {
+    const result = await build(
+      {
+        tasks: {
+          type: 'streamable-http',
+          origin: 'https://todo.example.com',
+          url: 'https://gateway.example.com/custom?tenant=tasks',
+        },
+        existing: {
+          type: 'streamable-http',
+          url: 'https://existing.example.com/mcp',
+        },
+      },
+      '/ignored',
+    );
+    expect(result.mcpServers).toEqual({
+      tasks: {
+        type: 'streamable-http',
+        url: 'https://gateway.example.com/custom?tenant=tasks',
+      },
+      existing: {
+        type: 'streamable-http',
+        url: 'https://existing.example.com/mcp',
+      },
+    });
+  });
+
+  it.each([
+    'https://todo.example.com/path',
+    'https://todo.example.com/?tenant=tasks',
+    'https://todo.example.com/#home',
+    '//todo.example.com',
+    'https://user:pass@todo.example.com',
+    'https://todo.example.com/with space',
+  ])('rejects invalid deployment origin %s', async origin => {
+    await expect(
+      build({ tasks: { type: 'streamable-http', origin } }),
+    ).rejects.toThrow();
+  });
 });
