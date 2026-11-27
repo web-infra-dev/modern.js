@@ -28,11 +28,17 @@ export default function ConsumerLayout() {
     traces: [],
   });
   const [mounted, setMounted] = useState(false);
+  const [embedded, setEmbedded] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    try {
+      setEmbedded(window.self !== window.top);
+    } catch {
+      setEmbedded(true);
+    }
     const sync = () => setTelemetry(getClientTelemetry());
     sync();
     const unsub = subscribeTelemetry(sync);
@@ -105,135 +111,137 @@ export default function ConsumerLayout() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)',
-        color: '#0f172a',
+        background: '#ffffff',
+        color: '#18181b',
         fontFamily:
-          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif',
       }}
     >
-      <header
-        data-testid="consumer-header"
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 10,
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '10px',
-          padding: '10px 16px',
-          background: 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(8px)',
-          borderBottom: '1px solid rgba(15, 23, 42, 0.08)',
-        }}
-      >
-        <div
+      {!embedded && (
+        <header
+          data-testid="consumer-header"
           style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 10,
             display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
             flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px',
+            padding: '10px 16px',
+            background: 'rgba(250, 250, 250, 0.86)',
+            backdropFilter: 'blur(16px)',
+            borderBottom: '1px solid rgba(9, 9, 11, 0.08)',
           }}
         >
-          <strong style={{ fontSize: '13px' }}>Dynamic Consumer</strong>
-          <code
-            data-testid="consumer-pathname"
+          <div
             style={{
-              fontSize: '12px',
-              padding: '2px 7px',
-              borderRadius: '6px',
-              background: '#e2e8f0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              flexWrap: 'wrap',
             }}
           >
-            {location.pathname}
-          </code>
-          <span
-            data-testid="consumer-hydration-badge"
-            style={{
-              fontSize: '11px',
-              padding: '2px 7px',
-              borderRadius: '999px',
-              background:
-                mounted && telemetry.hydratedFromSSR ? '#dcfce7' : '#e0f2fe',
-              color:
-                mounted && telemetry.hydratedFromSSR ? '#166534' : '#075985',
-              fontWeight: 600,
-            }}
-          >
-            {mounted
-              ? telemetry.hydratedFromSSR
-                ? 'SSR Hydrated'
-                : 'CSR'
-              : 'Loading'}
-          </span>
-          <span
-            data-testid="consumer-remotes-count"
-            style={{ fontSize: '11px', color: '#475569' }}
-          >
-            MF remotes: {telemetry.registeredRemotes.length}
-          </span>
-        </div>
+            <strong style={{ fontSize: '13px' }}>Dynamic Consumer</strong>
+            <code
+              data-testid="consumer-pathname"
+              style={{
+                fontSize: '12px',
+                padding: '2px 7px',
+                borderRadius: '6px',
+                background: '#e2e8f0',
+              }}
+            >
+              {location.pathname}
+            </code>
+            <span
+              data-testid="consumer-hydration-badge"
+              style={{
+                fontSize: '11px',
+                padding: '2px 7px',
+                borderRadius: '999px',
+                background:
+                  mounted && telemetry.hydratedFromSSR ? '#dcfce7' : '#e0f2fe',
+                color:
+                  mounted && telemetry.hydratedFromSSR ? '#166534' : '#075985',
+                fontWeight: 600,
+              }}
+            >
+              {mounted
+                ? telemetry.hydratedFromSSR
+                  ? 'SSR Hydrated'
+                  : 'CSR'
+                : 'Loading'}
+            </span>
+            <span
+              data-testid="consumer-remotes-count"
+              style={{ fontSize: '11px', color: '#475569' }}
+            >
+              MF remotes: {telemetry.registeredRemotes.length}
+            </span>
+          </div>
 
-        <nav
-          aria-label="Consumer routes"
-          style={{
-            display: 'flex',
-            gap: '6px',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
-          <Link to="/" style={navLinkStyle(location.pathname === '/')}>
-            Home
-          </Link>
-          <Link
-            to="/products"
-            style={navLinkStyle(location.pathname.startsWith('/products'))}
-          >
-            Producer B (/products)
-          </Link>
-          <Link
-            to="/weather/overview"
-            style={navLinkStyle(
-              location.pathname.startsWith('/weather') &&
-                !location.pathname.includes('/wind'),
-            )}
-          >
-            Producer A (/weather/overview)
-          </Link>
-          <Link
-            to="/weather/wind"
-            style={navLinkStyle(location.pathname === '/weather/wind')}
-          >
-            Nested A→C (/weather/wind)
-          </Link>
-          <Link
-            to="/weather/wind/gusts"
-            style={navLinkStyle(location.pathname === '/weather/wind/gusts')}
-          >
-            Leaf (/weather/wind/gusts)
-          </Link>
-          <button
-            type="button"
-            disabled={busy}
-            data-testid="consumer-rediscover"
-            onClick={() => void rediscover()}
+          <nav
+            aria-label="Consumer routes"
             style={{
-              padding: '5px 10px',
-              borderRadius: '8px',
-              fontSize: '12px',
-              fontWeight: 600,
-              background: '#fff',
-              color: '#0369a1',
-              border: '1px solid #7dd3fc',
-              cursor: busy ? 'wait' : 'pointer',
+              display: 'flex',
+              gap: '6px',
+              flexWrap: 'wrap',
+              alignItems: 'center',
             }}
           >
-            {busy ? 'Checking…' : 'Re-discover'}
-          </button>
-        </nav>
-      </header>
+            <Link to="/" style={navLinkStyle(location.pathname === '/')}>
+              Home
+            </Link>
+            <Link
+              to="/products"
+              style={navLinkStyle(location.pathname.startsWith('/products'))}
+            >
+              Producer B (/products)
+            </Link>
+            <Link
+              to="/weather/overview"
+              style={navLinkStyle(
+                location.pathname.startsWith('/weather') &&
+                  !location.pathname.includes('/wind'),
+              )}
+            >
+              Producer A (/weather/overview)
+            </Link>
+            <Link
+              to="/weather/wind"
+              style={navLinkStyle(location.pathname === '/weather/wind')}
+            >
+              Nested A→C (/weather/wind)
+            </Link>
+            <Link
+              to="/weather/wind/gusts"
+              style={navLinkStyle(location.pathname === '/weather/wind/gusts')}
+            >
+              Leaf (/weather/wind/gusts)
+            </Link>
+            <button
+              type="button"
+              disabled={busy}
+              data-testid="consumer-rediscover"
+              onClick={() => void rediscover()}
+              style={{
+                padding: '5px 10px',
+                borderRadius: '8px',
+                fontSize: '12px',
+                fontWeight: 600,
+                background: '#fff',
+                color: '#0369a1',
+                border: '1px solid #7dd3fc',
+                cursor: busy ? 'wait' : 'pointer',
+              }}
+            >
+              {busy ? 'Checking…' : 'Re-discover'}
+            </button>
+          </nav>
+        </header>
+      )}
 
       {telemetry.expiredEvent && (
         <div

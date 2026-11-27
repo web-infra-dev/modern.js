@@ -26,6 +26,7 @@ interface DeploymentPayload {
   consumerManifestUrl?: string;
   sid?: string;
   deliveryMode?: 'full' | 'layered';
+  partialRoot?: boolean;
   pathClipped?: boolean;
   routes: RemoteRoute[];
   moduleInfo: GlobalModuleInfo;
@@ -384,7 +385,7 @@ export default async function load(
       });
 
       const deliveryMode = snap.deliveryMode || 'layered';
-      const pathClipped = Boolean(snap.pathClipped);
+      const pathClipped = Boolean(snap.partialRoot || snap.pathClipped);
       stageMountRecord(
         ctx.mountId,
         {
