@@ -2,7 +2,6 @@ import os from 'os';
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import { compile } from '../src';
-import { writeTypeCheckConfig } from '../src/compilers/swc/typecheck';
 
 const REAL_TSC = require.resolve('typescript/bin/tsc');
 
@@ -257,24 +256,20 @@ describe('server compile', () => {
   ])(
     'pairs the CommonJS override with a moduleResolution TypeScript %s accepts',
     async (version, moduleResolution) => {
-      const appDir = await fs.mkdtemp(
-        path.join(os.tmpdir(), 'server-utils-resolution-'),
+      // The stub only records the config: TS 6 and 7 are not installed here.
+      const { appDir, lastConfig } = await createStubTypeScriptApp(
+        version,
+        0,
+        false,
       );
       try {
-        await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {});
-        const configPath = writeTypeCheckConfig(
-          {
-            appDirectory: appDir,
-            tsconfigPath: path.join(appDir, 'tsconfig.json'),
-            sourceDirs: [],
-            distDir: path.join(appDir, 'dist'),
-            programFiles: [],
-            compilerOverrides: { module: 'CommonJS' },
-            declaration: false,
-          },
-          version,
-        );
-        expect((await fs.readJSON(configPath)).compilerOptions).toMatchObject({
+        await compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'api')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+          compilerOverrides: { module: 'CommonJS' },
+        });
+        expect((await lastConfig()).compilerOptions).toMatchObject({
           module: 'CommonJS',
           moduleResolution,
         });
