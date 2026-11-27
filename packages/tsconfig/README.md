@@ -69,7 +69,7 @@ Rules:
 - `paths` stays in `tsconfig.json`. TypeScript replaces `paths` wholesale across `extends`, so never declare `paths` in `tsconfig.server.json`.
 - Modern.js picks the server config in this order: `server.tsconfigPath` → `<appDir>/tsconfig.server.json` → `<appDir>/tsconfig.json`.
 - Server code is type-checked and emitted by the project's own `tsc` command (TypeScript 5, 6 and 7 all work); at dev time it is loaded through SWC hooks.
-- Only the last fallback is rewritten, for the type check: when `tsconfig.json` resolves to an ESM `module` (for example `ESNext`) and `package.json#type` is not `module`, it runs with `module: NodeNext` / `moduleResolution: NodeNext`.
+- Only the last fallback is rewritten: when `tsconfig.json` resolves to an ESM `module` (for example `ESNext`) and `package.json#type` is not `module`, server code is compiled with `module: CommonJS`, as with the previous base preset (`moduleResolution` is `node10` before TypeScript 6 and `bundler` from 6 on).
 
 ## Migrating an existing project
 

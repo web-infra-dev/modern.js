@@ -88,10 +88,7 @@ describe('resolveServerTsconfigInfo', () => {
     expect(info).toEqual({
       path: path.join(appDir, 'tsconfig.json'),
       source: 'fallback',
-      compilerOverrides: {
-        module: 'NodeNext',
-        moduleResolution: 'NodeNext',
-      },
+      compilerOverrides: { module: 'CommonJS' },
     });
     expect(resolveServerTsconfig(appDir)).toBe(info.path);
   });

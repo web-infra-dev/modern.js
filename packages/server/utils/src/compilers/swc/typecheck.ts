@@ -151,6 +151,47 @@ const isDeclarationEntry = (entry: string) => entry.endsWith('.d.ts');
 // tsconfig `include` globs only understand forward slashes.
 const toPosix = (file: string) => file.replace(/\\/g, '/');
 
+/**
+ * The pattern for the `.d.ts` files an `include` entry matches, following
+ * TypeScript's rules: a last segment without a wildcard or an extension is a
+ * directory searched recursively. A file pattern matches `x.d.ts` only when
+ * it ends in `*` or `*.ts` (`*.test.ts` or `*.tsx` never do).
+ */
+const toDeclarationPattern = (entry: string) => {
+  const slash = entry.lastIndexOf('/');
+  const last = entry.slice(slash + 1);
+  if (last.endsWith('.d.ts')) {
+    return entry;
+  }
+  if (last === '**') {
+    return `${entry}/*.d.ts`;
+  }
+  if (last.endsWith('*')) {
+    return `${entry}.d.ts`;
+  }
+  if (last.endsWith('*.ts')) {
+    return `${entry.slice(0, -'.ts'.length)}.d.ts`;
+  }
+  if (/[*?]/.test(last) || path.extname(last)) {
+    return undefined;
+  }
+  return `${entry}/**/*.d.ts`;
+};
+
+/**
+ * `module: CommonJS` needs a matching `moduleResolution`: `node` (`node10`),
+ * the one the previous base preset used, is the only choice before
+ * TypeScript 6; TypeScript 6 deprecates it and 7 removes it, while allowing
+ * `bundler`.
+ */
+const withModuleResolution = (
+  overrides: CompilerOverrides | undefined,
+  major: number,
+): CompilerOverrides | undefined =>
+  overrides?.module?.toLowerCase() === 'commonjs' && !overrides.moduleResolution
+    ? { ...overrides, moduleResolution: major >= 6 ? 'bundler' : 'node' }
+    : overrides;
+
 export interface TypeCheckOptions {
   appDirectory: string;
   tsconfigPath: string;
@@ -192,12 +233,12 @@ export const writeTypeCheckConfig = (
   const include: string[] = [];
   const nearestInclude = findNearest(configFiles, 'include');
   for (const entry of nearestInclude?.entries ?? []) {
-    const absolute = path.resolve(nearestInclude!.dir, entry);
-    include.push(
-      toPosix(
-        isDeclarationEntry(entry) ? absolute : path.join(absolute, '**/*.d.ts'),
-      ),
+    const pattern = toDeclarationPattern(
+      toPosix(path.resolve(nearestInclude!.dir, entry)),
     );
+    if (pattern) {
+      include.push(pattern);
+    }
   }
   const nearestFiles = findNearest(configFiles, 'files');
   const files = [
@@ -223,7 +264,7 @@ export const writeTypeCheckConfig = (
   const config = {
     extends: toPosix(path.resolve(tsconfigPath)),
     compilerOptions: {
-      ...compilerOverrides,
+      ...withModuleResolution(compilerOverrides, major),
       // TS5101 and the other TypeScript 6 deprecations only concern the
       // project's own config check; they must not fail the server build.
       ...(major === 6 ? { ignoreDeprecations: '6.0' } : {}),

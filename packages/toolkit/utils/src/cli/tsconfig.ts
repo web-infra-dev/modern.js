@@ -7,8 +7,7 @@ import { logger } from './logger';
 export type ServerTsconfigSource = 'explicit' | 'convention' | 'fallback';
 
 export type ServerCompilerOverrides = {
-  module: 'NodeNext';
-  moduleResolution: 'NodeNext';
+  module: 'CommonJS';
 };
 
 export interface ServerTsconfigInfo {
@@ -25,8 +24,8 @@ export interface ServerTsconfigInfo {
    * Compiler options the framework has to force on top of the file. Only set
    * for the `fallback` source, when the effective `module` is an ESM value
    * while the project is CommonJS (`package.json#type` is not `module`).
-   * Overriding `module` alone is rejected by TypeScript (TS5095 / TS5109 /
-   * TS5110), so `moduleResolution` is always overridden together with it.
+   * The server compile picks the `moduleResolution` that goes with it for the
+   * project's TypeScript version.
    */
   compilerOverrides?: ServerCompilerOverrides;
 }
@@ -45,9 +44,8 @@ const ESM_MODULE_KINDS = new Set([
   'preserve',
 ]);
 
-const NODE_NEXT_OVERRIDES: ServerCompilerOverrides = {
-  module: 'NodeNext',
-  moduleResolution: 'NodeNext',
+const COMMONJS_OVERRIDES: ServerCompilerOverrides = {
+  module: 'CommonJS',
 };
 
 /**
@@ -115,8 +113,9 @@ const logConventionTsconfig = (tsconfigPath: string) => {
  * Only the fallback may be rewritten: a bundler-mode `tsconfig.json`
  * (`module: ESNext`) in a CommonJS project would emit ES modules that Node
  * cannot `require()`, so the framework compiles server code with
- * `module: NodeNext` / `moduleResolution: NodeNext` instead. `type: module`
- * projects keep their ESM output untouched.
+ * `module: CommonJS` instead, as the previous base preset did: `import()`
+ * becomes `require()` and extensionless specifiers keep working. `type:
+ * module` projects keep their ESM output untouched.
  */
 export const resolveServerTsconfigInfo = (
   appDirectory: string,
@@ -147,7 +146,7 @@ export const resolveServerTsconfigInfo = (
     return resolved;
   }
 
-  return { ...resolved, compilerOverrides: { ...NODE_NEXT_OVERRIDES } };
+  return { ...resolved, compilerOverrides: { ...COMMONJS_OVERRIDES } };
 };
 
 /**

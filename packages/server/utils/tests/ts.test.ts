@@ -2,6 +2,7 @@ import os from 'os';
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import { compile } from '../src';
+import { writeTypeCheckConfig } from '../src/compilers/swc/typecheck';
 
 const REAL_TSC = require.resolve('typescript/bin/tsc');
 
@@ -105,7 +106,7 @@ describe('server compile', () => {
   it('emits commonjs from a bundler-mode tsconfig without a warning', async () => {
     const example = path.join(__dirname, './fixtures', './ts-example');
     // The main tsconfig resolves to `module: ESNext`; the framework passes the
-    // NodeNext overrides when it falls back to it in a commonjs project.
+    // CommonJS override when it falls back to it in a commonjs project.
     const tsconfigPath = path.join(example, './tsconfig.json');
     const distDir = path.join(example, './dist-fallback');
     const sharedDir = path.join(example, './shared');
@@ -129,10 +130,7 @@ describe('server compile', () => {
           distDir,
           tsconfigPath,
           moduleType: 'commonjs',
-          compilerOverrides: {
-            module: 'NodeNext',
-            moduleResolution: 'NodeNext',
-          },
+          compilerOverrides: { module: 'CommonJS' },
         },
       );
 
@@ -164,6 +162,128 @@ describe('server compile', () => {
     }
   });
 
+  it('keeps extensionless import() working when it falls back to a bundler-mode tsconfig', async () => {
+    const appDir = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'server-utils-fallback-'),
+    );
+    const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+    try {
+      // The previous base preset compiled `import()` to `require()`, so code
+      // like this ran without an extension on the specifier.
+      await fs.outputFile(
+        path.join(appDir, 'server/index.ts'),
+        "export const run = async () => (await import('./lazy')).value;\n",
+      );
+      await fs.outputFile(
+        path.join(appDir, 'server/lazy.ts'),
+        "export const value = 'lazy';\n",
+      );
+      await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+        compilerOptions: {
+          target: 'ES2022',
+          module: 'ESNext',
+          moduleResolution: 'bundler',
+          strict: true,
+          skipLibCheck: true,
+        },
+        include: ['server'],
+      });
+
+      await compile(appDir, { alias: {} } as any, {
+        sourceDirs: [path.join(appDir, 'server')],
+        distDir: path.join(appDir, 'dist'),
+        tsconfigPath: path.join(appDir, 'tsconfig.json'),
+        moduleType: 'commonjs',
+        compilerOverrides: { module: 'CommonJS' },
+      });
+
+      expect(error).not.toBeCalled();
+      const { run } = require(path.join(appDir, 'dist/server/index.js'));
+      await expect(run()).resolves.toBe('lazy');
+    } finally {
+      error.mockRestore();
+      await fs.remove(appDir);
+    }
+  });
+
+  it.each([
+    ['a file pattern', ['server/**/*.ts', 'types/**/*.ts'], 'types/env.d.ts'],
+    ['a root wildcard', ['**/*'], 'env.d.ts'],
+  ])(
+    'finds ambient declarations through %s in include',
+    async (_, include, declarationFile) => {
+      const appDir = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'server-utils-include-'),
+      );
+      const error = rstest.spyOn(logger, 'error').mockImplementation(() => {});
+      try {
+        await fs.outputFile(
+          path.join(appDir, declarationFile),
+          'declare const APP_FLAG: string;\n',
+        );
+        await fs.outputFile(
+          path.join(appDir, 'server/index.ts'),
+          'export const flag = (): string => APP_FLAG;\n',
+        );
+        await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {
+          compilerOptions: {
+            target: 'ES2022',
+            module: 'CommonJS',
+            strict: true,
+            skipLibCheck: true,
+          },
+          include,
+        });
+
+        await compile(appDir, { alias: {} } as any, {
+          sourceDirs: [path.join(appDir, 'server')],
+          distDir: path.join(appDir, 'dist'),
+          tsconfigPath: path.join(appDir, 'tsconfig.json'),
+          throwErrorInsteadOfExit: true,
+        });
+
+        expect(error).not.toBeCalled();
+      } finally {
+        error.mockRestore();
+        await fs.remove(appDir);
+      }
+    },
+  );
+
+  it.each([
+    ['5.9.3', 'node'],
+    ['6.0.2', 'bundler'],
+    ['7.0.0-dev.20261120.1', 'bundler'],
+  ])(
+    'pairs the CommonJS override with a moduleResolution TypeScript %s accepts',
+    async (version, moduleResolution) => {
+      const appDir = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'server-utils-resolution-'),
+      );
+      try {
+        await fs.outputJSON(path.join(appDir, 'tsconfig.json'), {});
+        const configPath = writeTypeCheckConfig(
+          {
+            appDirectory: appDir,
+            tsconfigPath: path.join(appDir, 'tsconfig.json'),
+            sourceDirs: [],
+            distDir: path.join(appDir, 'dist'),
+            programFiles: [],
+            compilerOverrides: { module: 'CommonJS' },
+            declaration: false,
+          },
+          version,
+        );
+        expect((await fs.readJSON(configPath)).compilerOptions).toMatchObject({
+          module: 'CommonJS',
+          moduleResolution,
+        });
+      } finally {
+        await fs.remove(appDir);
+      }
+    },
+  );
+
   it('compiles without the TypeScript JS API and type-checks with the project tsc', async () => {
     const { appDir, lastConfig } = await createStubTypeScriptApp('7.0.2');
     try {
@@ -171,7 +291,7 @@ describe('server compile', () => {
         sourceDirs: [path.join(appDir, 'api')],
         distDir: path.join(appDir, 'dist'),
         tsconfigPath: path.join(appDir, 'tsconfig.json'),
-        compilerOverrides: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+        compilerOverrides: { module: 'CommonJS' },
       });
 
       const api = require(path.join(appDir, 'dist/api')).default;
@@ -182,8 +302,7 @@ describe('server compile', () => {
         path.join(appDir, 'tsconfig.json').replace(/\\/g, '/'),
       );
       expect(config.compilerOptions).toMatchObject({
-        module: 'NodeNext',
-        moduleResolution: 'NodeNext',
+        module: 'CommonJS',
         noEmit: false,
       });
       expect(config.compilerOptions.ignoreDeprecations).toBeUndefined();
@@ -213,11 +332,15 @@ describe('server compile', () => {
         sourceDirs: [path.join(appDir, 'api')],
         distDir: path.join(appDir, 'dist'),
         tsconfigPath: path.join(appDir, 'tsconfig.json'),
-        compilerOverrides: { module: 'NodeNext', moduleResolution: 'NodeNext' },
+        compilerOverrides: { module: 'CommonJS' },
       });
 
       expect(require(path.join(appDir, 'dist/api')).default()).toBe('api');
-      expect((await lastConfig()).compilerOptions.noEmit).toBe(false);
+      // TypeScript 5 rejects `bundler` with CommonJS.
+      expect((await lastConfig()).compilerOptions).toMatchObject({
+        moduleResolution: 'node',
+        noEmit: false,
+      });
     } finally {
       await fs.remove(appDir);
     }
