@@ -4,14 +4,8 @@ import {
   debugMFSSR,
   debugMFSSRVerbose,
   extractTargetVersion,
-  formatErrorMessage,
-  formatLogFields,
-  formatRemoteTransitions,
-  formatTimings,
   isMFSSRDebugEnabled,
   isMFSSRVerboseDebugEnabled,
-  logMFSSR,
-  logMFSSRError,
   mfSSRDebug,
   mfSSRVerboseDebug,
 } from './ssrLogger';
@@ -29,176 +23,19 @@ describe('ssrLogger', () => {
     }
   });
 
-  it('formats single-line logfmt fields, skipping empty/whitespace strings and escaping quotes/backslashes', () => {
-    expect(
-      formatLogFields({
-        mode: 'dev',
-        scope: 'partial',
-        entries: ['main', 'weather'],
-        emptyArr: [],
-        emptyStr: '',
-        whitespaceStr: '   \n\t  ',
-        missing: undefined,
-        nil: null,
-        durationMs: 43,
-        ratio: 1.5,
-        ok: true,
-        winPath: 'C:\\app\\dist\\bundle.js',
-        reason: 'Shared manifests changed\nduring "selective" update',
-      }),
-    ).toBe(
-      'mode=dev scope=partial entries=main,weather durationMs=43 ratio=1.5 ok=true winPath="C:\\\\app\\\\dist\\\\bundle.js" reason="Shared manifests changed during \\"selective\\" update"',
-    );
-  });
-
-  it('formats compact timings omitting total and zero-ms stages', () => {
-    expect(
-      formatTimings({
-        queue: 0.2,
-        check: 12.4,
-        analyze: 0.1,
-        drain: 85.6,
-        rebuild: 36.1,
-        total: 134.4,
-      }),
-    ).toBe('check:12,drain:86,rebuild:36');
-    expect(formatTimings({ total: 5, check: 0 })).toBeUndefined();
-  });
-
-  it('extracts buildVersion from manifest or moduleInfo and formats transitions', () => {
+  it('formats lifecycle events, escaping, AggregateError, Error stack/cause, and log level controls', () => {
     expect(
       extractTargetVersion({
         manifest: { metaData: { buildInfo: { buildVersion: 'v2' } } },
       }),
     ).toBe('v2');
-    expect(
-      extractTargetVersion({
-        moduleInfo: { buildVersion: 'v3' },
-      }),
-    ).toBe('v3');
-    expect(
-      formatRemoteTransitions([
-        { name: 'remote-a', fromVersion: 'v1', toVersion: 'v2' },
-        { name: 'remote-b', toVersion: 'v4' },
-        { name: 'remote-c', note: 'url-changed' },
-        { name: 'remote-d' },
-      ]),
-    ).toBe(
-      'remote-a (v1->v2), remote-b (v4), remote-c (url-changed), remote-d',
-    );
-  });
-
-  it('formats AggregateError messages cleanly', () => {
-    const err = new AggregateError(
-      [new Error('first failure'), new Error('second failure')],
-      'SSR update failed',
-    );
-    expect(formatErrorMessage(err)).toBe(
-      'SSR update failed: first failure; second failure',
-    );
-  });
-
-  it('emits structured [MF SSR] lines and preserves raw Error stack and cause in logMFSSRError', () => {
-    const infoSpy = rs.spyOn(logger, 'info').mockImplementation(() => {});
-    const errorSpy = rs.spyOn(logger, 'error').mockImplementation(() => {});
-
-    logMFSSR(
-      'info',
-      'Updating',
-      { mode: 'dev', trigger: 'hmr-check', app: 'host', op: '1:2' },
-      'remote-a (v1->v2)',
-      { mode: 'dev' },
+    expect(extractTargetVersion({ moduleInfo: { buildVersion: 'v3' } })).toBe(
+      'v3',
     );
 
-    const rootCause = new Error('root cause details');
-    const err = new Error('top level failure', { cause: rootCause });
-    logMFSSRError('Failed', { app: 'host', stage: 'rebuild', op: '1:2' }, err, {
-      mode: 'dev',
-    });
-
-    expect(infoSpy).toHaveBeenCalledWith(
-      '[MF SSR] Updating remote-a (v1->v2) mode=dev trigger=hmr-check app=host op=1:2',
-    );
-    expect(errorSpy).toHaveBeenCalledWith(
-      '[MF SSR] Failed app=host stage=rebuild op=1:2',
-      err,
-    );
-    const loggedError = errorSpy.mock.calls[0][1] as Error;
-    expect(loggedError.stack).toContain('top level failure');
-    expect(loggedError.cause).toBe(rootCause);
-  });
-
-  it('respects MODERN_SERVER_LOG_LEVEL in prod mode and supports custom or disabled logger', () => {
-    const infoSpy = rs.spyOn(logger, 'info').mockImplementation(() => {});
-    const warnSpy = rs.spyOn(logger, 'warn').mockImplementation(() => {});
-
-    process.env.MODERN_SERVER_LOG_LEVEL = 'warn';
-    logMFSSR('info', 'Updating', { mode: 'prod' }, 'a', { mode: 'prod' });
-    logMFSSR('warn', 'Fallback', { mode: 'prod' }, undefined, { mode: 'prod' });
-    logMFSSR('info', 'Updating', { mode: 'dev' }, 'a', { mode: 'dev' });
-
-    expect(infoSpy).toHaveBeenCalledTimes(1);
-    expect(infoSpy.mock.calls[0][0]).toContain('mode=dev');
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-
-    const customInfo = rs.fn();
-    delete process.env.MODERN_SERVER_LOG_LEVEL;
-    logMFSSR('info', 'Ready', { mode: 'prod' }, 'a', {
-      mode: 'prod',
-      logger: { info: customInfo },
-    });
-    logMFSSR('info', 'Ready', { mode: 'prod' }, 'a', {
-      mode: 'prod',
-      logger: false,
-    });
-    expect(customInfo).toHaveBeenCalledTimes(1);
-    expect(infoSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('splits modern-js:mf-ssr and modern-js:mf-ssr:verbose and avoids evaluating thunks when disabled', () => {
-    debug.disable();
-    expect(isMFSSRDebugEnabled()).toBe(false);
-    expect(isMFSSRVerboseDebugEnabled()).toBe(false);
-
-    const emitted: string[] = [];
-    const originalLog = debug.log;
-    debug.log = (...args: any[]) => {
-      emitted.push(String(args[0]));
-    };
-    try {
-      const lazyMain = rs.fn(() => ({ key: 'main' }));
-      const lazyVerbose = rs.fn(() => ({ key: 'verbose' }));
-      debugMFSSR('manifest-ready', lazyMain);
-      debugMFSSRVerbose('check-noop', lazyVerbose);
-      expect(lazyMain).not.toHaveBeenCalled();
-      expect(lazyVerbose).not.toHaveBeenCalled();
-      expect(emitted).toHaveLength(0);
-
-      debug.enable('modern-js:mf-ssr');
-      expect(mfSSRDebug.enabled).toBe(true);
-      expect(mfSSRVerboseDebug.enabled).toBe(false);
-      debugMFSSR('manifest-ready', lazyMain);
-      debugMFSSRVerbose('check-noop', lazyVerbose);
-      expect(lazyMain).toHaveBeenCalledTimes(1);
-      expect(lazyVerbose).not.toHaveBeenCalled();
-      expect(emitted).toHaveLength(1);
-      expect(emitted[0]).toContain('manifest-ready key=main');
-
-      debug.enable('modern-js:mf-ssr:verbose');
-      debugMFSSRVerbose('check-noop', lazyVerbose);
-      expect(lazyVerbose).toHaveBeenCalledTimes(1);
-      expect(emitted).toHaveLength(2);
-      expect(emitted[1]).toContain('check-noop key=verbose');
-    } finally {
-      debug.log = originalLog;
-    }
-  });
-
-  it('encapsulates update lifecycle events, error preservation, and log level controls in createMFSSRLogger', () => {
     const infoSpy = rs.spyOn(logger, 'info').mockImplementation(() => {});
     const warnSpy = rs.spyOn(logger, 'warn').mockImplementation(() => {});
     const errorSpy = rs.spyOn(logger, 'error').mockImplementation(() => {});
-
     const emittedDebug: string[] = [];
     const originalLog = debug.log;
     debug.log = (...args: any[]) => {
@@ -210,20 +47,26 @@ describe('ssrLogger', () => {
       ssrLog.updateStart({
         trigger: 'hmr-check',
         operationId: '1:1',
-        remotes: [{ name: 'remote-a', fromVersion: 'v1', toVersion: 'v2' }],
+        remotes: [
+          { name: 'remote-a', fromVersion: 'v1', toVersion: 'v2' },
+          { name: 'remote-b', note: 'url-changed' },
+        ],
       });
       ssrLog.updateReady({
         remotes: ['remote-a'],
         planMode: 'entries',
-        entries: ['main'],
+        entries: ['main', 'weather'],
         generation: 2,
-        timingsMs: { check: 4.2, drain: 12.6, total: 17.3 },
+        timingsMs: { queue: 0.2, check: 4.2, drain: 12.6, total: 17.3 },
         operationId: '1:1',
       });
       ssrLog.updateFallback({
         remotes: ['remote-a'],
-        error: new Error('partial failed'),
-        operationId: '1:1',
+        error: new AggregateError(
+          [new Error('C:\\app\\chunk.js'), new Error('quote "err"\nline2')],
+          'partial failed',
+        ),
+        operationId: '   ',
       });
       const cause = new Error('root cause');
       const err = new Error('load failed', { cause });
@@ -245,13 +88,13 @@ describe('ssrLogger', () => {
       });
 
       expect(infoSpy.mock.calls[0][0]).toBe(
-        '[MF SSR] Updating remote-a (v1->v2) app=host mode=dev trigger=hmr-check op=1:1',
+        '[MF SSR] Updating remote-a (v1->v2), remote-b (url-changed) app=host mode=dev trigger=hmr-check op=1:1',
       );
       expect(infoSpy.mock.calls[1][0]).toBe(
-        '[MF SSR] Ready remote-a app=host mode=dev scope=partial entries=main gen=2 durationMs=17 timings=check:4,drain:13 op=1:1',
+        '[MF SSR] Ready remote-a app=host mode=dev scope=partial entries=main,weather gen=2 durationMs=17 timings=check:4,drain:13 op=1:1',
       );
       expect(warnSpy.mock.calls[0][0]).toBe(
-        '[MF SSR] Fallback app=host scope=partial->full remotes=remote-a reason="partial failed" op=1:1',
+        '[MF SSR] Fallback app=host scope=partial->full remotes=remote-a reason="partial failed: C:\\\\app\\\\chunk.js; quote \\"err\\" line2"',
       );
       expect(errorSpy.mock.calls[0][0]).toBe(
         '[MF SSR] Failed app=host remotes=remote-a mode=dev stage=rebuild mutationStarted=true phase=unavailable durationMs=42 op=1:1',
@@ -287,12 +130,11 @@ describe('ssrLogger', () => {
       // Custom logger & logger: false
       delete process.env.MODERN_SERVER_LOG_LEVEL;
       const customInfo = rs.fn();
-      const customLog = createMFSSRLogger({
+      createMFSSRLogger({
         app: 'svc',
         mode: 'prod',
         logger: { info: customInfo },
-      });
-      customLog.updateReady({
+      }).updateReady({
         remotes: ['remote-a'],
         planMode: 'snapshot',
         operationId: 'c:1',
@@ -300,13 +142,48 @@ describe('ssrLogger', () => {
       expect(customInfo).toHaveBeenCalledTimes(1);
       expect(customInfo.mock.calls[0][0]).toContain('app=svc');
 
-      const mutedLog = createMFSSRLogger({
+      createMFSSRLogger({
         app: 'svc',
         mode: 'prod',
         logger: false,
-      });
-      mutedLog.updateFailed({ stage: 'check', error: err });
+      }).updateFailed({ stage: 'check', error: err });
       expect(errorSpy).toHaveBeenCalledTimes(1);
+    } finally {
+      debug.log = originalLog;
+    }
+  });
+
+  it('splits modern-js:mf-ssr and modern-js:mf-ssr:verbose and avoids evaluating thunks when disabled', () => {
+    expect(isMFSSRDebugEnabled()).toBe(false);
+    expect(isMFSSRVerboseDebugEnabled()).toBe(false);
+
+    const emitted: string[] = [];
+    const originalLog = debug.log;
+    debug.log = (...args: any[]) => {
+      emitted.push(String(args[0]));
+    };
+    try {
+      const lazyMain = rs.fn(() => ({ key: 'main', ratio: 1.5, blank: '  ' }));
+      const lazyVerbose = rs.fn(() => ({ key: 'verbose' }));
+      debugMFSSR('manifest-ready', lazyMain);
+      debugMFSSRVerbose('check-noop', lazyVerbose);
+      expect(lazyMain).not.toHaveBeenCalled();
+      expect(lazyVerbose).not.toHaveBeenCalled();
+
+      debug.enable('modern-js:mf-ssr');
+      expect(mfSSRDebug.enabled).toBe(true);
+      expect(mfSSRVerboseDebug.enabled).toBe(false);
+      debugMFSSR('manifest-ready', lazyMain);
+      debugMFSSRVerbose('check-noop', lazyVerbose);
+      expect(lazyMain).toHaveBeenCalledTimes(1);
+      expect(lazyVerbose).not.toHaveBeenCalled();
+      expect(emitted[0]).toContain('manifest-ready key=main ratio=1.5');
+      expect(emitted[0]).not.toContain('blank=');
+
+      debug.enable('modern-js:mf-ssr:verbose');
+      debugMFSSRVerbose('check-noop', lazyVerbose);
+      expect(lazyVerbose).toHaveBeenCalledTimes(1);
+      expect(emitted[1]).toContain('check-noop key=verbose');
     } finally {
       debug.log = originalLog;
     }
@@ -366,28 +243,19 @@ describe('ssrLogger', () => {
       expect(warnSpy).toHaveBeenCalledTimes(2);
 
       // Burst followed by dispose() flushes suppressed summary immediately
-      ssrLog.coordinatorEvent({
-        type: 'admission',
-        decision: 'reject',
-        reason: 'queue-full',
-        phase: 'draining',
-        generation: 11,
-        entryName: 'main',
-        waitedMs: 5,
-        activeRequests: 1,
-        pendingRequests: 100,
-      });
-      ssrLog.coordinatorEvent({
-        type: 'admission',
-        decision: 'reject',
-        reason: 'queue-full',
-        phase: 'draining',
-        generation: 12,
-        entryName: 'main',
-        waitedMs: 6,
-        activeRequests: 1,
-        pendingRequests: 100,
-      });
+      for (const generation of [11, 12]) {
+        ssrLog.coordinatorEvent({
+          type: 'admission',
+          decision: 'reject',
+          reason: 'queue-full',
+          phase: 'draining',
+          generation,
+          entryName: 'main',
+          waitedMs: 5,
+          activeRequests: 1,
+          pendingRequests: 100,
+        });
+      }
       ssrLog.dispose();
       expect(warnSpy).toHaveBeenCalledTimes(4);
       expect(warnSpy.mock.calls[3][0]).toContain('suppressed=1');
@@ -410,36 +278,23 @@ describe('ssrLogger', () => {
       ).toBe(true);
 
       // manifest503: wait-timeout throttles within 5s and resets on clearManifest503()
-      ssrLog.manifest503({
+      const timeout503 = {
         path: '/mf-manifest.json',
-        reason: 'wait-timeout',
+        reason: 'wait-timeout' as const,
         waitedMs: 5000,
         buildReady: false,
         ssrReady: false,
         waitHeader: true,
-      });
-      ssrLog.manifest503({
-        path: '/mf-manifest.json',
-        reason: 'wait-timeout',
-        waitedMs: 5000,
-        buildReady: false,
-        ssrReady: false,
-        waitHeader: true,
-      });
+      };
+      ssrLog.manifest503(timeout503);
+      ssrLog.manifest503(timeout503);
       expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy.mock.calls[0][0]).toContain(
         '[MF SSR] Manifest 503 app=host path=/mf-manifest.json reason=wait-timeout',
       );
 
       ssrLog.clearManifest503();
-      ssrLog.manifest503({
-        path: '/mf-manifest.json',
-        reason: 'wait-timeout',
-        waitedMs: 5000,
-        buildReady: false,
-        ssrReady: false,
-        waitHeader: true,
-      });
+      ssrLog.manifest503(timeout503);
       expect(warnSpy).toHaveBeenCalledTimes(2);
       expect(warnSpy.mock.calls[1][0]).not.toContain('suppressed=');
     } finally {

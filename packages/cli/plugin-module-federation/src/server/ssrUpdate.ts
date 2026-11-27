@@ -133,6 +133,27 @@ export function createSSRUpdateAdapter(options: {
     mode: logMode,
     logger: options.logger,
   });
+  const describeRemoteTransition = (
+    name: string,
+    previous:
+      { entry?: string; manifest?: unknown; moduleInfo?: unknown } | undefined,
+    next: {
+      entry: string;
+      manifest?: unknown;
+      moduleInfo?: unknown;
+      dependencies?: unknown[];
+    },
+  ) => {
+    const fromVersion = extractTargetVersion(previous);
+    const toVersion = extractTargetVersion(next);
+    const note =
+      !toVersion && previous?.entry && previous.entry !== next.entry
+        ? 'url-changed'
+        : !toVersion && next.dependencies?.length
+          ? 'deps-changed'
+          : undefined;
+    return { name, fromVersion, toVersion, note };
+  };
   const owner =
     options.owner || createSSRUpdateOwner(options.name, options.entries);
   for (const entry of options.entries) {
@@ -891,18 +912,11 @@ export function createSSRUpdateAdapter(options: {
         operationId: state.operationId,
         remotes: captured.map(({ name, replacement }) => {
           const canonical = canonicalName(name);
-          const appliedTarget = controller.getApplied(application, canonical);
-          const fromVersion = extractTargetVersion(appliedTarget);
-          const toVersion = extractTargetVersion(replacement);
-          const note =
-            !toVersion &&
-            appliedTarget &&
-            appliedTarget.entry !== replacement.entry
-              ? 'url-changed'
-              : !toVersion && replacement.dependencies?.length
-                ? 'deps-changed'
-                : undefined;
-          return { name: canonical, fromVersion, toVersion, note };
+          return describeRemoteTransition(
+            canonical,
+            controller.getApplied(application, canonical),
+            replacement,
+          );
         }),
       });
       return performUpdate(
@@ -1076,23 +1090,13 @@ export function createSSRUpdateAdapter(options: {
       ssrLog.updateStart({
         trigger: meta.trigger,
         operationId: meta.operationId,
-        remotes: targets.map(target => {
-          const previous = meta.previousTargets.get(target.name);
-          const fromVersion = extractTargetVersion(previous);
-          const toVersion = extractTargetVersion(target);
-          const note =
-            !toVersion && previous && previous.entry !== target.entry
-              ? 'url-changed'
-              : !toVersion && target.dependencies?.length
-                ? 'deps-changed'
-                : undefined;
-          return {
-            name: target.name,
-            fromVersion,
-            toVersion,
-            note,
-          };
-        }),
+        remotes: targets.map(target =>
+          describeRemoteTransition(
+            target.name,
+            meta.previousTargets.get(target.name),
+            target,
+          ),
+        ),
       });
       // Native graph keys are declared aliases; preserve them for scope planning.
       const changes = targets.map(({ name, ...replacement }) => {
@@ -1258,54 +1262,204 @@ export function createSSRUpdateAdapter(options: {
         const snapshotCopy = structuredClone(remotes);
         const revision = input?.revision ?? ++globalSequence;
         const operationId = `global:${revision}:${++globalSequence}`;
-        const executeGlobal = async () => {
-          const started = performance.now();
-          const timingsMs: Record<string, number> = {};
-          let currentStage = 'check';
-          let stageStarted = started;
-          let mutationStarted = false;
-          const onStage = (nextStage: string) => {
-            const now = performance.now();
-            timingsMs[currentStage] =
-              (timingsMs[currentStage] || 0) + now - stageStarted;
-            stageStarted = now;
-            currentStage = nextStage;
-          };
-          let activeRemoteNames: string[] = [];
-          try {
-            input?.signal?.throwIfAborted();
-            const { diff, hosts, extraRemotes } = computeGlobalDiff(
-              application,
-              snapshotCopy,
-            );
-            const recovering = application.status?.phase === 'unavailable';
+        let started = 0;
+        const timingsMs: Record<string, number> = {};
+        let currentStage = 'check';
+        let stageStarted = 0;
+        let mutationStarted = false;
+        let activeRemoteNames: string[] = [];
+        const onStage = (nextStage: string) => {
+          const now = performance.now();
+          timingsMs[currentStage] =
+            (timingsMs[currentStage] || 0) + now - stageStarted;
+          stageStarted = now;
+          currentStage = nextStage;
+        };
+        const runGlobal = async () => {
+          started = performance.now();
+          stageStarted = started;
+          input?.signal?.throwIfAborted();
+          const { diff, hosts, extraRemotes } = computeGlobalDiff(
+            application,
+            snapshotCopy,
+          );
+          const recovering = application.status?.phase === 'unavailable';
 
-            if (diff.unloadedRemotes.length > 0) {
+          if (diff.unloadedRemotes.length > 0) {
+            applyNodeGlobalModuleInfo(snapshotCopy, {
+              instances: hosts,
+              remotes: extraRemotes,
+              host: { name: options.name },
+              remoteNames: diff.unloadedRemotes.map(item => item.name),
+            });
+            setSSRUpdateCandidates(
+              owner.id,
+              diff.unloadedRemotes.map(item => ({
+                name: item.name,
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+              })),
+            );
+            const unloadedTargets = diff.unloadedRemotes.map(item => {
+              const hasClient =
+                Boolean(item.clientEntry) &&
+                (Boolean(options.hydration) ||
+                  canonicalClientTargets().has(item.name));
+              if (hasClient && item.clientEntry) {
+                hydrationEnabled = true;
+                clientTargets.set(
+                  item.name,
+                  clientRemote({
+                    name: item.name,
+                    entry: item.clientEntry,
+                  }),
+                );
+              }
+              return {
+                name: item.name,
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+                ...(hasClient && item.clientEntry
+                  ? { client: { entry: item.clientEntry } }
+                  : {}),
+              };
+            });
+            controller.recordApplied(application, unloadedTargets);
+          }
+
+          let activeLoaded = diff.loadedRemotes;
+          if (!activeLoaded.length && recovering) {
+            const allRegistered = collectExtraRemotes();
+            for (const host of hosts) {
+              for (const reg of host.options?.remotes || []) {
+                if (!allRegistered.some(r => r.name === reg.name))
+                  allRegistered.push({
+                    name: reg.name,
+                    alias: reg.alias,
+                    entry: 'entry' in reg ? reg.entry : undefined,
+                  });
+              }
+            }
+            activeLoaded = allRegistered.flatMap(reg => {
+              const found = lookupProviderInGlobalModuleInfo(
+                snapshotCopy,
+                reg,
+                { name: options.name },
+              );
+              if (!found) return [];
+              return [
+                {
+                  name: reg.name,
+                  alias: reg.alias,
+                  entry: reg.entry || found.moduleInfo.remoteEntry,
+                  key: found.key,
+                  matchedVersion: found.matchedVersion,
+                  moduleInfo: found.moduleInfo,
+                  loaded: true,
+                },
+              ];
+            });
+          }
+
+          if (!activeLoaded.length && !recovering) {
+            if (diff.hasSnapshotDiff) {
               applyNodeGlobalModuleInfo(snapshotCopy, {
                 instances: hosts,
                 remotes: extraRemotes,
                 host: { name: options.name },
-                remoteNames: diff.unloadedRemotes.map(item => item.name),
               });
-              setSSRUpdateCandidates(
-                owner.id,
-                diff.unloadedRemotes.map(item => ({
-                  name: item.name,
-                  entry: item.entry,
-                  ...(item.type ? { type: item.type } : {}),
-                  ...(item.entryGlobalName
-                    ? { entryGlobalName: item.entryGlobalName }
-                    : {}),
+            }
+            onStage('applied');
+            timingsMs.total = performance.now() - started;
+            if (diff.changed) {
+              ssrLog.updateReady({
+                mode: 'global',
+                remotes: diff.unloadedRemotes.map(item => item.name),
+                planMode: 'snapshot',
+                timingsMs,
+                operationId,
+              });
+            }
+            return {
+              changed: diff.changed,
+              ...(diff.changed ? { mode: 'snapshot' as const } : {}),
+              entries: [],
+              reasons: [],
+              revision,
+              appliedRevision: revision,
+              operationId,
+              timingsMs,
+            };
+          }
+
+          activeRemoteNames = activeLoaded.map(item => item.name);
+          ssrLog.updateStart({
+            mode: 'global',
+            trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
+            operationId,
+            remotes: activeLoaded.map(item => {
+              const previous = controller.getApplied(application, item.name);
+              return {
+                name: item.name,
+                fromVersion: extractTargetVersion(previous),
+                toVersion: extractTargetVersion({
                   moduleInfo: item.moduleInfo,
-                })),
-              );
-              const unloadedTargets = diff.unloadedRemotes.map(item => {
-                const hasClient =
-                  Boolean(item.clientEntry) &&
-                  (Boolean(options.hydration) ||
-                    canonicalClientTargets().has(item.name));
-                if (hasClient && item.clientEntry) {
-                  hydrationEnabled = true;
+                }),
+              };
+            }),
+          });
+
+          const changes: Change[] = activeLoaded.map(item => {
+            const hasClient =
+              Boolean(item.clientEntry) &&
+              (Boolean(options.hydration) ||
+                canonicalClientTargets().has(item.name));
+            return {
+              name: item.alias || item.name,
+              replacement: {
+                entry: item.entry,
+                ...(item.type ? { type: item.type } : {}),
+                ...(item.entryGlobalName
+                  ? { entryGlobalName: item.entryGlobalName }
+                  : {}),
+                moduleInfo: item.moduleInfo,
+                ...(hasClient && item.clientEntry
+                  ? { client: { entry: item.clientEntry } }
+                  : {}),
+              },
+            };
+          });
+
+          const result = await performUpdate(
+            application,
+            changes,
+            () => {
+              mutationStarted = true;
+              applyNodeGlobalModuleInfo(snapshotCopy, {
+                instances: instances(),
+                remotes: collectExtraRemotes(),
+                host: { name: options.name },
+              });
+              if (
+                options.hydration ||
+                changes.some(c => Boolean(c.replacement.client))
+              ) {
+                hydrationEnabled = true;
+                for (const item of activeLoaded) {
+                  if (!item.clientEntry) continue;
+                  if (
+                    !options.hydration &&
+                    !canonicalClientTargets().has(item.name)
+                  )
+                    continue;
                   clientTargets.set(
                     item.name,
                     clientRemote({
@@ -1314,198 +1468,51 @@ export function createSSRUpdateAdapter(options: {
                     }),
                   );
                 }
-                return {
-                  name: item.name,
-                  entry: item.entry,
-                  ...(item.type ? { type: item.type } : {}),
-                  ...(item.entryGlobalName
-                    ? { entryGlobalName: item.entryGlobalName }
-                    : {}),
-                  moduleInfo: item.moduleInfo,
-                  ...(hasClient && item.clientEntry
-                    ? { client: { entry: item.clientEntry } }
-                    : {}),
-                };
-              });
-              controller.recordApplied(application, unloadedTargets);
-            }
-
-            let activeLoaded = diff.loadedRemotes;
-            if (!activeLoaded.length && recovering) {
-              const allRegistered = collectExtraRemotes();
-              for (const host of hosts) {
-                for (const reg of host.options?.remotes || []) {
-                  if (!allRegistered.some(r => r.name === reg.name))
-                    allRegistered.push({
-                      name: reg.name,
-                      alias: reg.alias,
-                      entry: 'entry' in reg ? reg.entry : undefined,
-                    });
-                }
+                targetRevision++;
               }
-              activeLoaded = allRegistered.flatMap(reg => {
-                const found = lookupProviderInGlobalModuleInfo(
-                  snapshotCopy,
-                  reg,
-                  { name: options.name },
-                );
-                if (!found) return [];
-                return [
-                  {
-                    name: reg.name,
-                    alias: reg.alias,
-                    entry: reg.entry || found.moduleInfo.remoteEntry,
-                    key: found.key,
-                    matchedVersion: found.matchedVersion,
-                    moduleInfo: found.moduleInfo,
-                    loaded: true,
-                  },
-                ];
-              });
-            }
-
-            if (!activeLoaded.length && !recovering) {
-              if (diff.hasSnapshotDiff) {
-                applyNodeGlobalModuleInfo(snapshotCopy, {
-                  instances: hosts,
-                  remotes: extraRemotes,
-                  host: { name: options.name },
-                });
-              }
-              onStage('applied');
-              timingsMs.total = performance.now() - started;
-              if (diff.changed) {
-                ssrLog.updateReady({
-                  mode: 'global',
-                  remotes: diff.unloadedRemotes.map(item => item.name),
-                  planMode: 'snapshot',
-                  timingsMs,
-                  operationId,
-                });
-              }
-              return {
-                changed: diff.changed,
-                ...(diff.changed ? { mode: 'snapshot' as const } : {}),
-                entries: [],
-                reasons: [],
-                revision,
-                appliedRevision: revision,
-                operationId,
-                timingsMs,
-              };
-            }
-
-            activeRemoteNames = activeLoaded.map(item => item.name);
-            ssrLog.updateStart({
-              mode: 'global',
-              trigger: input?.trigger || (input?.defer ? 'api-defer' : 'api'),
-              operationId,
-              remotes: activeLoaded.map(item => {
-                const previous = controller.getApplied(application, item.name);
-                return {
-                  name: item.name,
-                  fromVersion: extractTargetVersion(previous),
-                  toVersion: extractTargetVersion({
-                    moduleInfo: item.moduleInfo,
-                  }),
-                };
-              }),
-            });
-
-            const changes: Change[] = activeLoaded.map(item => {
-              const hasClient =
-                Boolean(item.clientEntry) &&
-                (Boolean(options.hydration) ||
-                  canonicalClientTargets().has(item.name));
-              return {
-                name: item.alias || item.name,
-                replacement: {
-                  entry: item.entry,
-                  ...(item.type ? { type: item.type } : {}),
-                  ...(item.entryGlobalName
-                    ? { entryGlobalName: item.entryGlobalName }
-                    : {}),
-                  moduleInfo: item.moduleInfo,
-                  ...(hasClient && item.clientEntry
-                    ? { client: { entry: item.clientEntry } }
-                    : {}),
-                },
-              };
-            });
-
-            const result = await performUpdate(
-              application,
-              changes,
-              () => {
-                mutationStarted = true;
-                applyNodeGlobalModuleInfo(snapshotCopy, {
-                  instances: instances(),
-                  remotes: collectExtraRemotes(),
-                  host: { name: options.name },
-                });
-                if (
-                  options.hydration ||
-                  changes.some(c => Boolean(c.replacement.client))
-                ) {
-                  hydrationEnabled = true;
-                  for (const item of activeLoaded) {
-                    if (!item.clientEntry) continue;
-                    if (
-                      !options.hydration &&
-                      !canonicalClientTargets().has(item.name)
-                    )
-                      continue;
-                    clientTargets.set(
-                      item.name,
-                      clientRemote({
-                        name: item.name,
-                        entry: item.clientEntry,
-                      }),
-                    );
-                  }
-                  targetRevision++;
-                }
-              },
-              onStage,
-              operationId,
-            );
-            controller.recordApplied(
-              application,
-              activeLoaded.map(item => ({
-                name: item.name,
-                entry: item.entry,
-                ...(item.type ? { type: item.type } : {}),
-                ...(item.entryGlobalName
-                  ? { entryGlobalName: item.entryGlobalName }
-                  : {}),
-                moduleInfo: item.moduleInfo,
-                ...(item.clientEntry &&
-                (options.hydration || canonicalClientTargets().has(item.name))
-                  ? { client: { entry: item.clientEntry } }
-                  : {}),
-              })),
-            );
-            onStage('applied');
-            timingsMs.total = performance.now() - started;
-            ssrLog.updateReady({
-              mode: 'global',
-              remotes: activeRemoteNames,
-              planMode: result.mode,
-              entries: result.entries,
-              reasons: result.reasons,
-              generation: result.generation,
-              timingsMs,
-              operationId,
-            });
-            return {
-              ...result,
-              changed: true,
-              revision,
-              appliedRevision: revision,
-              operationId,
-              timingsMs,
-            };
-          } catch (error) {
+            },
+            onStage,
+            operationId,
+          );
+          controller.recordApplied(
+            application,
+            activeLoaded.map(item => ({
+              name: item.name,
+              entry: item.entry,
+              ...(item.type ? { type: item.type } : {}),
+              ...(item.entryGlobalName
+                ? { entryGlobalName: item.entryGlobalName }
+                : {}),
+              moduleInfo: item.moduleInfo,
+              ...(item.clientEntry &&
+              (options.hydration || canonicalClientTargets().has(item.name))
+                ? { client: { entry: item.clientEntry } }
+                : {}),
+            })),
+          );
+          onStage('applied');
+          timingsMs.total = performance.now() - started;
+          ssrLog.updateReady({
+            mode: 'global',
+            remotes: activeRemoteNames,
+            planMode: result.mode,
+            entries: result.entries,
+            reasons: result.reasons,
+            generation: result.generation,
+            timingsMs,
+            operationId,
+          });
+          return {
+            ...result,
+            changed: true,
+            revision,
+            appliedRevision: revision,
+            operationId,
+            timingsMs,
+          };
+        };
+        const executeGlobal = () =>
+          runGlobal().catch(error => {
             const failedStage = currentStage;
             onStage('failed');
             timingsMs.total = performance.now() - started;
@@ -1528,8 +1535,7 @@ export function createSSRUpdateAdapter(options: {
               });
             }
             throw error;
-          }
-        };
+          });
 
         const runPromise = controller.runExternal(
           application,

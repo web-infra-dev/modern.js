@@ -1,7 +1,7 @@
 import type { SSRCoordinatorEvent } from '@modern-js/server-core/node';
 import { createDebugger, logger as defaultLogger } from '@modern-js/utils';
 
-export type MFSSRLogLevel = 'info' | 'warn' | 'error';
+type MFSSRLogLevel = 'info' | 'warn' | 'error';
 
 export interface MFSSRLogger {
   info?(...args: unknown[]): void;
@@ -9,7 +9,7 @@ export interface MFSSRLogger {
   error?(...args: unknown[]): void;
 }
 
-export interface MFSSRLogOptions {
+interface MFSSRLogOptions {
   mode?: 'dev' | 'prod' | 'global';
   logger?: MFSSRLogger | false;
 }
@@ -90,7 +90,7 @@ function formatFieldValue(value: unknown): string | undefined {
   return sanitizeString(String(value));
 }
 
-export function formatLogFields(fields?: Record<string, unknown>): string {
+function formatLogFields(fields?: Record<string, unknown>): string {
   if (!fields) return '';
   const parts: string[] = [];
   for (const [key, raw] of Object.entries(fields)) {
@@ -102,9 +102,7 @@ export function formatLogFields(fields?: Record<string, unknown>): string {
   return parts.join(' ');
 }
 
-export function formatTimings(
-  timingsMs?: Record<string, number>,
-): string | undefined {
+function formatTimings(timingsMs?: Record<string, number>): string | undefined {
   if (!timingsMs) return undefined;
   const parts: string[] = [];
   for (const [stage, value] of Object.entries(timingsMs)) {
@@ -129,7 +127,7 @@ export function extractTargetVersion(target?: {
   return undefined;
 }
 
-export function formatRemoteTransitions(
+function formatRemoteTransitions(
   remotes: Array<{
     name: string;
     fromVersion?: string;
@@ -149,7 +147,7 @@ export function formatRemoteTransitions(
     .join(', ');
 }
 
-export function formatErrorMessage(error: unknown): string {
+function formatErrorMessage(error: unknown): string {
   if (error instanceof AggregateError && error.errors?.length) {
     const inner = error.errors
       .map(item => (item instanceof Error ? item.message : String(item)))
@@ -161,7 +159,7 @@ export function formatErrorMessage(error: unknown): string {
   return String(error);
 }
 
-export function logMFSSR(
+function logMFSSR(
   level: MFSSRLogLevel,
   event: string,
   fields?: Record<string, unknown>,
@@ -177,7 +175,7 @@ export function logMFSSR(
   target[level]!(line);
 }
 
-export function logMFSSRError(
+function logMFSSRError(
   event: string,
   fields: Record<string, unknown> | undefined,
   error: unknown,
@@ -255,7 +253,6 @@ export interface MFSSRScopedLogger {
   coordinatorEvent(event: SSRCoordinatorEvent): void;
   manifest503(info: MFSSRManifest503Info): void;
   clearManifest503(): void;
-  flush(): void;
   dispose(): void;
 }
 
@@ -541,9 +538,6 @@ export function createMFSSRLogger(
     },
     clearManifest503() {
       manifest503Throttle?.clear();
-    },
-    flush() {
-      admissionThrottle?.flush();
     },
     dispose() {
       admissionThrottle?.flush();

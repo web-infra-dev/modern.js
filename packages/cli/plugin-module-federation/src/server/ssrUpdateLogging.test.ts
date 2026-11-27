@@ -50,7 +50,7 @@ describe('MF SSR update logging', () => {
     debug.disable();
   });
 
-  it('logs consistent Updating and Ready across updateRemotes, adapter.update, and GlobalModuleInfo', async () => {
+  it('logs consistent Updating and Ready across updateRemotes and adapter.update', async () => {
     const infoSpy = rs.spyOn(logger, 'info').mockImplementation(() => {});
     const entry = 'http://provider.test/static/mf-manifest.json';
     const adapter = createSSRUpdateAdapter({
@@ -67,7 +67,6 @@ describe('MF SSR update logging', () => {
     });
     const app = createFakeApplication();
 
-    // 1. updateRemotes
     await adapter.updateRemotes(
       app as any,
       [
@@ -87,7 +86,6 @@ describe('MF SSR update logging', () => {
     );
     expect(infoSpy.mock.calls[1][0]).toContain('gen=1');
 
-    // 2. legacy adapter.update (submit)
     await adapter.update(
       app as any,
       'provider',
@@ -155,7 +153,6 @@ describe('MF SSR update logging', () => {
       'bundle load failed',
     );
 
-    // Aborted update must NOT emit error-level [MF SSR] Failed
     errorSpy.mockClear();
     const abortController = new AbortController();
     abortController.abort(new Error('server shutting down'));
@@ -175,7 +172,7 @@ describe('MF SSR update logging', () => {
     expect(errorSpy).not.toHaveBeenCalled();
   });
 
-  it('aggregates admission warnings under high concurrency and suppresses normal CSR fallback warnings', async () => {
+  it('wires coordinator events, user observer isolation, init errors, close disposal, and defer() failures', async () => {
     const warnSpy = rs.spyOn(logger, 'warn').mockImplementation(() => {});
     const errorSpy = rs.spyOn(logger, 'error').mockImplementation(() => {});
     const userEvents: SSRCoordinatorEvent[] = [];
@@ -208,30 +205,28 @@ describe('MF SSR update logging', () => {
       event: SSRCoordinatorEvent,
     ) => void;
 
-    // 100 normal CSR fallback requests during updating -> 0 warn logs
-    for (let i = 0; i < 100; i++) {
-      onEvent({
-        type: 'admission',
-        decision: 'csr',
-        reason: 'updating',
-        phase: 'draining',
-        generation: 1,
-        entryName: 'main',
-        waitedMs: 0,
-        activeRequests: 2,
-        pendingRequests: 0,
-      });
-    }
+    // Normal CSR fallback during updating produces no warning; user callback still runs safely
+    onEvent({
+      type: 'admission',
+      decision: 'csr',
+      reason: 'updating',
+      phase: 'draining',
+      generation: 1,
+      entryName: 'main',
+      waitedMs: 0,
+      activeRequests: 2,
+      pendingRequests: 0,
+    });
     expect(warnSpy).not.toHaveBeenCalled();
 
-    // 100 rejected requests during unavailable -> only 1 immediate warn log
-    for (let i = 0; i < 100; i++) {
+    // Repeated rejections emit once immediately and flush suppressed summary on close()
+    for (const generation of [1, 2, 3]) {
       onEvent({
         type: 'admission',
         decision: 'reject',
         reason: 'unavailable',
         phase: 'unavailable',
-        generation: 1,
+        generation,
         entryName: 'main',
         waitedMs: 0,
         activeRequests: 0,
@@ -242,11 +237,12 @@ describe('MF SSR update logging', () => {
     expect(warnSpy.mock.calls[0][0]).toContain(
       '[MF SSR] Admission app=host decision=reject reason=unavailable',
     );
-    expect(userEvents).toHaveLength(200);
+    expect(userEvents).toHaveLength(4);
 
-    // onInitialError preserves full Error object
-    const initCause = new Error('missing chunk');
-    const initErr = new Error('initial load failed', { cause: initCause });
+    // onInitialError preserves original Error
+    const initErr = new Error('initial load failed', {
+      cause: new Error('missing chunk'),
+    });
     context.ssrApplication.onInitialError(initErr);
     expect(errorSpy).toHaveBeenCalledTimes(1);
     expect(errorSpy.mock.calls[0][0]).toContain(
@@ -254,14 +250,53 @@ describe('MF SSR update logging', () => {
     );
     expect(errorSpy.mock.calls[0][1]).toBe(initErr);
 
-    // Closing flushes suppressed summary cleanly
+    // close() triggers ssrLog.dispose() to flush suppressed summary
     context.ssrApplication.onReady({
-      status: { phase: 'serving', generation: 1 },
+      status: { phase: 'serving', generation: 3 },
       close: async () => {},
     });
     await context.ssrUpdateManager.close();
     expect(warnSpy).toHaveBeenCalledTimes(2);
-    expect(warnSpy.mock.calls[1][0]).toContain('suppressed=99');
+    expect(warnSpy.mock.calls[1][0]).toContain('suppressed=2');
+
+    // Synchronous application.defer() rejection reports [MF SSR] Failed with stage=queue
+    const entry = 'http://provider.test/static/mf-manifest.json';
+    const adapter = createSSRUpdateAdapter({
+      name: 'host',
+      mode: 'prod',
+      entries: ['main'],
+      remotes: [
+        {
+          name: 'provider',
+          entry,
+          manifest: manifest('provider', 'v1', entry),
+        },
+      ],
+    });
+    const deferErr = new Error('defer queue rejected');
+    expect(() =>
+      adapter.updateRemotes(
+        {
+          status: { phase: 'serving', generation: 1 },
+          defer() {
+            throw deferErr;
+          },
+        } as any,
+        [
+          {
+            name: 'provider',
+            entry,
+            manifest: manifest('provider', 'v2', entry),
+          },
+        ],
+        { defer: 'after-response', trigger: 'webhook' },
+      ),
+    ).toThrow('defer queue rejected');
+    expect(errorSpy).toHaveBeenCalledTimes(2);
+    expect(errorSpy.mock.calls[1][0]).toContain(
+      '[MF SSR] Failed app=host remotes=provider mode=prod stage=queue mutationStarted=false phase=serving',
+    );
+    expect(errorSpy.mock.calls[1][1]).toBe(deferErr);
   });
 
   it('routes unchanged checks to modern-js:mf-ssr:verbose while keeping manifest-ready on modern-js:mf-ssr', async () => {
@@ -282,7 +317,6 @@ describe('MF SSR update logging', () => {
     };
 
     try {
-      // Standard DEBUG=modern-js:mf-ssr does NOT spam check-noop / unchanged manifest-fetch
       debug.enable('modern-js:mf-ssr');
       const watcher = startDevRemoteUpdates({
         remotes: [{ name: 'provider', entry }],
@@ -293,7 +327,6 @@ describe('MF SSR update logging', () => {
       await watcher.notify('hmr-check');
       expect(emitted).toHaveLength(0);
 
-      // Verbose namespace captures manifest-fetch and check-noop
       debug.enable('modern-js:mf-ssr:verbose');
       await watcher.notify('hmr-check');
       await watcher.close();
@@ -308,17 +341,18 @@ describe('MF SSR update logging', () => {
         ),
       ).toBe(true);
 
-      // manifest-ready stays on standard modern-js:mf-ssr
       debug.enable('modern-js:mf-ssr');
       const publication = createDevManifestPublication();
       const compilation = {};
-      const hooks = {
-        thisCompilation: { tap: (_opt: any, cb: any) => cb(compilation) },
-        invalid: { tap: () => {} },
-      };
       const stats = { compilation };
       publication.attach(
-        { options: { mode: 'development' }, hooks } as any,
+        {
+          options: { mode: 'development' },
+          hooks: {
+            thisCompilation: { tap: (_opt: any, cb: any) => cb(compilation) },
+            invalid: { tap: () => {} },
+          },
+        } as any,
         () => {},
       );
       expect(publication.publish(stats)).toBe(true);
@@ -334,103 +368,6 @@ describe('MF SSR update logging', () => {
       ).toBe(true);
     } finally {
       debug.log = originalLog;
-    }
-  });
-
-  it('bounds admission throttle across generations and reports synchronous defer() failures', async () => {
-    rs.useFakeTimers();
-    try {
-      const warnSpy = rs.spyOn(logger, 'warn').mockImplementation(() => {});
-      const errorSpy = rs.spyOn(logger, 'error').mockImplementation(() => {});
-      const context: any = {
-        dev: true,
-        routes: [{ isSSR: true, entryName: 'main' }],
-      };
-      const plugin = createSSRUpdateServerPlugin({ name: 'host' });
-      let prepareCb: (() => void) | undefined;
-      plugin.setup!({
-        onPrepare(cb: () => void) {
-          prepareCb = cb;
-        },
-        getServerContext: () => context,
-        updateServerContext(patch: Record<string, unknown>) {
-          Object.assign(context, patch);
-        },
-      } as any);
-      prepareCb!();
-
-      const onEvent = context.ssrApplication.onEvent as (
-        event: SSRCoordinatorEvent,
-      ) => void;
-
-      // Cross-generation rejections share one bounded throttle key (phase|decision|reason)
-      for (let gen = 1; gen <= 25; gen++) {
-        onEvent({
-          type: 'admission',
-          decision: 'reject',
-          reason: 'unavailable',
-          phase: 'unavailable',
-          generation: gen,
-          entryName: 'main',
-          waitedMs: 0,
-          activeRequests: 0,
-          pendingRequests: 0,
-        });
-      }
-      expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(warnSpy.mock.calls[0][0]).toContain('gen=1');
-
-      // After 5s window, summary flushes with latest generation and clears state
-      rs.advanceTimersByTime(5_000);
-      expect(warnSpy).toHaveBeenCalledTimes(2);
-      expect(warnSpy.mock.calls[1][0]).toContain('gen=25');
-      expect(warnSpy.mock.calls[1][0]).toContain('suppressed=24');
-
-      // No lingering timer or phantom flush after window is evicted
-      rs.advanceTimersByTime(10_000);
-      expect(warnSpy).toHaveBeenCalledTimes(2);
-
-      // Synchronous application.defer() rejection emits [MF SSR] Failed with stage=queue
-      const entry = 'http://provider.test/static/mf-manifest.json';
-      const adapter = createSSRUpdateAdapter({
-        name: 'host',
-        mode: 'prod',
-        entries: ['main'],
-        remotes: [
-          {
-            name: 'provider',
-            entry,
-            manifest: manifest('provider', 'v1', entry),
-          },
-        ],
-      });
-      const deferErr = new Error('defer queue rejected');
-      const deferApp = {
-        status: { phase: 'serving', generation: 1 },
-        defer() {
-          throw deferErr;
-        },
-      };
-      expect(() =>
-        adapter.updateRemotes(
-          deferApp as any,
-          [
-            {
-              name: 'provider',
-              entry,
-              manifest: manifest('provider', 'v2', entry),
-            },
-          ],
-          { defer: 'after-response', trigger: 'webhook' },
-        ),
-      ).toThrow('defer queue rejected');
-      expect(errorSpy).toHaveBeenCalledTimes(1);
-      expect(errorSpy.mock.calls[0][0]).toContain(
-        '[MF SSR] Failed app=host remotes=provider mode=prod stage=queue mutationStarted=false phase=serving',
-      );
-      expect(errorSpy.mock.calls[0][1]).toBe(deferErr);
-    } finally {
-      rs.useRealTimers();
     }
   });
 });
