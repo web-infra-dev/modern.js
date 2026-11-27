@@ -36,7 +36,7 @@ export function LabSidebar({ section }: { section: LabSection }) {
                 ? '/service/forecast/today?lab=service&tab=cache'
                 : '/service/forecast/today?lab=service&tab=load',
             ],
-            ['apps', 'App discovery', '/?lab=apps'],
+            ['apps', 'App discovery', '/?lab=apps&tab=preview'],
           ] as const
         ).map(([id, label, href]) => (
           <a
