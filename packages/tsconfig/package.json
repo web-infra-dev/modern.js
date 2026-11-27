@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/tsconfig",
-  "version": "3.12.0",
+  "version": "0.0.0-canary-20261127062647",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
