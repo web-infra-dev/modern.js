@@ -118,10 +118,20 @@ export function replaceFileContent(
   }
 }
 
+const LICENSE_CANDIDATES = ['license', 'license.md', 'license.txt'];
+
 export function copyLicense(source: string, destination: string) {
-  const license = ['LICENSE', 'LICENSE.md', 'LICENSE.txt'].find(file =>
-    fs.existsSync(join(source, file)),
-  );
+  if (!fs.existsSync(source)) {
+    return;
+  }
+  const entries = fs.readdirSync(source);
+  const license = LICENSE_CANDIDATES.map(candidate =>
+    entries.find(
+      entry =>
+        entry.toLowerCase() === candidate &&
+        fs.statSync(join(source, entry)).isFile(),
+    ),
+  ).find(Boolean);
   if (license) {
     fs.copySync(join(source, license), join(destination, 'license'));
   }

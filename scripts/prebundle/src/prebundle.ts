@@ -46,18 +46,8 @@ function fixTypeExternalPath(
   });
 }
 
-function emitDts(task: ParsedTask) {
+function emitDts(task: ParsedTask): string | undefined {
   if (!task.emitDts) {
-    return;
-  }
-
-  if (typeof task.emitDts === 'function') {
-    task.emitDts(task);
-    return;
-  }
-
-  if (task.ignoreDts) {
-    fs.writeFileSync(join(task.distPath, 'index.d.ts'), 'export = any;\n');
     return;
   }
 
@@ -65,6 +55,16 @@ function emitDts(task: ParsedTask) {
     ...DEFAULT_EXTERNALS,
     ...task.externals,
   };
+
+  if (typeof task.emitDts === 'function') {
+    return task.emitDts(task, externals) ?? undefined;
+  }
+
+  if (task.ignoreDts) {
+    fs.writeFileSync(join(task.distPath, 'index.d.ts'), 'export = any;\n');
+    return;
+  }
+
   const { files } = new DtsPacker({
     cwd: process.cwd(),
     name: task.depName,
@@ -77,7 +77,7 @@ function emitDts(task: ParsedTask) {
   });
 }
 
-function emitPackageJson(task: ParsedTask) {
+function emitPackageJson(task: ParsedTask, resolvedTypesEntry?: string) {
   const packageJsonPath = join(task.depPath, 'package.json');
   const packageJson = fs.readJsonSync(packageJsonPath, 'utf-8');
   const outputPath = join(task.distPath, 'package.json');
@@ -107,6 +107,20 @@ function emitPackageJson(task: ParsedTask) {
     delete pickedPackageJson.typing;
     delete pickedPackageJson.typings;
     pickedPackageJson.types = 'index.d.ts';
+  } else if (resolvedTypesEntry) {
+    const existingTypes = (
+      pickedPackageJson.types ??
+      pickedPackageJson.typings ??
+      pickedPackageJson.typing
+    )?.replace(/^\.\//, '');
+    if (
+      existingTypes !== resolvedTypesEntry &&
+      (existingTypes !== undefined || resolvedTypesEntry !== 'index.d.ts')
+    ) {
+      delete pickedPackageJson.typing;
+      delete pickedPackageJson.typings;
+      pickedPackageJson.types = resolvedTypesEntry;
+    }
   }
 
   fs.writeJSONSync(outputPath, pickedPackageJson);
@@ -176,9 +190,9 @@ async function build(task: ParsedTask) {
 
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);
-  emitDts(task);
+  const resolvedTypesEntry = emitDts(task);
   copyLicense(task.depPath, task.distPath);
-  emitPackageJson(task);
+  emitPackageJson(task, resolvedTypesEntry);
   removeSourceMap(task);
   renameDistFolder(task);
   emitExtraFiles(task);
