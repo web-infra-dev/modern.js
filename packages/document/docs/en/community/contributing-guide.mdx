@@ -84,6 +84,8 @@ Build all packages:
 pnpm run prepare
 ```
 
+After building, run `pnpm check-package-exports` to check that public export targets exist and that native Node.js can load the declared ESM and CommonJS entries. The check never executes browser or React Server targets. To check just one package, run `pnpm check-package-exports --filter @modern-js/server`.
+
 If you need to clean all `node_modules/*` in the project, run the `reset` command:
 
 ```sh
