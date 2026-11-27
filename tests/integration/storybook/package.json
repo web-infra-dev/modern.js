@@ -8,7 +8,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/storybook-addon": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@rsbuild/core": "2.3.3",
+    "@rsbuild/core": "2.3.4",
     "@storybook/addon-docs": "10.6.8",
     "@storybook/react": "10.6.8",
     "@types/react": "^19.3.0",

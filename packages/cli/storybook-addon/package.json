@@ -36,7 +36,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@rsbuild/core": "2.3.3",
+    "@rsbuild/core": "2.3.4",
     "storybook-builder-rsbuild": "3.6.4",
     "storybook": "10.6.8",
     "typescript": "^5"
