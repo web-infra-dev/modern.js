@@ -612,14 +612,156 @@
   color: var(--jo-status-danger);
 }
 
+/* L4 Modal Dialog (Jo Design: 20px radius, translucent glass, blurred backdrop) */
+.jo-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 9, 11, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: jo-fade-in 160ms ease;
+}
+
+@keyframes jo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.jo-modal {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(9, 9, 11, 0.12);
+  box-shadow: 0 24px 60px rgba(9, 9, 11, 0.16);
+  overflow: hidden;
+  animation: jo-modal-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes jo-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.jo-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(9, 9, 11, 0.08);
+}
+
+.jo-modal-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  color: #18181b;
+}
+
+.jo-modal-body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.jo-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jo-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: #52525b;
+}
+
+.jo-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 8px;
+}
+
+.jo-form-error {
+  font-size: 11px;
+  color: #dc2626;
+  font-weight: 550;
+}
+
+.jo-form-hint {
+  font-size: 11px;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.jo-apps button.jo-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  min-height: 22px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(9, 9, 11, 0.055);
+  box-shadow: none;
+  color: #52525b;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.jo-apps button.jo-chip-btn:hover {
+  background: rgba(9, 9, 11, 0.1);
+  color: #18181b;
+}
+
+.jo-modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid rgba(9, 9, 11, 0.08);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .jo-modal-backdrop,
+  .jo-modal,
   .jo-apps button.jo-seg-btn,
   .jo-apps button.jo-btn-primary,
   .jo-apps button.jo-icon-btn,
   .jo-apps a.jo-icon-btn,
   .jo-apps .jo-input-capsule,
-  .jo-apps .jo-trace-row,
+  .jo-apps .jo-mod-row,
   .jo-apps .jo-route-row {
     transition: none;
+    animation: none;
   }
 }

@@ -8,21 +8,27 @@ interface PlatformAppConfig {
   title: string;
   enabled: boolean;
   route: string;
+  sourceKind?: 'registry' | 'url';
+  producerName?: string;
+  version?: string;
   manifestUrl: string;
   expose: string;
-  delivery: 'full' | 'layered';
-  childrenMode: 'dynamic' | 'fixed' | 'none';
+  childrenMode: 'dynamic' | 'none';
   childrenSource?: string;
-  fixedDeploymentId?: string;
+  childrenDelivery?: 'full' | 'layered';
   props?: Record<string, string>;
 }
 
-interface CatalogEntry {
-  producer: string;
-  label: string;
+interface RegistryProducer {
+  name: string;
+  versions: Array<{ version: string; manifestUrl: string }>;
+}
+
+interface InspectedManifest {
   manifestUrl: string;
-  expose: string;
-  defaultRoute: string;
+  name: string;
+  buildVersion?: string;
+  exposes: Array<{ path: string; name: string; render: string }>;
 }
 
 interface PortalPlatformConfig {
@@ -39,10 +45,9 @@ interface ChildPlatformConfig {
 interface PlatformStateResponse {
   computedDelivery: {
     mode: 'full' | 'layered';
-    portalLayered: boolean;
-    childLayered: boolean;
+    hasNestedChildren: boolean;
   };
-  catalog: CatalogEntry[];
+  registry: RegistryProducer[];
   presets: {
     providerV1: string;
     providerV2?: string;
@@ -53,10 +58,8 @@ interface PlatformStateResponse {
     portal: {
       config: PortalPlatformConfig;
       active: {
-        deploymentId: string;
         sid: string;
         deliveryMode: 'full' | 'layered';
-        hasLayeredRoute: boolean;
         routes: Array<{
           route: string;
           moduleName: string;
@@ -64,27 +67,27 @@ interface PlatformStateResponse {
           versionOrUrl: string;
           discoverChildren: boolean;
         }>;
-        routeDelivery?: Record<string, 'full' | 'layered'>;
+        childDeliveryByKey?: Record<string, 'full' | 'layered'>;
         moduleInfoKeys: string[];
       } | null;
     };
-    'weather-children': {
-      config: ChildPlatformConfig;
-      active: {
-        deploymentId: string;
-        sid: string;
-        hasLayeredRoute: boolean;
-        routes: Array<{
-          route: string;
-          moduleName: string;
-          expose: string;
-          versionOrUrl: string;
-          discoverChildren: boolean;
-        }>;
-        routeDelivery?: Record<string, 'full' | 'layered'>;
-        moduleInfoKeys: string[];
-      } | null;
-    };
+    children: Record<
+      string,
+      {
+        config: ChildPlatformConfig;
+        active: {
+          sid: string;
+          routes: Array<{
+            route: string;
+            moduleName: string;
+            expose: string;
+            versionOrUrl: string;
+            discoverChildren: boolean;
+          }>;
+          moduleInfoKeys: string[];
+        } | null;
+      }
+    >;
   };
 }
 
@@ -113,6 +116,23 @@ interface ClientRuntimeTelemetry {
   bundledChildren: BundledChildPreview[];
 }
 
+interface RouteEditorTarget {
+  mode: 'add-root' | 'edit-root' | 'add-child' | 'edit-child';
+  parentAppId?: string;
+  parentRoutePrefix?: string;
+  childSourceName?: string;
+  editingId?: string;
+  initial: {
+    route: string;
+    sourceKind: 'registry' | 'url';
+    producerName: string;
+    version: string;
+    manifestUrl: string;
+    expose: string;
+    stationProp: string;
+  };
+}
+
 function deploymentApiBase(): string {
   return process.env.MF_LAB_API || '';
 }
@@ -126,6 +146,10 @@ function stripRouteWildcard(route: string): string {
     .replace(/\/?\*$/, '')
     .replace(/^\/+/, '')
     .replace(/\/+$/, '');
+}
+
+function normalizeRouteForCompare(route: string): string {
+  return stripRouteWildcard(route).toLowerCase();
 }
 
 function pathMatchesRoute(pathname: string, routePattern: string): boolean {
@@ -221,13 +245,459 @@ function PlusIcon() {
   );
 }
 
+function PencilIcon() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden="true"
+    >
+      <path
+        d="M11.2 2.8 13.2 4.8 5.4 12.6 2.8 13.2l.6-2.6 7.8-7.8Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      aria-hidden="true"
+    >
+      <path d="m4 4 8 8M12 4l-8 8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function RouteEditorModal({
+  target,
+  registry,
+  siblingRoutes,
+  presets,
+  onClose,
+  onConfirm,
+}: {
+  target: RouteEditorTarget;
+  registry: RegistryProducer[];
+  siblingRoutes: Array<{ id: string; route: string; enabled: boolean }>;
+  presets: PlatformStateResponse['presets'];
+  onClose: () => void;
+  onConfirm: (result: {
+    route: string;
+    sourceKind: 'registry' | 'url';
+    producerName: string;
+    version: string;
+    manifestUrl: string;
+    expose: string;
+    stationProp: string;
+  }) => void;
+}) {
+  const [route, setRoute] = useState(target.initial.route);
+  const [sourceKind, setSourceKind] = useState<'registry' | 'url'>(
+    target.initial.sourceKind,
+  );
+  const [producerName, setProducerName] = useState(target.initial.producerName);
+  const [version, setVersion] = useState(target.initial.version);
+  const [manifestUrl, setManifestUrl] = useState(target.initial.manifestUrl);
+  const [expose, setExpose] = useState(target.initial.expose);
+  const [stationProp, setStationProp] = useState(target.initial.stationProp);
+
+  const [inspecting, setInspecting] = useState(false);
+  const [inspected, setInspected] = useState<InspectedManifest | null>(null);
+  const [inspectError, setInspectError] = useState('');
+
+  // Resolve effective manifestUrl from either registry or direct Entry URL
+  const selectedProducer =
+    registry.find(p => p.name === producerName) || registry[0];
+  const selectedVersionObj =
+    selectedProducer?.versions.find(v => v.version === version) ||
+    selectedProducer?.versions[0];
+  const effectiveManifestUrl =
+    sourceKind === 'registry'
+      ? selectedVersionObj?.manifestUrl || ''
+      : manifestUrl.trim();
+
+  // Auto-fetch manifest whenever effectiveManifestUrl changes
+  useEffect(() => {
+    if (!effectiveManifestUrl) {
+      setInspected(null);
+      setInspectError('');
+      return;
+    }
+    let cancelled = false;
+    const timer = setTimeout(
+      async () => {
+        setInspecting(true);
+        setInspectError('');
+        try {
+          const res = await fetch(
+            `${deploymentApiBase()}/_lab/deployments/inspect?manifestUrl=${encodeURIComponent(effectiveManifestUrl)}`,
+            { cache: 'no-store' },
+          );
+          const data = await res.json();
+          if (cancelled) return;
+          if (!res.ok) {
+            setInspected(null);
+            setInspectError(data.error || `请求失败 (HTTP ${res.status})`);
+            return;
+          }
+          const manifest = data as InspectedManifest;
+          setInspected(manifest);
+          if (
+            manifest.exposes.length > 0 &&
+            !manifest.exposes.some(e => e.path === expose)
+          ) {
+            setExpose(manifest.exposes[0].path);
+          }
+        } catch (err) {
+          if (!cancelled) {
+            setInspected(null);
+            setInspectError(
+              err instanceof Error ? err.message : '无法解析 Manifest',
+            );
+          }
+        } finally {
+          if (!cancelled) setInspecting(false);
+        }
+      },
+      sourceKind === 'url' ? 280 : 0,
+    );
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [effectiveManifestUrl, sourceKind]);
+
+  // Real-time route conflict validation
+  const normalizedRoute = normalizeRouteForCompare(route);
+  const routeError = useMemo(() => {
+    if (!route.trim()) return '请输入路由路径（例如 forecast/*）';
+    if (!normalizedRoute) return '路由路径不能为空';
+    const conflict = siblingRoutes.find(
+      item =>
+        item.enabled &&
+        item.id !== target.editingId &&
+        normalizeRouteForCompare(item.route) === normalizedRoute,
+    );
+    if (conflict) {
+      return `路由「/${stripRouteWildcard(route)}/*」与已有路由「/${stripRouteWildcard(conflict.route)}/*」冲突`;
+    }
+    return '';
+  }, [route, normalizedRoute, siblingRoutes, target.editingId]);
+
+  const canSubmit =
+    !routeError &&
+    Boolean(effectiveManifestUrl) &&
+    Boolean(inspected) &&
+    Boolean(expose) &&
+    !inspecting;
+
+  const modalTitle =
+    target.mode === 'add-root'
+      ? '添加路由'
+      : target.mode === 'edit-root'
+        ? '编辑路由'
+        : target.mode === 'add-child'
+          ? `添加子路由（/${target.parentRoutePrefix}/...）`
+          : `编辑子路由（/${target.parentRoutePrefix}/...）`;
+
+  const handleSubmit = () => {
+    if (!canSubmit || !inspected) return;
+    const cleanRoute = route.trim().replace(/^\/+/, '');
+    const finalRoute = cleanRoute.endsWith('*')
+      ? cleanRoute
+      : `${cleanRoute.replace(/\/+$/, '')}/*`;
+    onConfirm({
+      route: finalRoute,
+      sourceKind,
+      producerName: inspected.name,
+      version:
+        sourceKind === 'registry' ? selectedVersionObj?.version || 'v1' : 'url',
+      manifestUrl: effectiveManifestUrl,
+      expose,
+      stationProp: stationProp.trim(),
+    });
+  };
+
+  return (
+    <div
+      className="jo-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-label={modalTitle}
+      onClick={e => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="jo-modal" data-testid="route-editor-modal">
+        <div className="jo-modal-head">
+          <h3 className="jo-modal-title">{modalTitle}</h3>
+          <button
+            type="button"
+            className="jo-icon-btn"
+            aria-label="关闭"
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </button>
+        </div>
+
+        <div className="jo-modal-body">
+          {/* 1. Route Path + Real-time conflict check */}
+          <div className="jo-form-group">
+            <label className="jo-form-label" htmlFor="jo-modal-route">
+              <span>路由路径</span>
+              {!routeError && route.trim() && (
+                <span style={{ color: '#16a34a', fontWeight: 550 }}>
+                  无冲突
+                </span>
+              )}
+            </label>
+            <div className="jo-input-capsule" style={{ width: '100%' }}>
+              <span
+                style={{ color: '#71717a', fontSize: '12px', flex: 'none' }}
+              >
+                {target.parentRoutePrefix
+                  ? `/${target.parentRoutePrefix}/`
+                  : '/'}
+              </span>
+              <input
+                id="jo-modal-route"
+                className="mono"
+                autoFocus
+                placeholder="forecast/*"
+                data-testid="modal-route-input"
+                value={route}
+                onChange={e => setRoute(e.target.value)}
+              />
+            </div>
+            {routeError && (
+              <div className="jo-form-error" data-testid="modal-route-error">
+                {routeError}
+              </div>
+            )}
+          </div>
+
+          {/* 2. Source kind switch: Registry (local version platform) vs Entry URL */}
+          <div className="jo-form-group">
+            <span className="jo-form-label">生产者来源</span>
+            <div className="jo-segmented" style={{ alignSelf: 'flex-start' }}>
+              <button
+                type="button"
+                data-testid="modal-source-registry"
+                className={`jo-seg-btn ${sourceKind === 'registry' ? 'active' : ''}`}
+                onClick={() => setSourceKind('registry')}
+              >
+                本地版本平台
+              </button>
+              <button
+                type="button"
+                data-testid="modal-source-url"
+                className={`jo-seg-btn ${sourceKind === 'url' ? 'active' : ''}`}
+                onClick={() => setSourceKind('url')}
+              >
+                Entry URL
+              </button>
+            </div>
+          </div>
+
+          {sourceKind === 'registry' ? (
+            <div className="jo-form-group">
+              <span className="jo-form-label">生产者与版本</span>
+              <div className="jo-form-row-2">
+                <div className="jo-input-capsule">
+                  <select
+                    aria-label="选择生产者"
+                    data-testid="modal-producer-select"
+                    value={selectedProducer?.name || ''}
+                    onChange={e => {
+                      const nextName = e.target.value;
+                      setProducerName(nextName);
+                      const nextProd = registry.find(p => p.name === nextName);
+                      if (nextProd?.versions[0]) {
+                        setVersion(nextProd.versions[0].version);
+                      }
+                    }}
+                  >
+                    {registry.map(p => (
+                      <option key={p.name} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="jo-input-capsule">
+                  <select
+                    aria-label="选择版本"
+                    data-testid="modal-version-select"
+                    value={selectedVersionObj?.version || ''}
+                    onChange={e => setVersion(e.target.value)}
+                  >
+                    {(selectedProducer?.versions || []).map(v => (
+                      <option key={v.version} value={v.version}>
+                        {v.version}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="jo-form-group">
+              <label className="jo-form-label" htmlFor="jo-modal-entry-url">
+                <span>Manifest Entry URL</span>
+                {inspecting && (
+                  <span style={{ color: '#71717a' }}>解析中…</span>
+                )}
+                {!inspecting && inspected && (
+                  <span style={{ color: '#16a34a' }}>
+                    已解析 {inspected.name}（{inspected.exposes.length} 个导出）
+                  </span>
+                )}
+              </label>
+              <div className="jo-input-capsule" style={{ width: '100%' }}>
+                <input
+                  id="jo-modal-entry-url"
+                  className="mono"
+                  placeholder="http://localhost:4301/static/mf-manifest.json"
+                  data-testid="modal-entry-url-input"
+                  value={manifestUrl}
+                  onChange={e => setManifestUrl(e.target.value)}
+                />
+              </div>
+              <div className="jo-form-hint">
+                <span>快捷填入：</span>
+                <button
+                  type="button"
+                  className="jo-chip-btn"
+                  onClick={() => setManifestUrl(presets.providerV1)}
+                >
+                  provider v1
+                </button>
+                {presets.providerV2 && (
+                  <button
+                    type="button"
+                    className="jo-chip-btn"
+                    onClick={() => setManifestUrl(presets.providerV2!)}
+                  >
+                    provider v2
+                  </button>
+                )}
+                {presets.nested && (
+                  <button
+                    type="button"
+                    className="jo-chip-btn"
+                    onClick={() => setManifestUrl(presets.nested!)}
+                  >
+                    nested
+                  </button>
+                )}
+              </div>
+              {inspectError && (
+                <div
+                  className="jo-form-error"
+                  data-testid="modal-inspect-error"
+                >
+                  {inspectError}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 3. Auto-populated Expose selector */}
+          <div className="jo-form-group">
+            <label className="jo-form-label" htmlFor="jo-modal-expose">
+              <span>导出模块（Expose）</span>
+              {inspected && (
+                <span style={{ color: '#71717a', fontWeight: 500 }}>
+                  {inspected.name}
+                </span>
+              )}
+            </label>
+            <div className="jo-input-capsule" style={{ width: '100%' }}>
+              <select
+                id="jo-modal-expose"
+                data-testid="modal-expose-select"
+                disabled={!inspected || inspecting}
+                value={expose}
+                onChange={e => setExpose(e.target.value)}
+              >
+                {!inspected ? (
+                  <option value="">
+                    {inspecting
+                      ? '正在拉取 manifest…'
+                      : '请先填写有效生产者或 Entry URL'}
+                  </option>
+                ) : (
+                  inspected.exposes.map(item => (
+                    <option key={item.path} value={item.path}>
+                      {item.path}
+                      {item.render ? ` (${item.render})` : ''}
+                    </option>
+                  ))
+                )}
+              </select>
+            </div>
+          </div>
+
+          {/* Optional prop for WindApplication */}
+          {expose === './WindApplication' && (
+            <div className="jo-form-group">
+              <label className="jo-form-label" htmlFor="jo-modal-station">
+                下发参数（station prop）
+              </label>
+              <div className="jo-input-capsule" style={{ width: '100%' }}>
+                <input
+                  id="jo-modal-station"
+                  placeholder="West Lake Ridge"
+                  value={stationProp}
+                  onChange={e => setStationProp(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="jo-modal-foot">
+          <button type="button" className="jo-icon-btn" onClick={onClose}>
+            取消
+          </button>
+          <button
+            type="button"
+            className="jo-btn-primary"
+            disabled={!canSubmit}
+            data-testid="modal-confirm-btn"
+            onClick={handleSubmit}
+          >
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ApplicationsWorkbench() {
   const [params] = useSearchParams();
   const activeTab = params.get('tab') === 'platform' ? 'platform' : 'preview';
 
   const [platformState, setPlatformState] = useState<PlatformStateResponse>();
   const [portalDraft, setPortalDraft] = useState<PortalPlatformConfig>();
-  const [childDraft, setChildDraft] = useState<ChildPlatformConfig>();
+  const [childrenDraft, setChildrenDraft] = useState<
+    Record<string, ChildPlatformConfig>
+  >({});
+  const [editorTarget, setEditorTarget] = useState<RouteEditorTarget | null>(
+    null,
+  );
   const [addressPath, setAddressPath] = useState('/air');
   const [currentConsumerPath, setCurrentConsumerPath] = useState('/air');
   const [iframeSrc, setIframeSrc] = useState(
@@ -263,7 +733,11 @@ export function ApplicationsWorkbench() {
       setPlatformState(data);
       if (syncDrafts) {
         setPortalDraft(structuredClone(data.sources.portal.config));
-        setChildDraft(structuredClone(data.sources['weather-children'].config));
+        const nextChildren: Record<string, ChildPlatformConfig> = {};
+        for (const [k, v] of Object.entries(data.sources.children || {})) {
+          nextChildren[k] = structuredClone(v.config);
+        }
+        setChildrenDraft(nextChildren);
       }
       setError('');
     } catch (err) {
@@ -341,39 +815,18 @@ export function ApplicationsWorkbench() {
     }
   };
 
-  const publishAll = async () => {
-    if (!portalDraft || !childDraft) return;
-    setBusy(true);
-    setNotice('');
-    setError('');
-    try {
-      const response = await fetch(
-        `${deploymentApiBase()}/_lab/deployments/publish`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ portal: portalDraft, children: childDraft }),
-        },
-      );
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || `Publish failed (${response.status})`);
-      }
-      setPlatformState(data as PlatformStateResponse);
-      setPortalDraft(structuredClone(data.sources.portal.config));
-      setChildDraft(structuredClone(data.sources['weather-children'].config));
-      const modeLabel =
-        data.computedDelivery?.mode === 'full' ? '全量下发' : '分层下发';
-      setNotice(`已发布 · 当前按路由计算为「${modeLabel}」`);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setBusy(false);
+  const syncDraftsFromState = (data: PlatformStateResponse) => {
+    setPlatformState(data);
+    setPortalDraft(structuredClone(data.sources.portal.config));
+    const nextChildren: Record<string, ChildPlatformConfig> = {};
+    for (const [k, v] of Object.entries(data.sources.children || {})) {
+      nextChildren[k] = structuredClone(v.config);
     }
+    setChildrenDraft(nextChildren);
   };
 
-  const publishChildOnly = async () => {
-    if (!childDraft) return;
+  const publishAll = async () => {
+    if (!portalDraft) return;
     setBusy(true);
     setNotice('');
     setError('');
@@ -384,8 +837,8 @@ export function ApplicationsWorkbench() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            source: 'weather-children',
-            config: childDraft,
+            portal: portalDraft,
+            children: childrenDraft,
           }),
         },
       );
@@ -393,9 +846,10 @@ export function ApplicationsWorkbench() {
       if (!response.ok) {
         throw new Error(data.error || `Publish failed (${response.status})`);
       }
-      setPlatformState(data as PlatformStateResponse);
-      setChildDraft(structuredClone(data.sources['weather-children'].config));
-      setNotice('嵌套子层已独立发布');
+      syncDraftsFromState(data as PlatformStateResponse);
+      const modeLabel =
+        data.computedDelivery?.mode === 'full' ? '全量下发' : '分层下发';
+      setNotice(`配置已发布 · 当前下发模式：${modeLabel}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -413,9 +867,7 @@ export function ApplicationsWorkbench() {
         { method: 'POST' },
       );
       const data = (await response.json()) as PlatformStateResponse;
-      setPlatformState(data);
-      setPortalDraft(structuredClone(data.sources.portal.config));
-      setChildDraft(structuredClone(data.sources['weather-children'].config));
+      syncDraftsFromState(data);
       setNotice('已恢复默认配置');
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -437,46 +889,6 @@ export function ApplicationsWorkbench() {
     );
   };
 
-  const addPortalRoute = () => {
-    const catalog = platformState?.catalog || [];
-    const existingRoutes = new Set(
-      (portalDraft?.applications || []).map(a => stripRouteWildcard(a.route)),
-    );
-    const candidate =
-      catalog.find(
-        item => !existingRoutes.has(stripRouteWildcard(item.defaultRoute)),
-      ) || catalog[0];
-    if (!candidate) return;
-    const base = stripRouteWildcard(candidate.defaultRoute) || 'app';
-    let route = `${base}/*`;
-    let suffix = 2;
-    while (existingRoutes.has(stripRouteWildcard(route))) {
-      route = `${base}-${suffix++}/*`;
-    }
-    const id = `custom-${Date.now()}`;
-    setPortalDraft(prev =>
-      prev
-        ? {
-            ...prev,
-            applications: [
-              ...prev.applications,
-              {
-                id,
-                title: candidate.label,
-                enabled: true,
-                route,
-                manifestUrl: candidate.manifestUrl,
-                expose: candidate.expose,
-                delivery: 'full',
-                childrenMode: 'none',
-                props: {},
-              },
-            ],
-          }
-        : prev,
-    );
-  };
-
   const removeOrTogglePortalApp = (app: PlatformAppConfig) => {
     if (app.id.startsWith('custom-')) {
       setPortalDraft(prev =>
@@ -492,41 +904,166 @@ export function ApplicationsWorkbench() {
     }
   };
 
-  const updateChildApp = (id: string, patch: Partial<PlatformAppConfig>) => {
-    setChildDraft(prev =>
-      prev
-        ? {
+  const removeOrToggleChildApp = (
+    sourceName: string,
+    child: PlatformAppConfig,
+  ) => {
+    setChildrenDraft(prev => {
+      const cfg = prev[sourceName];
+      if (!cfg) return prev;
+      const nextApps = child.id.startsWith('custom-')
+        ? cfg.applications.filter(c => c.id !== child.id)
+        : cfg.applications.map(c =>
+            c.id === child.id ? { ...c, enabled: !c.enabled } : c,
+          );
+      return {
+        ...prev,
+        [sourceName]: { ...cfg, applications: nextApps },
+      };
+    });
+  };
+
+  const handleModalConfirm = (result: {
+    route: string;
+    sourceKind: 'registry' | 'url';
+    producerName: string;
+    version: string;
+    manifestUrl: string;
+    expose: string;
+    stationProp: string;
+  }) => {
+    if (!editorTarget) return;
+    const props = result.stationProp ? { station: result.stationProp } : {};
+
+    if (editorTarget.mode === 'add-root') {
+      const id = `custom-${Date.now()}`;
+      setPortalDraft(prev =>
+        prev
+          ? {
+              ...prev,
+              applications: [
+                ...prev.applications,
+                {
+                  id,
+                  title: result.expose,
+                  enabled: true,
+                  route: result.route,
+                  sourceKind: result.sourceKind,
+                  producerName: result.producerName,
+                  version: result.version,
+                  manifestUrl: result.manifestUrl,
+                  expose: result.expose,
+                  childrenMode: 'none',
+                  childrenDelivery: 'full',
+                  props,
+                },
+              ],
+            }
+          : prev,
+      );
+    } else if (editorTarget.mode === 'edit-root' && editorTarget.editingId) {
+      updatePortalApp(editorTarget.editingId, {
+        route: result.route,
+        sourceKind: result.sourceKind,
+        producerName: result.producerName,
+        version: result.version,
+        manifestUrl: result.manifestUrl,
+        expose: result.expose,
+      });
+    } else if (editorTarget.mode === 'add-child' && editorTarget.parentAppId) {
+      const parentApp = portalDraft?.applications.find(
+        a => a.id === editorTarget.parentAppId,
+      );
+      if (parentApp) {
+        const sourceName =
+          parentApp.childrenSource || `${parentApp.id}-children`;
+        updatePortalApp(parentApp.id, {
+          childrenMode: 'dynamic',
+          childrenSource: sourceName,
+          childrenDelivery: parentApp.childrenDelivery || 'full',
+        });
+        setChildrenDraft(prev => {
+          const existing = prev[sourceName] || {
+            consumer: parentApp.producerName || 'lab_provider',
+            consumerManifestUrl: parentApp.manifestUrl,
+            applications: [],
+          };
+          return {
             ...prev,
-            applications: prev.applications.map(app =>
-              app.id === id ? { ...app, ...patch } : app,
+            [sourceName]: {
+              ...existing,
+              applications: [
+                ...existing.applications,
+                {
+                  id: `custom-child-${Date.now()}`,
+                  title: result.expose,
+                  enabled: true,
+                  route: result.route,
+                  sourceKind: result.sourceKind,
+                  producerName: result.producerName,
+                  version: result.version,
+                  manifestUrl: result.manifestUrl,
+                  expose: result.expose,
+                  childrenMode: 'none',
+                  props,
+                },
+              ],
+            },
+          };
+        });
+      }
+    } else if (
+      editorTarget.mode === 'edit-child' &&
+      editorTarget.childSourceName &&
+      editorTarget.editingId
+    ) {
+      const sourceName = editorTarget.childSourceName;
+      setChildrenDraft(prev => {
+        const cfg = prev[sourceName];
+        if (!cfg) return prev;
+        return {
+          ...prev,
+          [sourceName]: {
+            ...cfg,
+            applications: cfg.applications.map(c =>
+              c.id === editorTarget.editingId
+                ? {
+                    ...c,
+                    route: result.route,
+                    sourceKind: result.sourceKind,
+                    producerName: result.producerName,
+                    version: result.version,
+                    manifestUrl: result.manifestUrl,
+                    expose: result.expose,
+                    props: result.stationProp
+                      ? { ...c.props, station: result.stationProp }
+                      : c.props,
+                  }
+                : c,
             ),
-          }
-        : prev,
-    );
+          },
+        };
+      });
+    }
+    setEditorTarget(null);
   };
 
   const portalActive = platformState?.sources.portal.active;
-  const childActive = platformState?.sources['weather-children'].active;
+  const childrenState = platformState?.sources.children || {};
   const activeMode = platformState?.computedDelivery?.mode || 'full';
-  const catalog = platformState?.catalog || [];
+  const registry = platformState?.registry || [];
 
-  const draftHasLayered =
-    Boolean(
-      portalDraft?.applications.some(
-        app => app.enabled && app.delivery === 'layered',
-      ),
-    ) ||
-    Boolean(
-      portalDraft?.applications.some(
-        app =>
-          app.id === 'weather' && app.enabled && app.childrenMode === 'dynamic',
-      ) &&
-      childDraft?.applications.some(
-        app => app.enabled && app.delivery === 'layered',
-      ),
-    );
+  // Computed draft delivery mode: ONLY routes with enabled nested children participate in layering!
+  const draftHasLayered = Boolean(
+    portalDraft?.applications.some(app => {
+      if (!app.enabled || !app.childrenSource) return false;
+      const kids = childrenDraft[app.childrenSource]?.applications || [];
+      const hasEnabledKids = kids.some(k => k.enabled);
+      return hasEnabledKids && app.childrenDelivery === 'layered';
+    }),
+  );
 
-  // Dynamically generate clickable quick-nav pills from currently published routes
+  // Dynamically build quick-nav pills from published root & nested routes
   const quickRoutes = useMemo(() => {
     const items: Array<{
       id: string;
@@ -534,46 +1071,59 @@ export function ApplicationsWorkbench() {
       path: string;
       active: boolean;
     }> = [];
+    const childSourcesByParentKey = new Map<
+      string,
+      (typeof childrenState)[string]
+    >();
+    for (const [srcName, srcVal] of Object.entries(childrenState)) {
+      childSourcesByParentKey.set(srcName, srcVal);
+    }
     for (const r of portalActive?.routes || []) {
       const prefix = stripRouteWildcard(r.route);
       if (!prefix) continue;
-      if (r.expose === './WeatherApplication') {
-        const overviewPath = `/${prefix}/overview`;
-        const childPrefix = stripRouteWildcard(
-          childActive?.routes[0]?.route || 'wind/*',
-        );
-        items.push({
-          id: `root-${prefix}`,
-          label: `/${prefix}`,
-          path: overviewPath,
-          active:
-            currentConsumerPath.startsWith(`/${prefix}`) &&
-            (!childPrefix ||
-              !currentConsumerPath.startsWith(`/${prefix}/${childPrefix}`)),
-        });
-        if (r.discoverChildren && childActive?.routes.length) {
-          const nestedPath = `/${prefix}/${childPrefix}/gusts`;
+      const matchedApp = platformState?.sources.portal.config.applications.find(
+        a => stripRouteWildcard(a.route) === prefix && a.enabled,
+      );
+      const childRoutes = matchedApp?.childrenSource
+        ? childrenState[matchedApp.childrenSource]?.active?.routes || []
+        : [];
+      const targetPath =
+        r.expose === './WeatherApplication'
+          ? `/${prefix}/overview`
+          : `/${prefix}`;
+      const matchedChildPrefix = childRoutes.find(c =>
+        currentConsumerPath.startsWith(
+          `/${prefix}/${stripRouteWildcard(c.route)}`,
+        ),
+      );
+      items.push({
+        id: `root-${prefix}`,
+        label: `/${prefix}`,
+        path: targetPath,
+        active:
+          currentConsumerPath.startsWith(`/${prefix}`) && !matchedChildPrefix,
+      });
+      if (r.discoverChildren) {
+        for (const c of childRoutes) {
+          const cPrefix = stripRouteWildcard(c.route);
+          if (!cPrefix) continue;
+          const nestedPath =
+            c.expose === './WindApplication'
+              ? `/${prefix}/${cPrefix}/gusts`
+              : `/${prefix}/${cPrefix}`;
           items.push({
-            id: `nested-${prefix}-${childPrefix}`,
-            label: `嵌套 /${prefix}/${childPrefix}`,
+            id: `nested-${prefix}-${cPrefix}`,
+            label: `嵌套 /${prefix}/${cPrefix}`,
             path: nestedPath,
-            active: currentConsumerPath.startsWith(`/${prefix}/${childPrefix}`),
+            active: currentConsumerPath.startsWith(`/${prefix}/${cPrefix}`),
           });
         }
-      } else {
-        const target = `/${prefix}`;
-        items.push({
-          id: `root-${prefix}`,
-          label: target,
-          path: target,
-          active: currentConsumerPath.startsWith(target),
-        });
       }
     }
     return items;
-  }, [portalActive, childActive, currentConsumerPath]);
+  }, [portalActive, childrenState, platformState, currentConsumerPath]);
 
-  // Compute the active rendered module chain for the current URL
+  // Active rendered module chain for current URL
   const activeRenderChain = useMemo(() => {
     const chain: Array<{
       level: number;
@@ -587,21 +1137,27 @@ export function ApplicationsWorkbench() {
       pathMatchesRoute(currentConsumerPath, r.route),
     );
     if (!matchedRoot) return chain;
+    const rootPrefix = stripRouteWildcard(matchedRoot.route);
     chain.push({
       level: 0,
-      route: `/${stripRouteWildcard(matchedRoot.route)}/*`,
+      route: `/${rootPrefix}/*`,
       moduleName: matchedRoot.moduleName,
       expose: matchedRoot.expose,
       versionOrUrl: matchedRoot.versionOrUrl,
       snapshotKey: `${matchedRoot.moduleName}:${matchedRoot.versionOrUrl}`,
     });
     if (matchedRoot.discoverChildren) {
-      const rootPrefix = stripRouteWildcard(matchedRoot.route);
       const rest = currentConsumerPath
         .replace(/^\/+/, '')
         .slice(rootPrefix.length)
         .replace(/^\/+/, '');
-      const matchedChild = (childActive?.routes || []).find(c =>
+      const matchedApp = platformState?.sources.portal.config.applications.find(
+        a => stripRouteWildcard(a.route) === rootPrefix && a.enabled,
+      );
+      const childRoutes = matchedApp?.childrenSource
+        ? childrenState[matchedApp.childrenSource]?.active?.routes || []
+        : [];
+      const matchedChild = childRoutes.find(c =>
         pathMatchesRoute(rest, c.route),
       );
       if (matchedChild) {
@@ -616,7 +1172,7 @@ export function ApplicationsWorkbench() {
       }
     }
     return chain;
-  }, [portalActive, childActive, currentConsumerPath]);
+  }, [portalActive, childrenState, platformState, currentConsumerPath]);
 
   const activeModuleNames = useMemo(
     () => new Set(activeRenderChain.map(item => item.moduleName)),
@@ -627,14 +1183,22 @@ export function ApplicationsWorkbench() {
     [activeRenderChain],
   );
 
-  const weatherAppDraft = portalDraft?.applications.find(
-    a => a.id === 'weather',
-  );
-
-  const producerLabelForUrl = (url: string) =>
-    platformState?.presets.nested && url === platformState.presets.nested
-      ? 'lab_nested'
-      : 'lab_provider';
+  // Sibling routes for conflict check inside modal
+  const modalSiblingRoutes = useMemo(() => {
+    if (!editorTarget) return [];
+    if (editorTarget.mode === 'add-root' || editorTarget.mode === 'edit-root') {
+      return (portalDraft?.applications || []).map(a => ({
+        id: a.id,
+        route: a.route,
+        enabled: a.enabled,
+      }));
+    }
+    const sourceName = editorTarget.childSourceName;
+    const apps = sourceName
+      ? childrenDraft[sourceName]?.applications || []
+      : [];
+    return apps.map(c => ({ id: c.id, route: c.route, enabled: c.enabled }));
+  }, [editorTarget, portalDraft, childrenDraft]);
 
   return (
     <LabLayout
@@ -746,7 +1310,7 @@ export function ApplicationsWorkbench() {
                 />
               </div>
 
-              {/* Right Module Info Inspector: Active Render + globalModuleInfo + Nested + Diff */}
+              {/* Right Module Info Inspector */}
               <aside
                 className="jo-trace-rail"
                 aria-label="Module info inspector"
@@ -765,7 +1329,6 @@ export function ApplicationsWorkbench() {
                   )}
                 </div>
 
-                {/* 1. Currently Rendered moduleInfo (Highlighted) */}
                 <div className="jo-section-label">
                   <span>当前渲染模块</span>
                   <span>{activeRenderChain.length} 层</span>
@@ -837,7 +1400,6 @@ export function ApplicationsWorkbench() {
                   )}
                 </div>
 
-                {/* 2. globalModuleInfo Snapshot + Nested + Incremental Diff Highlight */}
                 <div className="jo-section-label">
                   <span>globalModuleInfo</span>
                   <span>{telemetry?.globalModuleInfo.length ?? 0} 项</span>
@@ -943,7 +1505,6 @@ export function ApplicationsWorkbench() {
                             </div>
                           )}
 
-                          {/* Nested remotesInfo dependencies */}
                           {remoteEntries.length > 0 && (
                             <div className="jo-mod-nested-list">
                               {remoteEntries.map(([depName, depInfo]) => (
@@ -967,7 +1528,6 @@ export function ApplicationsWorkbench() {
                             </div>
                           )}
 
-                          {/* Full-delivery pre-bundled nested children */}
                           {bundledForMod.length > 0 && (
                             <div className="jo-mod-nested-list">
                               {bundledForMod.flatMap(b =>
@@ -1001,8 +1561,8 @@ export function ApplicationsWorkbench() {
 
                 <div className="jo-rail-foot">
                   {activeMode === 'full'
-                    ? '当前为全量下发：嵌套子层已随首屏预下发；切到嵌套页无需新增模块。'
-                    : '当前为分层下发：切到未加载的路由或嵌套页时，新增模块会以绿色「+ 新增」高亮。'}
+                    ? '当前为全量下发：嵌套子层已随首屏预下发。'
+                    : '当前为分层下发：切到嵌套路由时，新增模块将以绿色「+ 新增」高亮。'}
                 </div>
               </aside>
             </div>
@@ -1033,9 +1593,22 @@ export function ApplicationsWorkbench() {
                 <button
                   type="button"
                   className="jo-icon-btn"
-                  disabled={busy || catalog.length === 0}
+                  disabled={busy || registry.length === 0}
                   data-testid="add-portal-route"
-                  onClick={addPortalRoute}
+                  onClick={() =>
+                    setEditorTarget({
+                      mode: 'add-root',
+                      initial: {
+                        route: '',
+                        sourceKind: 'registry',
+                        producerName: registry[0]?.name || 'lab_provider',
+                        version: registry[0]?.versions[0]?.version || 'v1',
+                        manifestUrl: '',
+                        expose: '',
+                        stationProp: '',
+                      },
+                    })
+                  }
                 >
                   <PlusIcon />
                   添加路由
@@ -1067,16 +1640,20 @@ export function ApplicationsWorkbench() {
             <div className="jo-route-table-head">
               <span>路由路径</span>
               <span>生产者与导出</span>
-              <span>下发方式</span>
+              <span>子层下发</span>
               <span style={{ textAlign: 'right' }}>操作</span>
             </div>
 
             <div>
               {portalDraft?.applications.map(app => {
-                const currentProducer = producerLabelForUrl(app.manifestUrl);
-                const matchingCatalog = catalog.filter(
-                  c => c.producer === currentProducer,
-                );
+                const childSourceName = app.childrenSource;
+                const childList = childSourceName
+                  ? childrenDraft[childSourceName]?.applications || []
+                  : [];
+                const hasEnabledChildren =
+                  app.enabled && childList.some(c => c.enabled);
+                const childDelivery = app.childrenDelivery || 'full';
+
                 return (
                   <div key={app.id}>
                     <div
@@ -1085,140 +1662,153 @@ export function ApplicationsWorkbench() {
                     >
                       <div className="jo-route-path-cell">
                         <span
-                          className={`jo-dot ${app.enabled ? (app.delivery === 'full' ? 'ok' : 'info') : 'danger'}`}
+                          className={`jo-dot ${
+                            !app.enabled
+                              ? 'danger'
+                              : hasEnabledChildren &&
+                                  childDelivery === 'layered'
+                                ? 'info'
+                                : 'ok'
+                          }`}
                         />
-                        <div className="jo-input-capsule" style={{ flex: 1 }}>
-                          <span
-                            style={{
-                              color: 'var(--jo-text-muted)',
-                              fontSize: '12px',
-                            }}
-                          >
-                            /
-                          </span>
-                          <input
-                            className="mono"
-                            aria-label={`${app.id} route`}
-                            data-testid={`route-input-${app.id}`}
-                            value={app.route}
-                            onChange={e =>
-                              updatePortalApp(app.id, { route: e.target.value })
-                            }
-                          />
-                        </div>
+                        <code
+                          style={{
+                            fontSize: '13px',
+                            fontWeight: 600,
+                            color: 'var(--jo-text-primary)',
+                          }}
+                        >
+                          /{app.route}
+                        </code>
                       </div>
 
                       <div className="jo-producer-cell">
-                        <div
-                          className="jo-input-capsule"
-                          style={{ width: '116px' }}
-                        >
-                          <select
-                            aria-label={`${app.id} producer`}
-                            value={currentProducer}
-                            onChange={e => {
-                              const nextProducer = e.target.value;
-                              const first = catalog.find(
-                                c => c.producer === nextProducer,
-                              );
-                              if (first) {
-                                updatePortalApp(app.id, {
-                                  manifestUrl: first.manifestUrl,
-                                  expose: first.expose,
-                                });
-                              }
+                        <span className="jo-pill">
+                          {app.producerName || 'lab_provider'}
+                          {app.version && app.version !== 'url'
+                            ? ` · ${app.version}`
+                            : ''}
+                        </span>
+                        <span className="jo-pill">{app.expose}</span>
+                        {app.sourceKind === 'url' && (
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              color: 'var(--jo-text-muted)',
+                              fontFamily: 'monospace',
                             }}
                           >
-                            <option value="lab_provider">lab_provider</option>
-                            {platformState?.presets.nested && (
-                              <option value="lab_nested">lab_nested</option>
-                            )}
-                          </select>
-                        </div>
-
-                        <div
-                          className="jo-input-capsule"
-                          style={{ minWidth: '175px' }}
-                        >
-                          <select
-                            aria-label={`${app.id} expose`}
-                            data-testid={`expose-select-${app.id}`}
-                            value={app.expose}
-                            onChange={e =>
-                              updatePortalApp(app.id, {
-                                expose: e.target.value,
-                              })
-                            }
-                          >
-                            {matchingCatalog.map(item => (
-                              <option key={item.expose} value={item.expose}>
-                                {item.expose}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-
-                        {currentProducer === 'lab_provider' &&
-                          platformState?.presets.providerV2 && (
-                            <div
-                              className="jo-input-capsule"
-                              style={{ width: '66px' }}
-                            >
-                              <select
-                                aria-label={`${app.id} version`}
-                                data-testid={`version-select-${app.id}`}
-                                value={app.manifestUrl}
-                                onChange={e =>
-                                  updatePortalApp(app.id, {
-                                    manifestUrl: e.target.value,
-                                  })
-                                }
-                              >
-                                <option
-                                  value={platformState.presets.providerV1}
-                                >
-                                  v1
-                                </option>
-                                <option
-                                  value={platformState.presets.providerV2}
-                                >
-                                  v2
-                                </option>
-                              </select>
-                            </div>
-                          )}
+                            URL
+                          </span>
+                        )}
                       </div>
 
+                      {/* ONLY show [全量 | 分层] when this route has nested children! */}
                       <div>
-                        <div
-                          className="jo-segmented"
-                          role="group"
-                          aria-label={`${app.id} delivery`}
-                        >
-                          <button
-                            type="button"
-                            data-testid={`delivery-full-${app.id}`}
-                            className={`jo-seg-btn ${app.delivery === 'full' ? 'active' : ''}`}
-                            onClick={() =>
-                              updatePortalApp(app.id, { delivery: 'full' })
-                            }
+                        {hasEnabledChildren ? (
+                          <div
+                            className="jo-segmented"
+                            role="group"
+                            aria-label={`${app.id} children delivery`}
                           >
-                            全量
-                          </button>
-                          <button
-                            type="button"
-                            data-testid={`delivery-layered-${app.id}`}
-                            className={`jo-seg-btn ${app.delivery === 'layered' ? 'active' : ''}`}
-                            onClick={() =>
-                              updatePortalApp(app.id, { delivery: 'layered' })
-                            }
+                            <button
+                              type="button"
+                              data-testid={`delivery-full-${app.id}`}
+                              className={`jo-seg-btn ${childDelivery === 'full' ? 'active' : ''}`}
+                              onClick={() =>
+                                updatePortalApp(app.id, {
+                                  childrenDelivery: 'full',
+                                })
+                              }
+                            >
+                              全量
+                            </button>
+                            <button
+                              type="button"
+                              data-testid={`delivery-layered-${app.id}`}
+                              className={`jo-seg-btn ${childDelivery === 'layered' ? 'active' : ''}`}
+                              onClick={() =>
+                                updatePortalApp(app.id, {
+                                  childrenDelivery: 'layered',
+                                })
+                              }
+                            >
+                              分层
+                            </button>
+                          </div>
+                        ) : (
+                          <span
+                            style={{
+                              fontSize: '12px',
+                              color: 'var(--jo-text-muted)',
+                            }}
                           >
-                            分层
-                          </button>
-                        </div>
+                            —
+                          </span>
+                        )}
                       </div>
 
                       <div className="jo-actions-cell">
+                        {app.enabled && (
+                          <button
+                            type="button"
+                            className="jo-icon-btn"
+                            data-testid={`add-child-${app.id}`}
+                            aria-label="添加嵌套子路由"
+                            title="添加嵌套子路由"
+                            onClick={() =>
+                              setEditorTarget({
+                                mode: 'add-child',
+                                parentAppId: app.id,
+                                parentRoutePrefix: stripRouteWildcard(
+                                  app.route,
+                                ),
+                                childSourceName:
+                                  app.childrenSource || `${app.id}-children`,
+                                initial: {
+                                  route: '',
+                                  sourceKind: 'registry',
+                                  producerName:
+                                    registry.find(p => p.name === 'lab_nested')
+                                      ?.name ||
+                                    registry[0]?.name ||
+                                    'lab_nested',
+                                  version: 'v1',
+                                  manifestUrl: '',
+                                  expose: '',
+                                  stationProp: '',
+                                },
+                              })
+                            }
+                          >
+                            <PlusIcon />
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="jo-icon-btn"
+                          data-testid={`edit-portal-app-${app.id}`}
+                          aria-label="编辑路由"
+                          title="编辑路由"
+                          onClick={() =>
+                            setEditorTarget({
+                              mode: 'edit-root',
+                              editingId: app.id,
+                              initial: {
+                                route: app.route,
+                                sourceKind: app.sourceKind || 'registry',
+                                producerName:
+                                  app.producerName || 'lab_provider',
+                                version: app.version || 'v1',
+                                manifestUrl: app.manifestUrl,
+                                expose: app.expose,
+                                stationProp: app.props?.station || '',
+                              },
+                            })
+                          }
+                        >
+                          <PencilIcon />
+                        </button>
                         <button
                           type="button"
                           className={`jo-icon-btn ${app.enabled ? 'danger' : ''}`}
@@ -1240,10 +1830,10 @@ export function ApplicationsWorkbench() {
                       </div>
                     </div>
 
-                    {/* Nested child routes directly beneath Producer A */}
-                    {app.id === 'weather' &&
-                      app.enabled &&
-                      childDraft?.applications.map(child => (
+                    {/* Indented nested child routes */}
+                    {app.enabled &&
+                      childSourceName &&
+                      childList.map(child => (
                         <div
                           key={child.id}
                           data-testid={`child-app-${child.id}`}
@@ -1252,119 +1842,90 @@ export function ApplicationsWorkbench() {
                           <div className="jo-route-path-cell">
                             <span className="jo-tree-elbow">└</span>
                             <span
-                              className={`jo-dot ${child.enabled ? (child.delivery === 'full' ? 'ok' : 'info') : 'danger'}`}
+                              className={`jo-dot ${
+                                !child.enabled
+                                  ? 'danger'
+                                  : childDelivery === 'layered'
+                                    ? 'info'
+                                    : 'ok'
+                              }`}
                             />
-                            <div
-                              className="jo-input-capsule"
-                              style={{ flex: 1 }}
-                            >
-                              <span
-                                style={{
-                                  color: 'var(--jo-text-muted)',
-                                  fontSize: '11px',
-                                }}
-                              >
+                            <code style={{ fontSize: '12px' }}>
+                              <span style={{ color: 'var(--jo-text-muted)' }}>
                                 /{stripRouteWildcard(app.route)}/
                               </span>
-                              <input
-                                className="mono"
-                                aria-label={`${child.id} nested route`}
-                                data-testid={`child-route-input-${child.id}`}
-                                value={child.route}
-                                onChange={e =>
-                                  updateChildApp(child.id, {
-                                    route: e.target.value,
-                                  })
-                                }
-                              />
-                            </div>
+                              {child.route}
+                            </code>
                           </div>
 
                           <div className="jo-producer-cell">
-                            <span className="jo-pill">lab_nested</span>
+                            <span className="jo-pill">
+                              {child.producerName || 'lab_nested'}
+                              {child.version && child.version !== 'url'
+                                ? ` · ${child.version}`
+                                : ''}
+                            </span>
                             <span className="jo-pill">{child.expose}</span>
-                            <div
-                              className="jo-input-capsule"
-                              style={{ width: '132px' }}
-                            >
-                              <input
-                                aria-label="Station prop"
-                                placeholder="station"
-                                data-testid={`child-prop-station-${child.id}`}
-                                value={child.props?.station || ''}
-                                onChange={e =>
-                                  updateChildApp(child.id, {
-                                    props: {
-                                      ...child.props,
-                                      station: e.target.value,
-                                    },
-                                  })
-                                }
-                              />
-                            </div>
+                            {child.props?.station && (
+                              <span className="jo-pill">
+                                {child.props.station}
+                              </span>
+                            )}
                           </div>
 
                           <div>
-                            <div
-                              className="jo-segmented"
-                              role="group"
-                              aria-label={`${child.id} delivery`}
-                            >
-                              <button
-                                type="button"
-                                data-testid={`delivery-full-${child.id}`}
-                                className={`jo-seg-btn ${child.delivery === 'full' ? 'active' : ''}`}
-                                onClick={() =>
-                                  updateChildApp(child.id, { delivery: 'full' })
-                                }
-                              >
-                                全量
-                              </button>
-                              <button
-                                type="button"
-                                data-testid={`delivery-layered-${child.id}`}
-                                className={`jo-seg-btn ${child.delivery === 'layered' ? 'active' : ''}`}
-                                onClick={() =>
-                                  updateChildApp(child.id, {
-                                    delivery: 'layered',
-                                  })
-                                }
-                              >
-                                分层
-                              </button>
-                            </div>
+                            <span className="jo-badge muted">
+                              {childDelivery === 'layered'
+                                ? '按层懒加载'
+                                : '随父全量'}
+                            </span>
                           </div>
 
                           <div className="jo-actions-cell">
-                            {weatherAppDraft?.childrenMode === 'dynamic' && (
-                              <button
-                                type="button"
-                                className="jo-icon-btn"
-                                disabled={busy}
-                                data-testid="publish-children"
-                                aria-label="独立发布该嵌套子层"
-                                title="独立发布该嵌套子层"
-                                onClick={() => void publishChildOnly()}
-                              >
-                                <RefreshIcon />
-                              </button>
-                            )}
+                            <button
+                              type="button"
+                              className="jo-icon-btn"
+                              data-testid={`edit-child-app-${child.id}`}
+                              aria-label="编辑子路由"
+                              title="编辑子路由"
+                              onClick={() =>
+                                setEditorTarget({
+                                  mode: 'edit-child',
+                                  parentAppId: app.id,
+                                  parentRoutePrefix: stripRouteWildcard(
+                                    app.route,
+                                  ),
+                                  childSourceName,
+                                  editingId: child.id,
+                                  initial: {
+                                    route: child.route,
+                                    sourceKind: child.sourceKind || 'registry',
+                                    producerName:
+                                      child.producerName || 'lab_nested',
+                                    version: child.version || 'v1',
+                                    manifestUrl: child.manifestUrl,
+                                    expose: child.expose,
+                                    stationProp: child.props?.station || '',
+                                  },
+                                })
+                              }
+                            >
+                              <PencilIcon />
+                            </button>
                             <button
                               type="button"
                               className={`jo-icon-btn ${child.enabled ? 'danger' : ''}`}
                               data-testid={`toggle-child-app-${child.id}`}
                               aria-label={
-                                child.enabled ? '删除嵌套路由' : '恢复嵌套路由'
+                                child.enabled ? '删除子路由' : '恢复子路由'
                               }
                               title={
                                 child.enabled
-                                  ? '删除嵌套路由（访问将命中 404）'
-                                  : '恢复嵌套路由'
+                                  ? '删除子路由（访问将命中 404）'
+                                  : '恢复子路由'
                               }
                               onClick={() =>
-                                updateChildApp(child.id, {
-                                  enabled: !child.enabled,
-                                })
+                                removeOrToggleChildApp(childSourceName, child)
                               }
                             >
                               {child.enabled ? <TrashIcon /> : <RestoreIcon />}
@@ -1377,6 +1938,17 @@ export function ApplicationsWorkbench() {
               })}
             </div>
           </div>
+        )}
+
+        {editorTarget && platformState && (
+          <RouteEditorModal
+            target={editorTarget}
+            registry={registry}
+            siblingRoutes={modalSiblingRoutes}
+            presets={platformState.presets}
+            onClose={() => setEditorTarget(null)}
+            onConfirm={handleModalConfirm}
+          />
         )}
       </div>
     </LabLayout>

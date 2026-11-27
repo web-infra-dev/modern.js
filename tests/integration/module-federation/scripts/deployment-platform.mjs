@@ -22,40 +22,6 @@ function childSourceKey(moduleName, expose, versionOrUrl) {
   return `${moduleName}::${normalizeExpose(expose)}::${versionOrUrl}`;
 }
 
-function normalizePathname(pathname) {
-  if (!pathname) return '/';
-  const clean = String(pathname).replace(/\/{2,}/g, '/');
-  if (clean === '/') return '/';
-  return clean.replace(/\/+$/, '') || '/';
-}
-
-function relativePathname(pathname, basename) {
-  const full = normalizePathname(pathname);
-  const base = normalizePathname(basename || '/');
-  if (base === '/') return full.replace(/^\/+/, '');
-  if (full === base) return '';
-  if (full.startsWith(`${base}/`)) return full.slice(base.length + 1);
-  return null;
-}
-
-function routeMatchesRelative(pattern, relPath) {
-  if (relPath === null) return false;
-  const normPattern = normalizeRoutePattern(pattern);
-  if (!normPattern || normPattern === '*') return true;
-
-  const pSegs = normPattern.split('/').filter(Boolean);
-  const rSegs = relPath.split('/').filter(Boolean);
-
-  for (let i = 0; i < pSegs.length; i++) {
-    const seg = pSegs[i];
-    if (seg === '*') return true;
-    if (i >= rSegs.length) return false;
-    if (seg.startsWith(':')) continue;
-    if (seg !== rSegs[i]) return false;
-  }
-  return rSegs.length === pSegs.length;
-}
-
 async function readJsonBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -80,125 +46,85 @@ export function createLabDeploymentPlatform({ root, ports }) {
     ? `http://localhost:${ports.nested}/static/mf-manifest.json`
     : undefined;
 
+  const producerRegistry = [
+    {
+      name: 'lab_provider',
+      versions: [
+        { version: 'v1', manifestUrl: providerV1Url },
+        ...(providerV2Url
+          ? [{ version: 'v2', manifestUrl: providerV2Url }]
+          : []),
+      ],
+    },
+    ...(nestedUrl
+      ? [
+          {
+            name: 'lab_nested',
+            versions: [{ version: 'v1', manifestUrl: nestedUrl }],
+          },
+        ]
+      : []),
+  ];
+
   const defaultConfigs = () => ({
     portal: {
       consumer: 'lab_dynamic_consumer',
       applications: [
         {
           id: 'air',
-          title: 'Producer B · Air Quality',
+          title: 'Air Quality',
           enabled: true,
           route: 'air/*',
+          sourceKind: 'registry', // 'registry' | 'url'
+          producerName: 'lab_provider',
+          version: 'v1',
           manifestUrl: providerV1Url,
           expose: './AirQualityApp',
-          delivery: 'full', // 'full' | 'layered'
           childrenMode: 'none',
+          childrenDelivery: 'full', // only meaningful when route has nested children
           props: {},
         },
         {
           id: 'weather',
-          title: 'Producer A · Weather App',
+          title: 'Weather Portal',
           enabled: true,
           route: 'weather/*',
+          sourceKind: 'registry',
+          producerName: 'lab_provider',
+          version: 'v1',
           manifestUrl: providerV1Url,
           expose: './WeatherApplication',
-          delivery: 'full', // 'full' | 'layered'
-          childrenMode: 'dynamic', // 'dynamic' | 'fixed' | 'none'
+          childrenMode: 'dynamic',
           childrenSource: 'weather-children',
+          childrenDelivery: 'full', // 'full' | 'layered'
           props: { label: 'Hangzhou · Dynamic Portal' },
         },
       ],
     },
-    'weather-children': {
-      consumer: 'lab_provider',
-      consumerManifestUrl: providerV1Url,
-      applications: nestedUrl
-        ? [
-            {
-              id: 'wind',
-              title: 'Producer C · Wind App',
-              enabled: true,
-              route: 'wind/*',
-              manifestUrl: nestedUrl,
-              expose: './WindApplication',
-              delivery: 'full', // 'full' | 'layered'
-              childrenMode: 'none',
-              props: { station: 'West Lake Ridge' },
-            },
-          ]
-        : [],
+    children: {
+      'weather-children': {
+        consumer: 'lab_provider',
+        consumerManifestUrl: providerV1Url,
+        applications: nestedUrl
+          ? [
+              {
+                id: 'wind',
+                title: 'Wind App',
+                enabled: true,
+                route: 'wind/*',
+                sourceKind: 'registry',
+                producerName: 'lab_nested',
+                version: 'v1',
+                manifestUrl: nestedUrl,
+                expose: './WindApplication',
+                childrenMode: 'none',
+                props: { station: 'West Lake Ridge' },
+              },
+            ]
+          : [],
+      },
     },
   });
-
-  const producerCatalog = [
-    {
-      producer: 'lab_provider',
-      label: 'Air Quality (Bridge)',
-      manifestUrl: providerV1Url,
-      expose: './AirQualityApp',
-      defaultRoute: 'air/*',
-    },
-    {
-      producer: 'lab_provider',
-      label: '5-Day Forecast (Bridge)',
-      manifestUrl: providerV1Url,
-      expose: './WeatherForecastApp',
-      defaultRoute: 'forecast/*',
-    },
-    {
-      producer: 'lab_provider',
-      label: 'Current Weather (Bridge)',
-      manifestUrl: providerV1Url,
-      expose: './CurrentWeatherApp',
-      defaultRoute: 'current/*',
-    },
-    {
-      producer: 'lab_provider',
-      label: 'Weather Portal (Bridge)',
-      manifestUrl: providerV1Url,
-      expose: './WeatherApplication',
-      defaultRoute: 'weather/*',
-    },
-    {
-      producer: 'lab_provider',
-      label: 'Product App (Bridge)',
-      manifestUrl: providerV1Url,
-      expose: './ProductApp',
-      defaultRoute: 'products/*',
-    },
-    {
-      producer: 'lab_provider',
-      label: 'Orders App (Bridge)',
-      manifestUrl: providerV1Url,
-      expose: './OrdersApp',
-      defaultRoute: 'orders/*',
-    },
-    {
-      producer: 'lab_provider',
-      label: 'Weather Card (Component)',
-      manifestUrl: providerV1Url,
-      expose: './Weather',
-      defaultRoute: 'card/*',
-    },
-    ...(nestedUrl
-      ? [
-          {
-            producer: 'lab_nested',
-            label: 'Wind App (Bridge)',
-            manifestUrl: nestedUrl,
-            expose: './WindApplication',
-            defaultRoute: 'wind/*',
-          },
-          {
-            producer: 'lab_nested',
-            label: 'Weather Wind (Component)',
-            manifestUrl: nestedUrl,
-            expose: './WeatherWind',
-            defaultRoute: 'wind-card/*',
-          },
-        ]
-      : []),
-  ];
 
   const manifestCache = new Map();
   async function loadManifest(manifestUrl, forceRefresh = false) {
@@ -224,23 +150,21 @@ export function createLabDeploymentPlatform({ root, ports }) {
   let initPromise = null;
   let configs = defaultConfigs();
 
-  const revisions = new Map();
-  const activeIds = new Map();
-  const history = new Map();
+  const revisions = new Map(); // sourceName -> Map<deploymentId, snapshot>
+  const activeIds = new Map(); // sourceName -> deploymentId
   const discoveryLogs = [];
 
   async function computeSourceSnapshot(
     sourceName,
     config,
+    childrenConfigMap,
     forceManifestRefresh,
   ) {
     const sid = `${sourceName}-r${++seq}`;
     const routes = [];
-    const routeDelivery = {};
     const moduleInfo = {};
     const sources = {};
-    const fixedChildren = {};
-    let hasFixedChildren = false;
+    const childDeliveryByKey = {};
     const consumerRemotesInfo = {};
     const seenRoutes = new Set();
 
@@ -285,52 +209,42 @@ export function createLabDeploymentPlatform({ root, ports }) {
       moduleInfo[`${manifest.name}:${app.manifestUrl}`] = snapshot;
       consumerRemotesInfo[manifest.name] = { matchedVersion: app.manifestUrl };
 
-      const delivery = app.delivery === 'layered' ? 'layered' : 'full';
-      routeDelivery[cleanRoute] = delivery;
+      const childSourceName = app.childrenSource;
+      const childCfg =
+        childSourceName && childrenConfigMap
+          ? childrenConfigMap[childSourceName]
+          : undefined;
+      const hasEnabledChildren = Boolean(
+        app.childrenMode === 'dynamic' &&
+        childCfg?.applications?.some(child => child.enabled),
+      );
 
-      const childrenEnabled =
-        app.childrenMode === 'dynamic' || app.childrenMode === 'fixed';
       routes.push({
         route: cleanRoute,
         moduleName: manifest.name,
         expose: normalizedExpose,
         versionOrUrl: app.manifestUrl,
-        discoverChildren: childrenEnabled,
+        discoverChildren: hasEnabledChildren,
         ...(app.props && Object.keys(app.props).length
           ? { props: { ...app.props } }
           : {}),
       });
 
-      if (childrenEnabled && app.childrenSource) {
+      if (hasEnabledChildren && childSourceName) {
         const key = childSourceKey(
           manifest.name,
           normalizedExpose,
           app.manifestUrl,
         );
-        const targetChildId =
-          app.childrenMode === 'fixed'
-            ? app.fixedDeploymentId || activeIds.get(app.childrenSource)
-            : undefined;
         sources[key] = {
-          source: app.childrenSource,
-          ...(targetChildId ? { deploymentId: targetChildId } : {}),
+          source: childSourceName,
           producerManifestUrl: app.manifestUrl,
           moduleName: manifest.name,
           expose: normalizedExpose,
           route: cleanRoute,
         };
-        if (app.childrenMode === 'fixed' && targetChildId) {
-          const childSnap = revisions
-            .get(app.childrenSource)
-            ?.get(targetChildId);
-          if (!childSnap) {
-            throw new Error(
-              `Pinned child deployment "${app.childrenSource}@${targetChildId}" not found.`,
-            );
-          }
-          fixedChildren[key] = JSON.parse(JSON.stringify(childSnap));
-          hasFixedChildren = true;
-        }
+        childDeliveryByKey[key] =
+          app.childrenDelivery === 'layered' ? 'layered' : 'full';
       }
     }
 
@@ -343,8 +257,6 @@ export function createLabDeploymentPlatform({ root, ports }) {
       shared: [],
     };
 
-    const hasLayeredRoute = Object.values(routeDelivery).includes('layered');
-
     return {
       version: 1,
       consumer: config.consumer,
@@ -353,55 +265,43 @@ export function createLabDeploymentPlatform({ root, ports }) {
         : {}),
       sid,
       routes,
-      routeDelivery,
-      hasLayeredRoute,
       moduleInfo,
       sources,
-      ...(hasFixedChildren ? { fixedChildren } : {}),
+      childDeliveryByKey,
     };
   }
 
-  function saveAndActivate(sourceName, snapshot, summary) {
+  function saveAndActivate(sourceName, snapshot) {
     let sourceRevs = revisions.get(sourceName);
     if (!sourceRevs) {
       sourceRevs = new Map();
       revisions.set(sourceName, sourceRevs);
     }
-    const deploymentId = snapshot.sid;
-    sourceRevs.set(deploymentId, snapshot);
-    activeIds.set(sourceName, deploymentId);
-    let sourceHistory = history.get(sourceName);
-    if (!sourceHistory) {
-      sourceHistory = [];
-      history.set(sourceName, sourceHistory);
-    }
-    sourceHistory.unshift({
-      deploymentId,
-      sid: snapshot.sid,
-      publishedAt: new Date().toISOString(),
-      routeCount: snapshot.routes.length,
-      summary,
-    });
-    if (sourceHistory.length > 20) sourceHistory.length = 20;
-    return deploymentId;
+    sourceRevs.set(snapshot.sid, snapshot);
+    activeIds.set(sourceName, snapshot.sid);
+    return snapshot.sid;
   }
 
   async function ensureInitialized() {
     if (initialized) return;
     if (!initPromise) {
       initPromise = (async () => {
-        const childSnap = await computeSourceSnapshot(
-          'weather-children',
-          configs['weather-children'],
-          false,
-        );
-        saveAndActivate('weather-children', childSnap, 'Initial default');
+        for (const [childName, childCfg] of Object.entries(configs.children)) {
+          const childSnap = await computeSourceSnapshot(
+            childName,
+            childCfg,
+            undefined,
+            false,
+          );
+          saveAndActivate(childName, childSnap);
+        }
         const portalSnap = await computeSourceSnapshot(
           'portal',
           configs.portal,
+          configs.children,
           false,
         );
-        saveAndActivate('portal', portalSnap, 'Initial default');
+        saveAndActivate('portal', portalSnap);
         initialized = true;
       })().catch(error => {
         initPromise = null;
@@ -419,64 +319,26 @@ export function createLabDeploymentPlatform({ root, ports }) {
 
   function computeEffectiveDelivery() {
     const portalSnap = getActiveSnapshot('portal');
-    const childSnap = getActiveSnapshot('weather-children');
-    const portalLayered = Boolean(portalSnap?.hasLayeredRoute);
-    const hasActiveDynamicChild = Boolean(
-      portalSnap &&
-      Object.values(portalSnap.sources || {}).some(
-        ref =>
-          !portalSnap.fixedChildren?.[
-            childSourceKey(ref.moduleName, ref.expose, ref.producerManifestUrl)
-          ],
-      ),
-    );
-    const childLayered =
-      hasActiveDynamicChild && Boolean(childSnap?.hasLayeredRoute);
-    const mode = portalLayered || childLayered ? 'layered' : 'full';
-    return { mode, portalLayered, childLayered };
+    const childDeliveries = Object.values(portalSnap?.childDeliveryByKey || {});
+    const hasLayeredChild = childDeliveries.includes('layered');
+    return {
+      mode: hasLayeredChild ? 'layered' : 'full',
+      hasNestedChildren: childDeliveries.length > 0,
+    };
   }
 
-  function buildDeliveryPayload(snapshot, pathname, basename) {
-    const rel = relativePathname(pathname, basename);
-    const includedRoutes = snapshot.routes.filter(route => {
-      const delivery = snapshot.routeDelivery?.[route.route] || 'full';
-      return delivery === 'full' || routeMatchesRelative(route.route, rel);
-    });
-
-    const neededModules = new Set(
-      includedRoutes.map(route => `${route.moduleName}:${route.versionOrUrl}`),
-    );
-    const trimmedModuleInfo = {};
-    for (const [key, value] of Object.entries(snapshot.moduleInfo || {})) {
-      if (key === snapshot.consumer || neededModules.has(key)) {
-        trimmedModuleInfo[key] = value;
-      }
-    }
-
-    const trimmedSources = {};
+  function buildDeliveryPayload(snapshot) {
     const bundledChildren = {};
     let hasBundled = false;
 
-    for (const route of includedRoutes) {
-      const key = childSourceKey(
-        route.moduleName,
-        route.expose,
-        route.versionOrUrl,
+    for (const [key, childRef] of Object.entries(snapshot.sources || {})) {
+      const delivery = snapshot.childDeliveryByKey?.[key] || 'full';
+      if (delivery !== 'full') continue;
+      const childSnap = getActiveSnapshot(
+        childRef.source,
+        childRef.deploymentId,
       );
-      const childRef = snapshot.sources?.[key];
-      if (!childRef) continue;
-      trimmedSources[key] = childRef;
-
-      if (snapshot.fixedChildren?.[key]) continue;
-
-      const childDepId =
-        childRef.deploymentId || activeIds.get(childRef.source);
-      const childSnap = childDepId
-        ? revisions.get(childRef.source)?.get(childDepId)
-        : undefined;
-      // Bundle child deployment in parent payload ONLY when every enabled child
-      // route is configured for full delivery (not layered).
-      if (childSnap && !childSnap.hasLayeredRoute) {
+      if (childSnap) {
         bundledChildren[key] = JSON.parse(JSON.stringify(childSnap));
         hasBundled = true;
       }
@@ -492,24 +354,34 @@ export function createLabDeploymentPlatform({ root, ports }) {
         : {}),
       sid: snapshot.sid,
       deliveryMode: effective.mode,
-      partialRoot: Boolean(snapshot.hasLayeredRoute),
-      routes: includedRoutes,
-      moduleInfo: trimmedModuleInfo,
-      sources: trimmedSources,
-      ...(snapshot.fixedChildren
-        ? { fixedChildren: snapshot.fixedChildren }
-        : {}),
+      partialRoot: false,
+      routes: snapshot.routes,
+      moduleInfo: snapshot.moduleInfo,
+      sources: snapshot.sources,
       ...(hasBundled ? { bundledChildren } : {}),
     };
   }
 
   function serializeState() {
     const portalActive = getActiveSnapshot('portal');
-    const childActive = getActiveSnapshot('weather-children');
     const computed = computeEffectiveDelivery();
+    const childrenState = {};
+    for (const [name, cfg] of Object.entries(configs.children)) {
+      const active = getActiveSnapshot(name);
+      childrenState[name] = {
+        config: cfg,
+        active: active
+          ? {
+              sid: active.sid,
+              routes: active.routes,
+              moduleInfoKeys: Object.keys(active.moduleInfo || {}),
+            }
+          : null,
+      };
+    }
     return {
       computedDelivery: computed,
-      catalog: producerCatalog,
+      registry: producerRegistry,
       presets: {
         providerV1: providerV1Url,
         providerV2: providerV2Url,
@@ -523,31 +395,15 @@ export function createLabDeploymentPlatform({ root, ports }) {
           config: configs.portal,
           active: portalActive
             ? {
-                deploymentId: activeIds.get('portal'),
                 sid: portalActive.sid,
                 deliveryMode: computed.mode,
-                hasLayeredRoute: portalActive.hasLayeredRoute,
                 routes: portalActive.routes,
-                routeDelivery: portalActive.routeDelivery,
+                childDeliveryByKey: portalActive.childDeliveryByKey,
                 moduleInfoKeys: Object.keys(portalActive.moduleInfo || {}),
               }
             : null,
-          history: history.get('portal') || [],
         },
-        'weather-children': {
-          config: configs['weather-children'],
-          active: childActive
-            ? {
-                deploymentId: activeIds.get('weather-children'),
-                sid: childActive.sid,
-                hasLayeredRoute: childActive.hasLayeredRoute,
-                routes: childActive.routes,
-                routeDelivery: childActive.routeDelivery,
-                moduleInfoKeys: Object.keys(childActive.moduleInfo || {}),
-              }
-            : null,
-          history: history.get('weather-children') || [],
-        },
+        children: childrenState,
       },
       logs: discoveryLogs.slice(0, 60),
     };
@@ -572,6 +428,31 @@ export function createLabDeploymentPlatform({ root, ports }) {
     try {
       await ensureInitialized();
 
+      // Live manifest inspection for Entry URL & Version Registry pickers
+      if (
+        req.method === 'GET' &&
+        url.pathname === '/_lab/deployments/inspect'
+      ) {
+        const manifestUrl = url.searchParams.get('manifestUrl') || '';
+        if (!manifestUrl.trim()) {
+          json({ error: 'manifestUrl is required' }, 400);
+          return true;
+        }
+        const manifest = await loadManifest(manifestUrl.trim(), true);
+        const exposes = (manifest.exposes || []).map(item => ({
+          path: normalizeExpose(item.path || item.name || ''),
+          name: item.name || item.path || '',
+          render: item.render || 'component',
+        }));
+        json({
+          manifestUrl: manifestUrl.trim(),
+          name: manifest.name,
+          buildVersion: manifest.metaData?.buildInfo?.buildVersion || '',
+          exposes,
+        });
+        return true;
+      }
+
       if (req.method === 'GET' && url.pathname === '/_lab/deployments/state') {
         json(serializeState());
         return true;
@@ -589,18 +470,22 @@ export function createLabDeploymentPlatform({ root, ports }) {
       if (req.method === 'POST' && url.pathname === '/_lab/deployments/reset') {
         configs = defaultConfigs();
         discoveryLogs.length = 0;
-        const childSnap = await computeSourceSnapshot(
-          'weather-children',
-          configs['weather-children'],
-          true,
-        );
-        saveAndActivate('weather-children', childSnap, 'Reset to default');
+        for (const [childName, childCfg] of Object.entries(configs.children)) {
+          const childSnap = await computeSourceSnapshot(
+            childName,
+            childCfg,
+            undefined,
+            true,
+          );
+          saveAndActivate(childName, childSnap);
+        }
         const portalSnap = await computeSourceSnapshot(
           'portal',
           configs.portal,
+          configs.children,
           true,
         );
-        saveAndActivate('portal', portalSnap, 'Reset to default');
+        saveAndActivate('portal', portalSnap);
         json(serializeState());
         return true;
       }
@@ -610,93 +495,62 @@ export function createLabDeploymentPlatform({ root, ports }) {
         url.pathname === '/_lab/deployments/publish'
       ) {
         const body = await readJsonBody(req);
-        // Support publishing both portal & weather-children together from the
-        // unified route table, or a single source independently.
-        if (body.portal && body.children) {
-          const weatherApp = body.portal.applications?.find(
-            app => app.id === 'weather',
-          );
-          const nextChildren = {
-            ...body.children,
-            ...(weatherApp?.manifestUrl
-              ? { consumerManifestUrl: weatherApp.manifestUrl }
-              : {}),
-          };
-          const childChanged =
-            JSON.stringify(nextChildren) !==
-            JSON.stringify(configs['weather-children']);
-          if (childChanged) {
-            const childSnap = await computeSourceSnapshot(
-              'weather-children',
-              nextChildren,
-              true,
+
+        // Publish portal + all child sources together
+        if (body.portal) {
+          const nextChildren = body.children || configs.children;
+          for (const [childName, childCfg] of Object.entries(nextChildren)) {
+            const parentApp = (body.portal.applications || []).find(
+              app => app.childrenSource === childName,
             );
-            configs['weather-children'] = nextChildren;
-            saveAndActivate(
-              'weather-children',
-              childSnap,
-              `${childSnap.routes.length} child routes`,
-            );
+            const alignedCfg = {
+              ...childCfg,
+              ...(parentApp?.manifestUrl
+                ? { consumerManifestUrl: parentApp.manifestUrl }
+                : {}),
+            };
+            const prevCfg = configs.children[childName];
+            if (
+              !prevCfg ||
+              JSON.stringify(alignedCfg) !== JSON.stringify(prevCfg)
+            ) {
+              const childSnap = await computeSourceSnapshot(
+                childName,
+                alignedCfg,
+                undefined,
+                true,
+              );
+              configs.children[childName] = alignedCfg;
+              saveAndActivate(childName, childSnap);
+            }
           }
           const portalSnap = await computeSourceSnapshot(
             'portal',
             body.portal,
+            configs.children,
             true,
           );
           configs.portal = body.portal;
-          saveAndActivate(
-            'portal',
-            portalSnap,
-            `${computeEffectiveDelivery().mode} · ${portalSnap.routes.length} routes`,
-          );
+          saveAndActivate('portal', portalSnap);
           json(serializeState());
           return true;
         }
 
-        const source = body.source;
-        if (!['portal', 'weather-children'].includes(source)) {
-          json({ error: `Unknown deployment source "${source}".` }, 400);
-          return true;
-        }
-        const nextConfig = body.config;
-        if (!nextConfig || !Array.isArray(nextConfig.applications)) {
-          json(
-            { error: 'Invalid deployment config: missing applications.' },
-            400,
+        // Independent single child source publish
+        if (body.source && body.config && body.source !== 'portal') {
+          const childSnap = await computeSourceSnapshot(
+            body.source,
+            body.config,
+            undefined,
+            true,
           );
+          configs.children[body.source] = body.config;
+          saveAndActivate(body.source, childSnap);
+          json(serializeState());
           return true;
         }
 
-        if (source === 'portal') {
-          const weatherApp = nextConfig.applications.find(
-            app => app.id === 'weather',
-          );
-          if (
-            weatherApp?.manifestUrl &&
-            configs['weather-children'].consumerManifestUrl !==
-              weatherApp.manifestUrl
-          ) {
-            configs['weather-children'] = {
-              ...configs['weather-children'],
-              consumerManifestUrl: weatherApp.manifestUrl,
-            };
-            const syncedChild = await computeSourceSnapshot(
-              'weather-children',
-              configs['weather-children'],
-              true,
-            );
-            saveAndActivate(
-              'weather-children',
-              syncedChild,
-              `Synced consumer manifest`,
-            );
-          }
-        }
-
-        const snapshot = await computeSourceSnapshot(source, nextConfig, true);
-        configs[source] = nextConfig;
-        saveAndActivate(source, snapshot, `${snapshot.routes.length} routes`);
-        json(serializeState());
+        json({ error: 'Invalid publish payload.' }, 400);
         return true;
       }
 
@@ -714,21 +568,9 @@ export function createLabDeploymentPlatform({ root, ports }) {
         const active = getActiveSnapshot(source, deploymentId);
         if (!active) {
           const status = deploymentId ? 409 : 404;
-          discoveryLogs.unshift({
-            id: `log-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            time: new Date().toISOString(),
-            env,
-            source,
-            pathname,
-            basename,
-            status,
-            error: deploymentId ? SNAPSHOT_EXPIRED_CODE : 'UNKNOWN_SOURCE',
-          });
           json(
             {
-              error: deploymentId
-                ? `Pinned deployment "${source}@${deploymentId}" not found.`
-                : `Unknown deployment source "${source}".`,
+              error: `Unknown deployment source "${source}".`,
               ...(deploymentId ? { code: SNAPSHOT_EXPIRED_CODE } : {}),
             },
             status,
@@ -737,19 +579,6 @@ export function createLabDeploymentPlatform({ root, ports }) {
         }
 
         if (expectedSid && active.sid && expectedSid !== active.sid) {
-          discoveryLogs.unshift({
-            id: `log-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            time: new Date().toISOString(),
-            env,
-            source,
-            pathname,
-            basename,
-            status: 409,
-            deliveryMode: computeEffectiveDelivery().mode,
-            expectedSid,
-            sid: active.sid,
-            error: SNAPSHOT_EXPIRED_CODE,
-          });
           json(
             {
               error: `Deployment source "${source}" expired: expected "${expectedSid}", active is "${active.sid}".`,
@@ -763,8 +592,7 @@ export function createLabDeploymentPlatform({ root, ports }) {
           return true;
         }
 
-        const payload = buildDeliveryPayload(active, pathname, basename);
-
+        const payload = buildDeliveryPayload(active);
         discoveryLogs.unshift({
           id: `log-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
           time: new Date().toISOString(),
@@ -775,7 +603,6 @@ export function createLabDeploymentPlatform({ root, ports }) {
           status: 200,
           sid: payload.sid,
           deliveryMode: payload.deliveryMode,
-          partialRoot: payload.partialRoot,
           returnedRoutes: payload.routes.map(r => ({
             route: r.route,
             moduleName: r.moduleName,
@@ -786,15 +613,6 @@ export function createLabDeploymentPlatform({ root, ports }) {
             ([key, snap]) => ({
               key,
               consumer: snap.consumer,
-              sid: snap.sid,
-              routes: snap.routes.map(r => `${r.route} -> ${r.moduleName}`),
-            }),
-          ),
-          fixedChildren: Object.entries(payload.fixedChildren || {}).map(
-            ([key, snap]) => ({
-              key,
-              consumer: snap.consumer,
-              sid: snap.sid,
               routes: snap.routes.map(r => `${r.route} -> ${r.moduleName}`),
             }),
           ),
