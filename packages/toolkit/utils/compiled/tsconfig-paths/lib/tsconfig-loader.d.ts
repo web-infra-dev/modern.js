@@ -2,7 +2,7 @@
  * Typing for the parts of tsconfig that we care about
  */
 export interface Tsconfig {
-    extends?: string;
+    extends?: string | string[];
     compilerOptions?: {
         baseUrl?: string;
         paths?: {

@@ -1,4 +1,6 @@
 import { createRequire } from 'node:module';
+import dotenvExpandModule from '../compiled/dotenv-expand';
+import legacyDotenvExpand from '../compiled/dotenv-expand-v5';
 import { Import } from './import';
 
 export { default as fs } from '../compiled/fs-extra';
@@ -25,7 +27,11 @@ export { default as fastGlob } from '../compiled/fast-glob';
 export { default as filesize } from '../compiled/filesize';
 export { default as gzipSize } from '../compiled/gzip-size';
 export { default as stripAnsi } from '../compiled/strip-ansi';
-export { default as dotenvExpand } from '../compiled/dotenv-expand';
+// Keep the callable export while exposing the v11 method.
+export const dotenvExpand = Object.assign(
+  legacyDotenvExpand,
+  dotenvExpandModule,
+);
 export { default as browserslist } from '../compiled/browserslist';
 
 export { program, Command } from '../compiled/commander';

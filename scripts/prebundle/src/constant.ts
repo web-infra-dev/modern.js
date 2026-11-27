@@ -1,6 +1,7 @@
 import { join } from 'path';
 import glob from 'fast-glob';
 import { copyFileSync } from 'fs-extra';
+import { copyDeclarations } from './copyDeclarations';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -39,7 +40,16 @@ export const TASKS: TaskConfig[] = [
       'address',
       'filesize',
       'minimist',
-      'commander',
+      {
+        name: 'commander',
+        afterBundle(task) {
+          // Keep the same program singleton for require() and import().
+          copyFileSync(
+            join(task.depPath, 'esm.mjs'),
+            join(task.distPath, 'index.mjs'),
+          );
+        },
+      },
       'import-lazy',
       'dotenv',
       'dotenv-expand',
@@ -74,7 +84,8 @@ export const TASKS: TaskConfig[] = [
         },
       },
       // some dependencies
-      'glob',
+      // Resolve minimatch from @types/glob so the v7 declarations use its v3 types.
+      { name: 'glob', emitDts: copyDeclarations },
       'chalk',
       {
         name: 'signale',
@@ -86,8 +97,14 @@ export const TASKS: TaskConfig[] = [
       'execa',
       'fs-extra',
       'browserslist',
-      'chokidar',
-      'fast-glob',
+      {
+        name: 'chokidar',
+        beforeBundle(task) {
+          // The published bundle needs the macOS watcher even when built on Linux.
+          require.resolve('fsevents', { paths: [task.depPath] });
+        },
+      },
+      { name: 'fast-glob', emitDts: copyDeclarations },
       {
         name: 'globby',
         externals: {
@@ -103,6 +120,7 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'inquirer',
+        emitDts: copyDeclarations,
         externals: {
           ora: '../ora',
           chalk: '../chalk',
@@ -111,6 +129,14 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'tsconfig-paths',
+        emitFiles: [
+          {
+            path: 'index.mjs',
+            content: `import tsConfigPaths from './index.js';
+export const { register, createMatchPath, matchFromAbsolutePaths, createMatchPathAsync, matchFromAbsolutePathsAsync } = tsConfigPaths;
+`,
+          },
+        ],
         externals: {
           json5: '../json5',
           minimist: '../minimist',

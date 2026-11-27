@@ -2353,8 +2353,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       glob:
-        specifier: 14.0.6
-        version: 14.0.6
+        specifier: 7.2.0
+        version: 7.2.0
       globby:
         specifier: 11.1.0
         version: 11.1.0

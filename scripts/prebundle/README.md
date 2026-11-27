@@ -161,3 +161,10 @@ We will not prebundle the following packages because their dependencies are comp
 - webpack
 - lodash
 - caniuse-lite
+
+When rebuilding `chokidar` on Linux or Windows, first run
+`pnpm --filter @scripts/prebundle install --force --frozen-lockfile --ignore-scripts`
+to include the optional macOS `fsevents` binary in the bundle.
+
+The `compiled/dotenv-expand-v5` directory backs the v3 callable `dotenvExpand(config)`
+export. The server uses the v11 `dotenvExpand.expand(config)` method.

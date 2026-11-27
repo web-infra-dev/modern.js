@@ -5,7 +5,7 @@ declare class Comparator {
     constructor(comp: string | Comparator, optionsOrLoose?: boolean | semver.Options);
 
     semver: SemVer;
-    operator: '' | '=' | '<' | '>' | '<=' | '>=';
+    operator: "" | "=" | "<" | ">" | "<=" | ">=";
     value: string;
     loose: boolean;
     options: semver.Options;

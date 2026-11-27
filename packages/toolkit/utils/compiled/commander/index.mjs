@@ -1,2 +1,16 @@
 import commander from './index.js';
-export const { Command, program } = commander;
+
+// wrapper to provide named exports for ESM.
+export const {
+  program,
+  createCommand,
+  createArgument,
+  createOption,
+  CommanderError,
+  InvalidArgumentError,
+  InvalidOptionArgumentError, // deprecated old name
+  Command,
+  Argument,
+  Option,
+  Help
+} = commander;

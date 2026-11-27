@@ -21,6 +21,12 @@ Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-sta
 
 Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
+## Environment variable expansion
+
+Use `dotenvExpand.expand(config)` from `@modern-js/utils` for dotenv-expand 11.
+The v3 form, `dotenvExpand(config)`, retains its original expansion rules and
+supports isolating a file from the host environment with `ignoreProcessEnv`.
+
 ## License
 
 Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).

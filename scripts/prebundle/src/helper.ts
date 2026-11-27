@@ -34,12 +34,17 @@ const resolveESMDependency = (entry: string) => {
   }
 };
 
-export async function parseTasks() {
+export async function parseTasks(target?: string) {
   const result: ParsedTask[] = [];
 
   for (const { packageName, packageDir, dependencies } of TASKS) {
     for (const dep of dependencies) {
-      const depName = typeof dep === 'string' ? dep : dep.name;
+      const config = typeof dep === 'string' ? { name: dep } : dep;
+      const depName = config.name;
+      if (target && depName !== target) {
+        continue;
+      }
+
       const importPath = join(packageName, DIST_DIR, depName);
       const packagePath = join(PACKAGES_DIR, packageDir);
       const distPath = join(packagePath, DIST_DIR, depName);
@@ -63,7 +68,16 @@ export async function parseTasks() {
         }
       }
 
-      const info = {
+      result.push({
+        minify: config.minify ?? true,
+        ignoreDts: config.ignoreDts,
+        emitDts: config.emitDts ?? true,
+        clear: config.clear ?? true,
+        externals: config.externals ?? {},
+        emitFiles: config.emitFiles ?? [],
+        afterBundle: config.afterBundle,
+        beforeBundle: config.beforeBundle,
+        packageJsonField: config.packageJsonField ?? [],
         depName,
         depPath,
         depEntry,
@@ -73,30 +87,7 @@ export async function parseTasks() {
         packageDir,
         packagePath,
         packageName,
-      };
-
-      if (typeof dep === 'string') {
-        result.push({
-          minify: true,
-          externals: {},
-          emitFiles: [],
-          packageJsonField: [],
-          ...info,
-        });
-      } else {
-        result.push({
-          minify: dep.minify ?? true,
-          ignoreDts: dep.ignoreDts,
-          emitDts: dep.emitDts ?? true,
-          clear: dep.clear ?? true,
-          externals: dep.externals ?? {},
-          emitFiles: dep.emitFiles ?? [],
-          afterBundle: dep.afterBundle,
-          beforeBundle: dep.beforeBundle,
-          packageJsonField: dep.packageJsonField ?? [],
-          ...info,
-        });
-      }
+      });
     }
   }
 
@@ -124,5 +115,24 @@ export function replaceFileContent(
 
   if (newContent !== content) {
     fs.writeFileSync(filePath, newContent);
+  }
+}
+
+const LICENSE_CANDIDATES = ['license', 'license.md', 'license.txt'];
+
+export function copyLicense(source: string, destination: string) {
+  if (!fs.existsSync(source)) {
+    return;
+  }
+  const entries = fs.readdirSync(source);
+  const license = LICENSE_CANDIDATES.map(candidate =>
+    entries.find(
+      entry =>
+        entry.toLowerCase() === candidate &&
+        fs.statSync(join(source, entry)).isFile(),
+    ),
+  ).find(Boolean);
+  if (license) {
+    fs.copySync(join(source, license), join(destination, 'license'));
   }
 }

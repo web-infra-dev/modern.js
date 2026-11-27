@@ -9,7 +9,7 @@ import semver = require('../index');
 declare function outside(
     version: string | SemVer,
     range: string | Range,
-    hilo: '>' | '<',
-    optionsOrLoose?: boolean | semver.Options,
+    hilo: ">" | "<",
+    optionsOrLoose?: boolean | semver.RangeOptions,
 ): boolean;
 export = outside;

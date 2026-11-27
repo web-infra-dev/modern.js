@@ -1,12 +1,12 @@
 /// <reference types="node" />
-import * as fsWalk from '../../@nodelib/fs.walk';
-export declare type ErrnoException = NodeJS.ErrnoException;
-export declare type Entry = fsWalk.Entry;
-export declare type EntryItem = string | Entry;
-export declare type Pattern = string;
-export declare type PatternRe = RegExp;
-export declare type PatternsGroup = Record<string, Pattern[]>;
-export declare type ReaderOptions = fsWalk.Options & {
+import * as fsWalk from '../../dependencies/@nodelib/fs.walk/out/index.js';
+export type ErrnoException = NodeJS.ErrnoException;
+export type Entry = fsWalk.Entry;
+export type EntryItem = string | Entry;
+export type Pattern = string;
+export type PatternRe = RegExp;
+export type PatternsGroup = Record<string, Pattern[]>;
+export type ReaderOptions = fsWalk.Options & {
     transform(entry: Entry): EntryItem;
     deepFilter: DeepFilterFunction;
     entryFilter: EntryFilterFunction;
@@ -14,11 +14,11 @@ export declare type ReaderOptions = fsWalk.Options & {
     fs: FileSystemAdapter;
     stats: boolean;
 };
-export declare type ErrorFilterFunction = fsWalk.ErrorFilterFunction;
-export declare type EntryFilterFunction = fsWalk.EntryFilterFunction;
-export declare type DeepFilterFunction = fsWalk.DeepFilterFunction;
-export declare type EntryTransformerFunction = (entry: Entry) => EntryItem;
-export declare type MicromatchOptions = {
+export type ErrorFilterFunction = fsWalk.ErrorFilterFunction;
+export type EntryFilterFunction = fsWalk.EntryFilterFunction;
+export type DeepFilterFunction = fsWalk.DeepFilterFunction;
+export type EntryTransformerFunction = (entry: Entry) => EntryItem;
+export type MicromatchOptions = {
     dot?: boolean;
     matchBase?: boolean;
     nobrace?: boolean;
@@ -28,4 +28,4 @@ export declare type MicromatchOptions = {
     posix?: boolean;
     strictSlashes?: boolean;
 };
-export declare type FileSystemAdapter = fsWalk.FileSystemAdapter;
+export type FileSystemAdapter = fsWalk.FileSystemAdapter;

@@ -1,10 +1,10 @@
-import { join } from 'path';
+import { dirname, join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fastGlob from 'fast-glob';
 import fs from 'fs-extra';
 import { DEFAULT_EXTERNALS } from './constant';
-import { pick, replaceFileContent } from './helper';
+import { copyLicense, pick, replaceFileContent } from './helper';
 import type { ParsedTask } from './types';
 
 function emitAssets(
@@ -46,9 +46,18 @@ function fixTypeExternalPath(
   });
 }
 
-function emitDts(task: ParsedTask) {
+function emitDts(task: ParsedTask): string | undefined {
   if (!task.emitDts) {
     return;
+  }
+
+  const externals = {
+    ...DEFAULT_EXTERNALS,
+    ...task.externals,
+  };
+
+  if (typeof task.emitDts === 'function') {
+    return task.emitDts(task, externals) ?? undefined;
   }
 
   if (task.ignoreDts) {
@@ -56,28 +65,19 @@ function emitDts(task: ParsedTask) {
     return;
   }
 
-  try {
-    const externals = {
-      ...DEFAULT_EXTERNALS,
-      ...task.externals,
-    };
-    const { files } = new DtsPacker({
-      cwd: process.cwd(),
-      name: task.depName,
-      typesRoot: task.distPath,
-      externals: Object.keys(externals),
-    });
+  const { files } = new DtsPacker({
+    cwd: process.cwd(),
+    name: task.depName,
+    typesRoot: task.distPath,
+    externals: Object.keys(externals),
+  });
 
-    Object.keys(files).forEach(file => {
-      fixTypeExternalPath(file, task, externals);
-    });
-  } catch (error) {
-    console.error(`DtsPacker failed: ${task.depName}`);
-    console.error(error);
-  }
+  Object.keys(files).forEach(file => {
+    fixTypeExternalPath(file, task, externals);
+  });
 }
 
-function emitPackageJson(task: ParsedTask) {
+function emitPackageJson(task: ParsedTask, resolvedTypesEntry?: string) {
   const packageJsonPath = join(task.depPath, 'package.json');
   const packageJson = fs.readJsonSync(packageJsonPath, 'utf-8');
   const outputPath = join(task.distPath, 'package.json');
@@ -94,6 +94,11 @@ function emitPackageJson(task: ParsedTask) {
     ...task.packageJsonField,
   ]);
 
+  if (task.depEsmEntry) {
+    pickedPackageJson.main = 'index.js';
+    pickedPackageJson.module = 'index.mjs';
+  }
+
   if (task.depName !== pickedPackageJson.name) {
     pickedPackageJson.name = task.depName;
   }
@@ -102,16 +107,23 @@ function emitPackageJson(task: ParsedTask) {
     delete pickedPackageJson.typing;
     delete pickedPackageJson.typings;
     pickedPackageJson.types = 'index.d.ts';
+  } else if (resolvedTypesEntry) {
+    const existingTypes = (
+      pickedPackageJson.types ??
+      pickedPackageJson.typings ??
+      pickedPackageJson.typing
+    )?.replace(/^\.\//, '');
+    if (
+      existingTypes !== resolvedTypesEntry &&
+      (existingTypes !== undefined || resolvedTypesEntry !== 'index.d.ts')
+    ) {
+      delete pickedPackageJson.typing;
+      delete pickedPackageJson.typings;
+      pickedPackageJson.types = resolvedTypesEntry;
+    }
   }
 
   fs.writeJSONSync(outputPath, pickedPackageJson);
-}
-
-function emitLicense(task: ParsedTask) {
-  const licensePath = join(task.depPath, 'LICENSE');
-  if (fs.existsSync(licensePath)) {
-    fs.copySync(licensePath, join(task.distPath, 'license'));
-  }
 }
 
 function emitExtraFiles(task: ParsedTask) {
@@ -148,19 +160,7 @@ function renameDistFolder(task: ParsedTask) {
   fs.writeJSONSync(pkgPath, pkgJson);
 }
 
-const pkgName = process.argv[2];
-
-export async function prebundle(task: ParsedTask) {
-  if (pkgName && task.depName !== pkgName) {
-    return;
-  }
-
-  console.log(`==== Start prebundle "${task.depName}" ====`);
-
-  if (task.clear) {
-    fs.removeSync(task.distPath);
-  }
-
+async function build(task: ParsedTask) {
   if (task.beforeBundle) {
     await task.beforeBundle(task);
   }
@@ -190,9 +190,9 @@ export async function prebundle(task: ParsedTask) {
 
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);
-  emitDts(task);
-  emitLicense(task);
-  emitPackageJson(task);
+  const resolvedTypesEntry = emitDts(task);
+  copyLicense(task.depPath, task.distPath);
+  emitPackageJson(task, resolvedTypesEntry);
   removeSourceMap(task);
   renameDistFolder(task);
   emitExtraFiles(task);
@@ -200,6 +200,20 @@ export async function prebundle(task: ParsedTask) {
   if (task.afterBundle) {
     await task.afterBundle(task);
   }
+}
 
+export async function prebundle(task: ParsedTask) {
+  console.log(`==== Start prebundle "${task.depName}" ====`);
+  fs.ensureDirSync(dirname(task.distPath));
+  const staging = fs.mkdtempSync(`${task.distPath}-`);
+  try {
+    if (!task.clear && fs.existsSync(task.distPath)) {
+      fs.copySync(task.distPath, staging);
+    }
+    await build({ ...task, distPath: staging });
+    fs.moveSync(staging, task.distPath, { overwrite: true });
+  } finally {
+    fs.removeSync(staging);
+  }
   console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }
