@@ -1,0 +1,56 @@
+---
+title: compress
+---
+
+# server.compress
+
+- **Type:** `boolean | object`
+- **Default:** `true` for the built-in Node.js production server
+
+Compress the static files served by the production server with Brotli or gzip. This covers build assets in `static/` and files from `config/public`, `config/upload` and `server.publicDir`.
+
+SSR pages, BFF responses and responses of custom middlewares are not compressed. If their encoding depended on the `Accept-Encoding` request header, every one of them would also need a `Vary: Accept-Encoding` header. To compress them, use a reverse proxy or a custom middleware.
+
+The built-in Node.js production server, used by `modern serve` and `node .output/index`, enables compression by default. The development server is not affected. Other runtimes, such as Netlify Functions, usually compress responses at the edge, so compression is disabled there by default and can be enabled by setting `compress` to `true`.
+
+The server picks the first encoding from `encodings` that the client accepts in the `Accept-Encoding` request header. A compressible file gets a `Vary: Accept-Encoding` header whether it is sent compressed or not, so caches keep both variants apart. A file is sent unchanged, without `Vary`, when:
+
+- its response already has a `Content-Encoding` or `Content-Range` header, for example when a custom middleware has compressed it
+- its content type is not compressible, such as images
+- it is smaller than `threshold`
+- its response has a `Cache-Control: no-transform` header
+- a custom middleware has replaced its response body
+
+Responses to `HEAD` requests and `304 Not Modified` responses are not compressed, but get the same `Vary` header.
+
+Each file is compressed once and served from memory afterwards. A strong `ETag` on a compressed file, for example one set in `server.routes`, is changed to a weak one, since the compressed bytes differ from the original ones.
+
+### Disable compression
+
+If compression is handled by a reverse proxy or CDN, you can disable it:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    compress: false,
+  },
+});
+```
+
+### Options
+
+| Name        | Type                    | Default          | Description                                                |
+| ----------- | ----------------------- | ---------------- | ---------------------------------------------------------- |
+| `threshold` | `number`                | `1024`           | Files smaller than this size, in bytes, are not compressed |
+| `encodings` | `Array<'br' \| 'gzip'>` | `['br', 'gzip']` | Supported encodings, in order of server preference         |
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    compress: {
+      threshold: 2048,
+      encodings: ['gzip'],
+    },
+  },
+});
+```

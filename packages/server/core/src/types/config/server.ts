@@ -23,6 +23,21 @@ export type SSR =
 
 export type SSRByEntries = Record<string, SSR>;
 
+export type CompressEncoding = 'br' | 'gzip';
+
+export type CompressOptions = {
+  /**
+   * @description files smaller than this size (in bytes) are not compressed
+   * @default 1024
+   */
+  threshold?: number;
+  /**
+   * @description supported encodings, in order of server preference
+   * @default ['br', 'gzip']
+   */
+  encodings?: CompressEncoding[];
+};
+
 export type StaticCacheControlOptions = {
   /**
    * @description `Cache-Control` of build assets with a content hash in the file name
@@ -57,6 +72,11 @@ export interface ServerUserConfig {
    */
   useJsonScript?: boolean;
   logger?: boolean | Record<string, unknown>;
+  /**
+   * @description compress static files served by the production server with brotli or gzip
+   * @default true for the Node.js production server
+   */
+  compress?: boolean | CompressOptions;
   /**
    * @description set `Cache-Control` for static files served by the production server
    * @default true

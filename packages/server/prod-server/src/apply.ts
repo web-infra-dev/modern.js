@@ -11,6 +11,7 @@ import {
   renderPlugin,
 } from '@modern-js/server-core';
 import {
+  compressPlugin,
   injectNodeSeverPlugin,
   injectResourcePlugin,
   injectRscManifestPlugin,
@@ -88,6 +89,8 @@ export async function applyPlugins(
 
   const plugins = [
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
+    // Enabled by default only for the Node.js server, other runtimes (e.g. Netlify) usually compress at the edge.
+    compressPlugin({ enabledByDefault: Boolean(nodeServer) }),
     ...createDefaultPlugins({
       cacheConfig,
       staticGenerate: options.staticGenerate,
