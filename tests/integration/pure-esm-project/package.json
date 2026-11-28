@@ -24,7 +24,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20",
-    "@types/react": "^19.3.0",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
     "ts-node": "^10.9.2"
   }

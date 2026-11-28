@@ -99,7 +99,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
-    "@types/react": "^19.3.0",
+    "@types/react": "^19.3.3",
     "typescript": "^5"
   },
   "sideEffects": false,

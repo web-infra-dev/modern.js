@@ -24,7 +24,7 @@
     "@modern-js/tsconfig": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.6.5",
     "@types/node": "^20",
-    "@types/react": "^19.3.0",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
     "rimraf": "^6.1.4",
     "typescript": "~5.0.4"
