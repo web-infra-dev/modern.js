@@ -17,7 +17,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@types/node": "^20",
-    "@types/react": "^19.3.0",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"

@@ -17,7 +17,7 @@
     "@modern-js/tsconfig": "3.10.0",
     "typescript": "~5.7.3",
     "@types/node": "^20",
-    "@types/react": "^19.3.0",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0"
   }
 }
