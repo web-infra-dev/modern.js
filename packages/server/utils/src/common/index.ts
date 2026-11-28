@@ -20,6 +20,12 @@ export interface CompileOptions {
   tsconfigPath?: string;
   moduleType?: 'module' | 'commonjs';
   throwErrorInsteadOfExit?: boolean;
+  /**
+   * Absolute paths of files that must be emitted, such as `server/<meta>.server.ts`
+   * and `server/cache.ts`. They are compiled even when the tsconfig does not include
+   * them, and the compile fails if their JavaScript output is missing.
+   */
+  entries?: string[];
 }
 
 export type CompileFunc = (
